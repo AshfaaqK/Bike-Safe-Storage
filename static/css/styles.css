@@ -1,0 +1,13 @@
+.bss-logo-main {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.navbar-bg {
+    background-image: url("../images/navbar-bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 50vh;
+}
