@@ -16,12 +16,27 @@ body {
     height: 750px;
 }
 
+.navbar-brand {
+    text-align: center;
+}
+
+.contact-info {
+    color: #fff;
+}
+
 .nav-link {
-    color: #000;
-    background-color: #fff;
-    border: 0.1rem solid #fff;
+    color: #fff;
     border-radius: 20px;
     padding: 0.45rem 0.65rem !important;
+}
+
+.nav-link:hover {
+    color: #000 !important;
+    background-color: #fff;
+}
+
+.nav-link:visited {
+    color: #fff;
 }
 
 .nav-item {
