@@ -1,3 +1,7 @@
+body {
+    font-family: "Bahnschrift";
+}
+
 .bss-logo-main {
     display: block;
     max-width: 100%;
@@ -5,9 +9,21 @@
 }
 
 .navbar-bg {
-    background-image: url("../images/navbar-bg.jpg");
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../images/navbar-bg.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    height: 50vh;
+    height: 750px;
+}
+
+.nav-link {
+    color: #000;
+    background-color: #fff;
+    border: 0.1rem solid #fff;
+    border-radius: 20px;
+    padding: 0.45rem 0.65rem !important;
+}
+
+.nav-item {
+    margin: 0 15px;
 }
