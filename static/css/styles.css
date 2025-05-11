@@ -22,11 +22,13 @@ body {
 
 .contact-info {
     color: #fff;
+    font-size: 18px;
 }
 
 .nav-link {
     color: #fff;
     border-radius: 20px;
+    font-size: large;
     padding: 0.45rem 0.65rem !important;
 }
 
