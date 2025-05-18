@@ -20,8 +20,31 @@ body {
     text-align: center;
 }
 
+@media screen and (max-width: 407px) {
+  .navbar-brand {
+    font-size: medium;
+}
+
+  .icon-links {
+    font-size: 10px;
+}
+
+  .navbar-bg {
+    height: 625px;
+  }
+
+}
+
 .contact-info {
     color: #fff;
+}
+
+.navbar-toggler {
+    border: 2px solid #fff;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 .nav-link {
@@ -41,4 +64,18 @@ body {
 
 .nav-item {
     margin: 0 15px;
+}
+
+.icon-links-holder {
+    position: relative;
+}
+
+.icon-links {
+    position: absolute;
+    bottom: 25px;
+}
+
+.fa-icon {
+    padding-left: 10px;
+    padding-right: 10px;
 }
