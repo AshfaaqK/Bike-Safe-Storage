@@ -77,7 +77,41 @@ body {
     bottom: 25px;
 }
 
-.fa-icon {
+a {
+  text-decoration: none;
+}
+
+.social-link {
+    color: #fff;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.social-link:hover {
+    color: #265cff;
+}
+
+.footer {
+    color: #fff;
+    background-image: linear-gradient(to bottom right, #211526, #001124);
+}
+
+.footer-text {
+    margin-top: 40px;
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+.footer-subtext {
+    font-size: 0.875rem;
+    font-style: oblique;
+}
+
+.company-info {
+    font-size: 0.875rem;
+    font-weight: 200;
+}
+
+.footer-links {
+    margin-bottom: 25px;
 }
