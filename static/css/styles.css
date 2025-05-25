@@ -13,7 +13,8 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    height: 750px;
+    position: relative;
+    height: 575px;
 }
 
 .navbar-brand {
@@ -29,9 +30,9 @@ body {
     font-size: 10px;
 }
 
-  .navbar-bg {
-    height: 625px;
-  }
+.contact-info {
+    font-size: 12px;
+}
 
 }
 
@@ -66,10 +67,6 @@ body {
 
 .nav-item {
     margin: 0 15px;
-}
-
-.icon-links-holder {
-    position: relative;
 }
 
 .icon-links {
