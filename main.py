@@ -1,7 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin, LoginManager, login_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from forms import RegisterForm
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -65,7 +67,7 @@ class Enquiry(db.Model):
     status = db.Column(db.String(50), nullable=False)
     notes = db.Column(db.Text, nullable=True)
 
-    booking = relationship('Booking', back_populates='Enquiry')
+    booking = relationship('Booking', back_populates='enquiry')
 
 class Booking(db.Model):
     __tablename__ = 'bookings'
@@ -83,7 +85,7 @@ class Booking(db.Model):
     notes = db.Column(db.Text, nullable=True)
 
     enquiry_id = db.Column(db.Integer, db.ForeignKey('enquiries.enquiry_id'), nullable=True)
-    enquiry = relationship('Enquiry', back_populates='bookings')
+    enquiry = relationship('Enquiry', back_populates='booking')
 
 
 with app.app_context():
@@ -101,10 +103,45 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
+    form = RegisterForm()
 
-    return render_template('register.html')
+    if form.validate_on_submit():
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        if db.session.execute(db.select(User).filter_by(email=email)).scalars().first():
+            # User already exists
+            flash("You've already signed up with that email, log in instead!")
+            return redirect(url_for('login'))
+        
+        hash_and_salted_password = generate_password_hash(
+            request.form.get("password"),
+            method='pbkdf2:sha256',
+            salt_length=8
+        )
+        
+        new_user = User()
+
+        new_user.email = email
+        new_user.password = hash_and_salted_password
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        login_user(new_user)
+
+        return redirect(url_for('home'))
+
+    return render_template('register.html', form=form)
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+
+    return render_template('login.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
