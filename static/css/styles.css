@@ -2,6 +2,8 @@ body {
     font-family: "Bahnschrift";
 }
 
+/* Header */
+
 .bss-logo-main {
     display: block;
     max-width: 100%;
@@ -19,21 +21,6 @@ body {
 
 .navbar-brand {
     text-align: center;
-}
-
-@media screen and (max-width: 407px) {
-  .navbar-brand {
-    font-size: medium;
-}
-
-  .icon-links {
-    font-size: 10px;
-}
-
-.contact-info {
-    font-size: 12px;
-}
-
 }
 
 .contact-info {
@@ -88,6 +75,52 @@ a {
     color: #265cff;
 }
 
+/* Register & Login */
+
+.login-reg-sect {
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../images/login-reg-bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+}
+
+.login-reg-alert {
+    margin-top: 30px;
+    max-width: 500px;
+}
+
+.login-reg-form {
+    color: #fff;
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.4);
+    max-width: 425px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+    border: 2px #7a7a7a solid;
+    border-radius: 10px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    padding-top: 30px;
+    height: 450px;
+}
+
+.login-reg-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px #fff solid;
+    border-radius: 0;
+    outline: none;
+    color: inherit;
+    font-size: 1rem;
+}
+
+.login-reg-btn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Footer */
+
 .footer {
     color: #fff;
     background-image: linear-gradient(to bottom right, #211526, #001124);
@@ -111,4 +144,21 @@ a {
 
 .footer-links {
     margin-bottom: 25px;
+}
+
+/* Max Screen Width of 407px */
+
+@media screen and (max-width: 407px) {
+  .navbar-brand {
+    font-size: medium;
+}
+
+  .icon-links {
+    font-size: 10px;
+}
+
+.contact-info {
+    font-size: 12px;
+}
+
 }

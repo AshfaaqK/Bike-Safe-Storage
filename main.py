@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from flask_login import UserMixin, LoginManager, login_user
+from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -117,7 +117,7 @@ def register():
             return redirect(url_for('login'))
         
         hash_and_salted_password = generate_password_hash(
-            request.form.get("password"),
+            request.form.get('password'),
             method='pbkdf2:sha256',
             salt_length=8
         )
@@ -139,8 +139,36 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    form = LoginForm()
 
-    return render_template('login.html')
+    if form.validate_on_submit():
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = db.session.execute(db.select(User).filter_by(email=email)).scalars().first()
+
+        if not user:
+            flash("That email does not exist.")
+            return redirect(url_for('login'))
+
+        elif not check_password_hash(user.password, password):
+            flash("Email or password is incorrect.")
+            return redirect(url_for('login'))
+
+        else:
+            login_user(user)
+            flash("Successfully logged in.")
+
+            return redirect(url_for('home'))
+
+    return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
