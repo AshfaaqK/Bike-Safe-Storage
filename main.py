@@ -105,6 +105,11 @@ def home():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
+    if db.session.execute(db.select(User)).scalars().first():
+            flash("Forbidden Access. Log in instead.")
+
+            return redirect(url_for('login'))
+
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -114,6 +119,7 @@ def register():
         if db.session.execute(db.select(User).filter_by(email=email)).scalars().first():
             # User already exists
             flash("You've already signed up with that email, log in instead!")
+
             return redirect(url_for('login'))
         
         hash_and_salted_password = generate_password_hash(
@@ -131,6 +137,8 @@ def register():
         db.session.commit()
 
         login_user(new_user)
+
+        flash("You have successfully created an account!")
 
         return redirect(url_for('home'))
 
