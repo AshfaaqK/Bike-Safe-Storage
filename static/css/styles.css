@@ -25,7 +25,7 @@ body {
 
 .contact-info {
     color: #fff;
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 .navbar-toggler {
@@ -39,11 +39,17 @@ body {
 .nav-link {
     color: #fff;
     border-radius: 20px;
-    font-size: large;
+    font-size: 1rem;
     padding: 0.45rem 0.65rem !important;
+    text-align: center;
 }
 
 .nav-link:hover {
+    color: #000 !important;
+    background-color: #fff;
+}
+
+.nav-link:active {
     color: #000 !important;
     background-color: #fff;
 }
@@ -54,6 +60,10 @@ body {
 
 .nav-item {
     margin: 0 15px;
+}
+
+.dropdown-item {
+    text-align: center;
 }
 
 .icon-links {
@@ -146,7 +156,15 @@ a {
     margin-bottom: 25px;
 }
 
-/* Max Screen Width of 407px */
+/* Max screen wixth of 991px */
+
+@media screen and (max-width: 991px) {
+    .navbar-brand {
+        max-width: 75%;
+    }
+}
+
+/* Max screen width of 407px */
 
 @media screen and (max-width: 407px) {
   .navbar-brand {

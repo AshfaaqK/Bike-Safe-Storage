@@ -18,7 +18,7 @@
     <div class="navbar-bg">
         <div class="container-l">
             <nav class="navbar navbar-expand-lg rounded" aria-label="navbar start">
-                <div class="container-fluid justify-content-end">
+                <div class="container-fluid justify-content-evenly">
                     <div class="navbar-brand col me-0">
                         <a class="navbar-brand col me-0" href="{{ url_for('home') }}">
                             <img class="bss-logo-main" src="./static/images/bss-logo.png" alt="BSS">
@@ -52,30 +52,38 @@
                                     <a class="nav-link" aria-current="page" href="/">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Our Services</a>
+                                    <a class="nav-link" href="#">Services</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Book Online</a>
+                                    <a class="nav-link" href="#">Book Now</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Motorcycles For Sale</a>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Used Vehicles</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Used Scooters</a></li>
-                                        <li><a class="dropdown-item" href="#">Used Motorcycles</a></li>
+                                        <li><a class="dropdown-item" href="#">Motorcycles</a></li>
+                                        <li><a class="dropdown-item" href="#">Scooters</a></li>
                                     </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact Us</a>
                                 </li>
 
                             {% if not current_user.is_authenticated: %}
 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Contact Us</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url_for('login') }}">Login</a>
                                 </li>
 
                             {% else: %}
 
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Enquiries</a></li>
+                                        <li><a class="dropdown-item" href="#">Bookings</a></li>
+                                        <li><a class="dropdown-item" href="#">Inventory</a></li>
+                                    </ul>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                                 </li>
