@@ -1,0 +1,44 @@
+{% include "header.html" %}
+
+<section>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="container">
+                <h1>Make an Enquiry</h1>
+
+                <hr>
+
+                <form method="POST" action="{{ url_for('make_enquiry') }}">
+                    {{ form.csrf_token }}
+
+                    <div class="mb-3">
+                        {{ form.message.label(style="font-weight: bold;") }}
+                        {{ form.message(class_ = 'form-control') }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.firstName.label(style="font-weight: bold;") }}
+                        {{ form.firstName(class_ = 'form-control') }}
+
+                        {{ form.lastName.label(style="font-weight: bold;") }}
+                        {{ form.lastName(class_ = 'form-control') }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label(style="font-weight: bold;") }}
+                        {{ form.email(class_ = 'form-control') }}
+
+                        {{ form.phone.label(style="font-weight: bold;") }}
+                        {{ form.phone(class_='form-control', type='tel', pattern='[0-9]*', inputmode='numeric') }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.submit(class_ = 'btn btn-success') }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}

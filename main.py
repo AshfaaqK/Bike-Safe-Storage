@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, MakeEnquiryForm
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -83,7 +83,7 @@ class Booking(db.Model):
     reg = db.Column(db.String(100), nullable=True)
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
-    
+
     created_at = db.Column(db.DateTime, default=datetime.today(), nullable=False)
     status = db.Column(db.String(50), nullable=False)
     notes = db.Column(db.Text, nullable=True)
@@ -107,6 +107,40 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/make-an-enquiry', methods=["GET", "POST"])
+def make_enquiry():
+    form = MakeEnquiryForm()
+
+    if form.validate_on_submit():
+
+        print("This is working")
+        data = request.form
+
+        message = data.get('message')
+        first_name = data.get('firstName')
+        last_name = data.get('lastName')
+        email = data.get('email')
+        phone = data.get('phone')
+
+        new_enquiry = Enquiry()
+
+        new_enquiry.message = message
+        new_enquiry.first_name = first_name
+        new_enquiry.last_name = last_name
+        new_enquiry.email = email
+        new_enquiry.phone = phone
+        new_enquiry.status = "Lead"
+
+        db.session.add(new_enquiry)
+        db.session.commit()
+
+        flash("Enquiry successfully submitted!")
+
+        return redirect(url_for('home'))
+
+    return render_template('make_enquiry.html', form=form)
+
+
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if db.session.execute(db.select(User)).scalars().first():
@@ -118,7 +152,6 @@ def register():
 
     if form.validate_on_submit():
         email = request.form.get('email')
-        password = request.form.get('password')
 
         if db.session.execute(db.select(User).filter_by(email=email)).scalars().first():
             # User already exists
