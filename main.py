@@ -69,6 +69,7 @@ class Enquiry(db.Model):
 
     booking = relationship('Booking', back_populates='enquiry')
 
+
 class Booking(db.Model):
     __tablename__ = 'bookings'
 
@@ -82,6 +83,9 @@ class Booking(db.Model):
     reg = db.Column(db.String(100), nullable=True)
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
+    
+    created_at = db.Column(db.DateTime, default=datetime.today(), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
     notes = db.Column(db.Text, nullable=True)
 
     enquiry_id = db.Column(db.Integer, db.ForeignKey('enquiries.enquiry_id'), nullable=True)
