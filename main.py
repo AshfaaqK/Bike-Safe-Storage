@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from datetime import datetime
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import RegisterForm, LoginForm, MakeEnquiryForm
-from datetime import datetime
 from dotenv import load_dotenv
 import os
 
@@ -16,7 +16,12 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 # CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATA_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['RECAPTCHA_USE_SSL'] = True
+app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv('RECAPTCHA_PUBLIC_KEY')
+app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv('RECAPTCHA_PRIVATE_KEY')
+app.config['RECAPTCHA_DATA_ATTRS'] = {'theme': 'dark'}
 db = SQLAlchemy(app)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -63,7 +68,7 @@ class Enquiry(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     message = db.Column(db.Text, nullable=False)
 
-    created_at = db.Column(db.DateTime, default=datetime.today(), nullable=False)
+    created_at = db.Column(db.String(22), nullable=False)
     status = db.Column(db.String(50), nullable=False)
     notes = db.Column(db.Text, nullable=True)
 
@@ -84,7 +89,7 @@ class Booking(db.Model):
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
 
-    created_at = db.Column(db.DateTime, default=datetime.today(), nullable=False)
+    created_at = db.Column(db.String(22), nullable=False)
     status = db.Column(db.String(50), nullable=False)
     notes = db.Column(db.Text, nullable=True)
 
@@ -112,8 +117,6 @@ def make_enquiry():
     form = MakeEnquiryForm()
 
     if form.validate_on_submit():
-
-        print("This is working")
         data = request.form
 
         message = data.get('message')
@@ -129,6 +132,7 @@ def make_enquiry():
         new_enquiry.last_name = last_name
         new_enquiry.email = email
         new_enquiry.phone = phone
+        new_enquiry.created_at = datetime.now().strftime("%d-%m-%y %H:%M:%S")
         new_enquiry.status = "Lead"
 
         db.session.add(new_enquiry)

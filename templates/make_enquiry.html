@@ -3,7 +3,7 @@
 <section>
     <div class="container">
         <div class="d-flex justify-content-center">
-            <div class="container">
+            <div class="container enquiry-form">
                 <h1>Make an Enquiry</h1>
 
                 <hr>
@@ -17,19 +17,42 @@
                     </div>
 
                     <div class="mb-3">
-                        {{ form.firstName.label(style="font-weight: bold;") }}
-                        {{ form.firstName(class_ = 'form-control') }}
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form.firstName.label(style="font-weight: bold;") }}
+                                {{ form.firstName(class_ = 'form-control') }}
+                            </div>
+                            <div class="col-6">
+                                {{ form.lastName.label(style="font-weight: bold;") }}
+                                {{ form.lastName(class_ = 'form-control') }}
+                            </div>
+                        </div>
+                    </div>
 
-                        {{ form.lastName.label(style="font-weight: bold;") }}
-                        {{ form.lastName(class_ = 'form-control') }}
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                {{ form.email.label(style="font-weight: bold;") }}
+                                {{ form.email(class_ = 'form-control') }}
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                {{ form.phone.label(style="font-weight: bold;") }}
+                                {{ form.phone(class_='form-control', type='tel', pattern='[0-9]*', inputmode='numeric') }}
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-3">
-                        {{ form.email.label(style="font-weight: bold;") }}
-                        {{ form.email(class_ = 'form-control') }}
+                        {{ form.recaptcha }}
 
-                        {{ form.phone.label(style="font-weight: bold;") }}
-                        {{ form.phone(class_='form-control', type='tel', pattern='[0-9]*', inputmode='numeric') }}
+                        {% if form.recaptcha.errors %}
+                            <div class="alert alert-danger alert-dismissible show fade" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <p>Please complete the reCAPTCHA.</p>
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="mb-3">

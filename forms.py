@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField
 from wtforms.validators import InputRequired, Email
 
@@ -9,6 +9,8 @@ class MakeEnquiryForm(FlaskForm):
     lastName = StringField("Last Name", validators=[InputRequired("Please enter your surname.")])
     email = EmailField("Email address", validators=[InputRequired("Please enter your email address."), Email("Please enter a valid email address.")])
     phone = StringField("Phone number", validators=[InputRequired("Please enter your phone number.")])
+
+    recaptcha = RecaptchaField()
 
     submit = SubmitField("Submit Enquiry")
 
