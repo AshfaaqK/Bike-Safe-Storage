@@ -1,6 +1,6 @@
 {% include "header.html" %}
 
-<section>
+<section class="login-reg-sect" id="make-enquiry-sect">
     <div class="container">
         <div class="d-flex justify-content-center">
             <div class="container enquiry-form">
@@ -13,7 +13,7 @@
 
                     <div class="mb-3">
                         {{ form.message.label(style="font-weight: bold;") }}
-                        {{ form.message(class_ = 'form-control') }}
+                        {{ form.message(class_ = 'form-control message-enquiry') }}
                     </div>
 
                     <div class="mb-3">
@@ -39,13 +39,13 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 {{ form.phone.label(style="font-weight: bold;") }}
-                                {{ form.phone(class_='form-control', type='tel', pattern='[0-9]*', inputmode='numeric') }}
+                                {{ form.phone(class_ = 'form-control', type='tel', pattern='[0-9]*', inputmode='numeric') }}
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        {{ form.recaptcha }}
+                        {{ form.recaptcha(class_='recaptcha-resizing') }}
 
                         {% if form.recaptcha.errors %}
                             <div class="alert alert-danger alert-dismissible show fade" role="alert">

@@ -101,6 +101,10 @@ a {
     height: 550px;
 }
 
+.message-enquiry {
+    height: 100px;
+}
+
 /* Register & Login */
 
 .login-reg-sect {
@@ -175,6 +179,8 @@ a {
 /* Max screen wixth of 991px */
 
 @media screen and (max-width: 991px) {
+    /* Header */
+    
     .navbar-brand {
         max-width: 75%;
     }
@@ -183,6 +189,8 @@ a {
 /* Max screen width of 407px */
 
 @media screen and (max-width: 407px) {
+  /* Header */
+
   .navbar-brand {
     font-size: medium;
 }
@@ -193,6 +201,15 @@ a {
 
 .contact-info {
     font-size: 12px;
+}
+
+/* Make an Enquiry */
+
+.g-recaptcha {
+    transform:scale(0.90);
+    -webkit-transform:scale(0.90);
+    transform-origin:0 0;
+    -webkit-transform-origin:0 0;
 }
 
 }
