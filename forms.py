@@ -3,12 +3,12 @@ from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, Strin
 from wtforms.validators import InputRequired, Email
 
 class MakeEnquiryForm(FlaskForm):
-    message = TextAreaField("Your Message", validators=[InputRequired("Please enter what you are enquiring about.")])
+    message = TextAreaField("Leave Your Message", validators=[InputRequired("Please enter what you are enquiring about.")])
 
     firstName = StringField("First Name", validators=[InputRequired("Please enter your first name.")])
     lastName = StringField("Last Name", validators=[InputRequired("Please enter your surname.")])
-    email = EmailField("Email address", validators=[InputRequired("Please enter your email address."), Email("Please enter a valid email address.")])
-    phone = StringField("Phone number", validators=[InputRequired("Please enter your phone number.")])
+    email = EmailField("Your E-mail address", validators=[InputRequired("Please enter your email address."), Email("Please enter a valid email address.")])
+    phone = StringField("Phone Number", validators=[InputRequired("Please enter your phone number.")])
 
     recaptcha = RecaptchaField()
 

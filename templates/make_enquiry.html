@@ -1,62 +1,67 @@
 {% include "header.html" %}
 
-<section class="login-reg-sect" id="make-enquiry-sect">
+<section class="enquiry-sect" id="make-enquiry-sect">
     <div class="container">
         <div class="d-flex justify-content-center">
             <div class="container enquiry-form">
-                <h1>Make an Enquiry</h1>
+                <h1 class="text-center">Make an Enquiry</h1>
 
                 <hr>
 
                 <form method="POST" action="{{ url_for('make_enquiry') }}">
                     {{ form.csrf_token }}
 
-                    <div class="mb-3">
-                        {{ form.message.label(style="font-weight: bold;") }}
-                        {{ form.message(class_ = 'form-control message-enquiry') }}
+                    <div class="mb-3 enquiry-fields">
+                        {{ form.message.label(class_ = 'enquiry-labels') }}
+                        {{ form.message(class_ = 'form-control message-enquiry',  placeholder="Hi there! I'm Interested in this motorbike, reg: AA12 BCD.") }}
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 enquiry-fields">
                         <div class="row">
+                            <p>Your Name</p>
                             <div class="col-6">
-                                {{ form.firstName.label(style="font-weight: bold;") }}
-                                {{ form.firstName(class_ = 'form-control') }}
+                                {{ form.firstName(class_ = 'form-control enquiry-input') }}
+                                {{ form.firstName.label(class_ = 'muted-name') }}
                             </div>
                             <div class="col-6">
-                                {{ form.lastName.label(style="font-weight: bold;") }}
-                                {{ form.lastName(class_ = 'form-control') }}
+                                {{ form.lastName(class_ = 'form-control enquiry-input') }}
+                                {{ form.lastName.label(class_ = 'muted-name') }}
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row enquiry-fields">
                         <div class="col-6">
                             <div class="mb-3">
-                                {{ form.email.label(style="font-weight: bold;") }}
-                                {{ form.email(class_ = 'form-control') }}
+                                {{ form.email.label(class_ = 'enquiry-labels') }}
+                                {{ form.email(class_ = 'form-control enquiry-input', placeholder="name@example.com") }}
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                {{ form.phone.label(style="font-weight: bold;") }}
-                                {{ form.phone(class_ = 'form-control', type='tel', pattern='[0-9]*', inputmode='numeric') }}
+                                {{ form.phone.label(class_ = 'enquiry-labels') }}
+                                {{ form.phone(class_ = 'form-control enquiry-input', type='tel', pattern='[0-9]*', inputmode='numeric', placeholder="07876502001") }}
                             </div>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        {{ form.recaptcha(class_='recaptcha-resizing') }}
+                    <div class="mb-3 enquiry-fields">
+                        <div class="d-flex justify-content-center">
+                            {{ form.recaptcha(class_='recaptcha-resizing enquiry-fields') }}
+                        </div>
 
                         {% if form.recaptcha.errors %}
-                            <div class="alert alert-danger alert-dismissible show fade" role="alert">
+                            <div class="alert alert-danger alert-dismissible show fade recaptcha-warning" role="alert">
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 <p>Please complete the reCAPTCHA.</p>
                             </div>
                         {% endif %}
                     </div>
 
-                    <div class="mb-3">
-                        {{ form.submit(class_ = 'btn btn-success') }}
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3 enquiry-fields">
+                            {{ form.submit(class_ = 'btn btn-primary enquiry-button') }}
+                        </div>
                     </div>
                 </form>
             </div>
