@@ -91,6 +91,7 @@ class Booking(db.Model):
 
     created_at = db.Column(db.String(22), nullable=False)
     status = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.Text, nullable=True)
     notes = db.Column(db.Text, nullable=True)
 
     enquiry_id = db.Column(db.Integer, db.ForeignKey('enquiries.enquiry_id'), nullable=True)
