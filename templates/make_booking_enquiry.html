@@ -1,0 +1,87 @@
+{% include "header.html" %}
+
+<section class="enquiry-sect" id="service-request-sect">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="container enquiry-form">
+                <h1 class="text-center">Make a Service Request</h1>
+
+                <hr>
+
+                <form method="POST" action="{{ url_for('service_request') }}">
+                    {{ form.csrf_token }}
+
+                    <div class="mb-3 enquiry-fields">
+                        {{ form.booking_type.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.booking_type }}
+                    </div>
+
+                    <div class="mb-3 enquiry-fields">
+                        <div class="row justify-content-center">
+                            <p class="enquiry-name-marker">Your Name</p>
+                            <div class="container col-6 enquiry-cols">
+                                {{ form.firstName(class_ = 'form-control enquiry-input') }}
+                                {{ form.firstName.label(class_ = 'muted-name') }} <span class="required-mark"> *</span>
+                            </div>
+                            <div class="container col-6 enquiry-cols">
+                                {{ form.lastName(class_ = 'form-control enquiry-input') }}
+                                {{ form.lastName.label(class_ = 'muted-name') }}<span class="required-mark"> *</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row enquiry-fields justify-content-center">
+                        <div class="col-6 enquiry-cols">
+                            <div class="mb-3">
+                                {{ form.email.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                                {{ form.email(class_ = 'form-control enquiry-input', placeholder="name@example.com") }}
+                            </div>
+                        </div>
+                        <div class="col-6 enquiry-cols">
+                            <div class="mb-3">
+                                {{ form.phone.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                                {{ form.phone(class_ = 'form-control enquiry-input', type='tel', pattern='[0-9]*', inputmode='numeric', placeholder="07876502001") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 enquiry-fields">
+                        {{ form.date_time.label }}
+                        {{ form.date_time }}
+                    </div>
+
+                    <div class="mb-3 enquiry-fields">
+                        {{ form.reg.label }}
+                        {{ form.reg(class_ = 'form-control enquiry-input', placeholder="AB12 CDE") }}
+                    </div>
+                    
+                    <div class="mb-3 enquiry-fields">
+                        {{ form.message.label(class_ = 'enquiry-labels') }}
+                        {{ form.message(class_ = 'form-control message-enquiry enquiry-input',  placeholder="Any special requests?") }}
+                    </div>
+
+                    <div class="mb-3 enquiry-fields">
+                        <div class="d-flex justify-content-center">
+                            {{ form.recaptcha(class_='recaptcha-resizing enquiry-fields') }}
+                        </div>
+
+                        {% if form.recaptcha.errors %}
+                            <div class="alert alert-danger alert-dismissible show fade recaptcha-warning" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <p>Please complete the reCAPTCHA.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3 enquiry-fields">
+                            {{ form.submit(class_ = 'btn btn-primary enquiry-button') }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}

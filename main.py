@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm, MakeEnquiryForm
+from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm
 from dotenv import load_dotenv
 import os
 
@@ -111,6 +111,13 @@ def load_user(user_id):
 def home():
 
     return render_template('index.html')
+
+
+@app.route('/make-service-request', methods=["GET", "POST"])
+def service_request():
+    form = MakeServiceRequestForm()
+
+    return render_template('make_booking_enquiry.html', form=form)
 
 
 @app.route('/make-an-enquiry', methods=["GET", "POST"])
