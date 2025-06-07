@@ -12,34 +12,34 @@
                     {{ form.csrf_token }}
 
                     <div class="mb-3 enquiry-fields">
-                        {{ form.message.label(class_ = 'enquiry-labels') }}
-                        {{ form.message(class_ = 'form-control message-enquiry',  placeholder="Hi there! I'm Interested in this motorbike, reg: AA12 BCD.") }}
+                        {{ form.message.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.message(class_ = 'form-control message-enquiry enquiry-input',  placeholder="Hi! I'm interested in this motorbike, reg: AA12 BCD.") }}
                     </div>
 
                     <div class="mb-3 enquiry-fields">
-                        <div class="row">
-                            <p>Your Name</p>
-                            <div class="col-6">
+                        <div class="row justify-content-center">
+                            <p class="enquiry-name-marker">Your Name</p>
+                            <div class="container col-6 enquiry-cols">
                                 {{ form.firstName(class_ = 'form-control enquiry-input') }}
-                                {{ form.firstName.label(class_ = 'muted-name') }}
+                                {{ form.firstName.label(class_ = 'muted-name') }} <span class="required-mark"> *</span>
                             </div>
-                            <div class="col-6">
+                            <div class="container col-6 enquiry-cols">
                                 {{ form.lastName(class_ = 'form-control enquiry-input') }}
-                                {{ form.lastName.label(class_ = 'muted-name') }}
+                                {{ form.lastName.label(class_ = 'muted-name') }}<span class="required-mark"> *</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row enquiry-fields">
-                        <div class="col-6">
+                    <div class="row enquiry-fields justify-content-center">
+                        <div class="col-6 enquiry-cols">
                             <div class="mb-3">
-                                {{ form.email.label(class_ = 'enquiry-labels') }}
+                                {{ form.email.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                                 {{ form.email(class_ = 'form-control enquiry-input', placeholder="name@example.com") }}
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 enquiry-cols">
                             <div class="mb-3">
-                                {{ form.phone.label(class_ = 'enquiry-labels') }}
+                                {{ form.phone.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                                 {{ form.phone(class_ = 'form-control enquiry-input', type='tel', pattern='[0-9]*', inputmode='numeric', placeholder="07876502001") }}
                             </div>
                         </div>
