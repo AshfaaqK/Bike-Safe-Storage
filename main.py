@@ -117,6 +117,18 @@ def home():
 def service_request():
     form = MakeServiceRequestForm()
 
+    if form.validate_on_submit():
+        data = request.form
+
+        booking_type = data.get('booking_type')
+        message = data.get('message')
+        firstName = data.get('firstName')
+        lastName = data.get('lastName')
+        email = data.get('email')
+        phone = data.get('phone')
+        reg = data.get('reg')
+        date_time = data.get('date_time')
+
     return render_template('make_booking_enquiry.html', form=form)
 
 

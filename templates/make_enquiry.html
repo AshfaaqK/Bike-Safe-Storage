@@ -18,14 +18,14 @@
 
                     <div class="mb-3 enquiry-fields">
                         <div class="row justify-content-center">
-                            <p class="enquiry-name-marker">Your Name</p>
+                            <p class="enquiry-name-marker">Your Name<span class="required-mark"> *</span></p>
                             <div class="container col-6 enquiry-cols">
                                 {{ form.firstName(class_ = 'form-control enquiry-input') }}
-                                {{ form.firstName.label(class_ = 'muted-name') }} <span class="required-mark"> *</span>
+                                {{ form.firstName.label(class_ = 'muted-name') }}
                             </div>
                             <div class="container col-6 enquiry-cols">
                                 {{ form.lastName(class_ = 'form-control enquiry-input') }}
-                                {{ form.lastName.label(class_ = 'muted-name') }}<span class="required-mark"> *</span>
+                                {{ form.lastName.label(class_ = 'muted-name') }}
                             </div>
                         </div>
                     </div>

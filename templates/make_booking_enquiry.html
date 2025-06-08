@@ -11,21 +11,23 @@
                 <form method="POST" action="{{ url_for('service_request') }}">
                     {{ form.csrf_token }}
 
-                    <div class="mb-3 enquiry-fields">
-                        {{ form.booking_type.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
-                        {{ form.booking_type }}
+                    <div class="mb-3">
+                        {{ form.booking_type.label }}<span class="required-mark"> *</span>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.booking_type(class_ = 'form-control enquiry-input') }}
                     </div>
 
                     <div class="mb-3 enquiry-fields">
                         <div class="row justify-content-center">
-                            <p class="enquiry-name-marker">Your Name</p>
+                            <p class="enquiry-name-marker">Your Name<span class="required-mark"> *</span></p>
                             <div class="container col-6 enquiry-cols">
                                 {{ form.firstName(class_ = 'form-control enquiry-input') }}
-                                {{ form.firstName.label(class_ = 'muted-name') }} <span class="required-mark"> *</span>
+                                {{ form.firstName.label(class_ = 'muted-name') }}
                             </div>
                             <div class="container col-6 enquiry-cols">
                                 {{ form.lastName(class_ = 'form-control enquiry-input') }}
-                                {{ form.lastName.label(class_ = 'muted-name') }}<span class="required-mark"> *</span>
+                                {{ form.lastName.label(class_ = 'muted-name') }}
                             </div>
                         </div>
                     </div>
@@ -46,15 +48,17 @@
                     </div>
 
                     <div class="mb-3 enquiry-fields">
-                        {{ form.date_time.label }}
-                        {{ form.date_time }}
+                        {{ form.date_time.label }}<span class="required-mark"> *</span>
+                        {{ form.date_time(class_ = 'form-control enquiry-input') }}
                     </div>
 
                     <div class="mb-3 enquiry-fields">
-                        {{ form.reg.label }}
+                        {{ form.reg.label }}<span class="required-mark"> *</span>
                         {{ form.reg(class_ = 'form-control enquiry-input', placeholder="AB12 CDE") }}
                     </div>
                     
+                    <hr>
+
                     <div class="mb-3 enquiry-fields">
                         {{ form.message.label(class_ = 'enquiry-labels') }}
                         {{ form.message(class_ = 'form-control message-enquiry enquiry-input',  placeholder="Any special requests?") }}
