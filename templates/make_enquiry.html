@@ -3,6 +3,17 @@
 <section class="enquiry-sect" id="make-enquiry-sect">
     <div class="container">
         <div class="d-flex justify-content-center">
+
+            {% if form.recaptcha.errors %}
+                <div class="alert alert-danger alert-dismissible show fade recaptcha-warning" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <p>Please complete the reCAPTCHA.</p>
+                </div>
+            {% endif %}
+            
+        </div>
+        
+        <div class="d-flex justify-content-center">
             <div class="container enquiry-form">
                 <h1 class="text-center">Make an Enquiry</h1>
 
@@ -12,55 +23,43 @@
                     {{ form.csrf_token }}
 
                     <div class="mb-3 enquiry-fields">
-                        {{ form.message.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
-                        {{ form.message(class_ = 'form-control message-enquiry enquiry-input',  placeholder="Hi! I'm interested in this motorbike, reg: AA12 BCD.") }}
+                        {{ form.message.label(class_ = 'enquiry-labels') }}
+                        {{ form.message(class_ = 'form-control message-enquiry enquiry-input',  placeholder="Any special requests?") }}
                     </div>
 
-                    <div class="mb-3 enquiry-fields">
-                        <div class="row justify-content-center">
-                            <p class="enquiry-name-marker">Your Name<span class="required-mark"> *</span></p>
-                            <div class="container col-6 enquiry-cols">
-                                {{ form.firstName(class_ = 'form-control enquiry-input') }}
-                                {{ form.firstName.label(class_ = 'muted-name') }}
-                            </div>
-                            <div class="container col-6 enquiry-cols">
-                                {{ form.lastName(class_ = 'form-control enquiry-input') }}
-                                {{ form.lastName.label(class_ = 'muted-name') }}
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row mb-3">
+                        <p>Your Name<span class="required-mark"> *</span></p>
 
-                    <div class="row enquiry-fields justify-content-center">
-                        <div class="col-6 enquiry-cols">
-                            <div class="mb-3">
-                                {{ form.email.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
-                                {{ form.email(class_ = 'form-control enquiry-input', placeholder="name@example.com") }}
-                            </div>
+                        <div class="col-sm-6">
+                            {{ form.firstName(class_ = 'form-control enquiry-input') }}
+                            {{ form.firstName.label(class_ = 'muted-name') }}
                         </div>
-                        <div class="col-6 enquiry-cols">
-                            <div class="mb-3">
-                                {{ form.phone.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
-                                {{ form.phone(class_ = 'form-control enquiry-input', type='tel', pattern='[0-9]*', inputmode='numeric', placeholder="07876502001") }}
-                            </div>
+
+                        <div class="col-sm-6">
+                            {{ form.lastName(class_ = 'form-control enquiry-input') }}
+                            {{ form.lastName.label(class_ = 'muted-name') }}
+                        </div>
+
+                        <div class="col-sm-6 enquiry-fields">
+                            {{ form.email.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                            {{ form.email(class_ = 'form-control enquiry-input', placeholder="name@example.com") }}
+                        </div>
+
+                        <div class="col-sm-6 enquiry-fields">
+                            {{ form.phone.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                            {{ form.phone(class_ = 'form-control enquiry-input', type='tel', pattern='[0-9]*', inputmode='numeric', placeholder="07876502001") }}
                         </div>
                     </div>
 
                     <div class="mb-3 enquiry-fields">
                         <div class="d-flex justify-content-center">
-                            {{ form.recaptcha(class_='recaptcha-resizing enquiry-fields') }}
+                            {{ form.recaptcha(class_='recaptcha-resizing') }}
                         </div>
-
-                        {% if form.recaptcha.errors %}
-                            <div class="alert alert-danger alert-dismissible show fade recaptcha-warning" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <p>Please complete the reCAPTCHA.</p>
-                            </div>
-                        {% endif %}
                     </div>
 
                     <div class="d-flex justify-content-center">
                         <div class="mb-3 enquiry-fields">
-                            {{ form.submit(class_ = 'btn btn-primary enquiry-button') }}
+                            {{ form.submit(class_ = 'btn btn-primary') }}
                         </div>
                     </div>
                 </form>
