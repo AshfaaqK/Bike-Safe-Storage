@@ -152,6 +152,14 @@ a {
     outline: none;
     color: #fff;
     font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.enquiry-input:focus {
+    background-color: rgba(146, 146, 146, 0.63);
+    color: #000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .enquiry-input::placeholder {
@@ -203,6 +211,17 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     outline: none;
     color: inherit;
     font-size: 1rem;
+    transition: background-color 0.3s ease;
+    transition: box-shadow 0.3s ease;
+}
+
+.login-reg-input:focus {
+    background-color: transparent;
+    color: #fff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .login-reg-btn {

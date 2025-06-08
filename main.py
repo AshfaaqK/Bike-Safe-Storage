@@ -20,6 +20,7 @@ app.config['RECAPTCHA_USE_SSL'] = True
 app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv('RECAPTCHA_PUBLIC_KEY')
 app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv('RECAPTCHA_PRIVATE_KEY')
 app.config['RECAPTCHA_DATA_ATTRS'] = {'theme': 'dark'}
+app.config['RECAPTCHA_DISABLE'] = True
 db = SQLAlchemy(app)
 
 
