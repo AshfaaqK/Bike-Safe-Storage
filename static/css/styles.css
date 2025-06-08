@@ -103,8 +103,8 @@ a {
     box-shadow: 0 25px 35px rgba(0, 0, 0, 0.9);
     border: 2px #7a7a7a solid;
     border-radius: 10px;
-    margin-top: 80px;
-    margin-bottom: 80px;
+    margin-top: 40px;
+    margin-bottom: 50px;
     padding-top: 30px;
 }
 
@@ -150,7 +150,7 @@ a {
 }
 
 .recaptcha-warning {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .enquiry-button {
@@ -239,16 +239,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     
     .navbar-brand {
         max-width: 75%;
-    }
-}
-
-/* Max screen width of 507px */
-
-@media screen and (max-width: 507px) {
-    /* Make an Enquiry */
-    
-    .enquiry-name-marker {
-        text-align: center;
     }
 }
 
