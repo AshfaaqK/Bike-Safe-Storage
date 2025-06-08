@@ -128,8 +128,9 @@ def view_bookings():
 
 @app.route('/view-enquiries')
 def view_enquiries():
+    enquiries = db.session.execute(db.select(Enquiry).order_by(Enquiry.enquiry_id.desc())).scalars()
 
-    return render_template('enquiries.html')
+    return render_template('enquiries.html', enquiries=enquiries)
 
 
 @app.route('/make-service-request', methods=["GET", "POST"])
