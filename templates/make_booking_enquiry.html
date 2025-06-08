@@ -1,6 +1,22 @@
 {% include "header.html" %}
 
 <section class="enquiry-sect" id="service-request-sect">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+
+                <div class="d-flex justify-content-center">
+                    <div class="alert alert-success alert-dismissible show fade login-reg-alert" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ message }}
+                    </div>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <div class="container">
         <div class="d-flex justify-content-center">
 

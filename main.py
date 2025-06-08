@@ -120,14 +120,32 @@ def service_request():
     if form.validate_on_submit():
         data = request.form
 
-        booking_type = data.get('booking_type')
-        message = data.get('message')
-        firstName = data.get('firstName')
-        lastName = data.get('lastName')
-        email = data.get('email')
-        phone = data.get('phone')
-        reg = data.get('reg')
         date_time = data.get('date_time')
+        dt_object = datetime.strptime(date_time, '%Y-%m-%dT%H:%M')
+
+        new_booking = Booking()
+
+        new_booking.booking_type = data.get('booking_type')
+        new_booking.first_name = data.get('firstName')
+        new_booking.last_name = data.get('lastName')
+        new_booking.email = data.get('email')
+        new_booking.phone = data.get('phone')
+        new_booking.reg = data.get('reg')
+        new_booking.date = dt_object.date()
+        new_booking.time = dt_object.time()
+        new_booking.created_at = datetime.now().strftime("%d-%m-%y %H:%M:%S")
+        new_booking.status = 'New Request'
+        new_booking.message = data.get('message')
+
+        db.session.add(new_booking)
+        db.session.commit()
+
+        flash("Booking request received! ✅ Our team will contact you within 24 hours to confirm. "  
+              "Check your email (and spam folder) for updates.",
+              'success'
+              )
+
+        return redirect(url_for('service_request'))
 
     return render_template('make_booking_enquiry.html', form=form)
 
@@ -139,28 +157,26 @@ def make_enquiry():
     if form.validate_on_submit():
         data = request.form
 
-        message = data.get('message')
-        first_name = data.get('firstName')
-        last_name = data.get('lastName')
-        email = data.get('email')
-        phone = data.get('phone')
-
         new_enquiry = Enquiry()
 
-        new_enquiry.message = message
-        new_enquiry.first_name = first_name
-        new_enquiry.last_name = last_name
-        new_enquiry.email = email
-        new_enquiry.phone = phone
+        new_enquiry.message = data.get('message')
+        new_enquiry.first_name = data.get('firstName')
+        new_enquiry.last_name = data.get('lastName')
+        new_enquiry.email = data.get('email')
+        new_enquiry.phone = data.get('phone')
         new_enquiry.created_at = datetime.now().strftime("%d-%m-%y %H:%M:%S")
-        new_enquiry.status = "Lead"
+        new_enquiry.status = 'Lead'
 
         db.session.add(new_enquiry)
         db.session.commit()
 
-        flash("Enquiry successfully submitted!")
+        flash("Enquiry received! ✅ We’ve sent your details to our team. "
+              "You’ll hear back from us within 24 hours. "
+              "For urgent matters, call us at 0787 650 2001.",
+              'success'
+              )
 
-        return redirect(url_for('home'))
+        return redirect(url_for('make_enquiry'))
 
     return render_template('make_enquiry.html', form=form)
 
