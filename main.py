@@ -184,7 +184,7 @@ def make_enquiry():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if db.session.execute(db.select(User)).scalars().first():
-            flash("Forbidden Access. Log in instead.")
+            flash("Forbidden Access. Log in instead.", 'danger')
 
             return redirect(url_for('login'))
 
@@ -195,7 +195,7 @@ def register():
 
         if db.session.execute(db.select(User).filter_by(email=email)).scalars().first():
             # User already exists
-            flash("You've already signed up with that email, log in instead!")
+            flash("You've already signed up with that email, log in instead!", 'warning')
 
             return redirect(url_for('login'))
         
@@ -215,7 +215,7 @@ def register():
 
         login_user(new_user)
 
-        flash("You have successfully created an account!")
+        flash("You have successfully created an account!", 'success')
 
         return redirect(url_for('home'))
 
@@ -233,16 +233,16 @@ def login():
         user = db.session.execute(db.select(User).filter_by(email=email)).scalars().first()
 
         if not user:
-            flash("That email does not exist.")
+            flash("That email does not exist.", 'danger')
             return redirect(url_for('login'))
 
         elif not check_password_hash(user.password, password):
-            flash("Email or password is incorrect.")
+            flash("Email or password is incorrect.", 'danger')
             return redirect(url_for('login'))
 
         else:
             login_user(user)
-            flash("Successfully logged in.")
+            flash("Successfully logged in.", 'success')
 
             return redirect(url_for('home'))
 

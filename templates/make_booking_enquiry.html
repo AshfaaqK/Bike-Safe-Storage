@@ -2,12 +2,12 @@
 
 <section class="enquiry-sect" id="service-request-sect">
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            {% for message in messages %}
+            {% for category, message in messages %}
 
                 <div class="d-flex justify-content-center">
-                    <div class="alert alert-success alert-dismissible show fade login-reg-alert" role="alert">
+                    <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         {{ message }}
                     </div>
