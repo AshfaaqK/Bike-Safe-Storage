@@ -83,9 +83,9 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Enquiries</a></li>
-                                        <li><a class="dropdown-item" href="#">Bookings</a></li>
-                                        <li><a class="dropdown-item" href="#">Inventory</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('view_enquiries') }}">Enquiries</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('view_bookings') }}">Bookings</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('view_stock') }}">Inventory</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">

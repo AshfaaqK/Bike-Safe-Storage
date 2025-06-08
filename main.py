@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user
+from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user ,login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm
 from dotenv import load_dotenv
@@ -111,6 +111,24 @@ def load_user(user_id):
 def home():
 
     return render_template('index.html')
+
+
+@app.route('/view-stock')
+def view_stock():
+
+    return render_template('inventory.html')
+
+
+@app.route('/view-bookings')
+def view_bookings():
+
+    return render_template('bookings.html')
+
+
+@app.route('/view-enquiries')
+def view_enquiries():
+
+    return render_template('enquiries.html')
 
 
 @app.route('/make-service-request', methods=["GET", "POST"])

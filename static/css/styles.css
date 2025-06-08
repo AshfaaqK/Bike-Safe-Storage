@@ -85,6 +85,15 @@ a {
     color: #265cff;
 }
 
+/* Admin Panel */
+
+.admin-panel {
+    background: linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85) ), url("../images/bss-logo.png");
+    background-size: 15%;
+    height: 800px;
+}
+
+
 /* Make an Enquiry & Service Request */
 
 .enquiry-sect {
