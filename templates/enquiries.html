@@ -6,6 +6,10 @@
             <h1 class="table-title">Your Enquiries</h1>
         </div>
 
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search enquiries...">
+        </div>
+
         <table class="whole-table table table-dark table-striped table-hover">
             <thead>
                 <tr>
@@ -22,9 +26,9 @@
                 </tr>
             </thead>
 
-            <tbody class="table-body">
+            <tbody class="table-body" id="enquiriesTableBody">
                 {% for enquiry in enquiries %}
-                    <tr>
+                    <tr class="enquiry-row">
                         <th><span class="badge text-bg-success">{{ enquiry.enquiry_id }}</span></th>
                         <td>{{ enquiry.first_name }}</td>
                         <td>{{ enquiry.last_name }}</td>
@@ -56,7 +60,7 @@
                                     <span>{{ enquiry.notes }}</span>
 
                                 {% endif %}
-                                
+
                             {% else %}
 
                                 <span>No notes added</span>
@@ -77,6 +81,20 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Enquiries pagination">
+                <ul class="pagination">
+                    <li class="page-item disabled" id="prevPage">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item" id="nextPage">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </section>
 
