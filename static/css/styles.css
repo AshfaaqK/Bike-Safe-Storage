@@ -85,6 +85,18 @@ a {
     color: #265cff;
 }
 
+/* Mini Header */
+
+.mini-navbar-bg {
+    height: auto;
+}
+
+.mini-header-logo {
+    display: flex;
+    min-height: auto;
+    min-width: auto;
+}
+
 /* Admin Panel */
 
 .admin-panel {

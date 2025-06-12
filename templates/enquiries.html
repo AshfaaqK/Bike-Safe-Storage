@@ -1,4 +1,4 @@
-{% include "header.html" %}
+{% include "mini-header.html" %}
 
 <section class="admin-panel" id="enquiries">
     <div class="container d-flex justify-content-center">
@@ -31,8 +31,8 @@
                             <td>{{ enquiry.notes }}</td>
                             <td>{{ enquiry.created_at }}</td>
                             <td>{{ enquiry.status }}</td>
-                            <td><a href="">Edit</a></td>
-                            <td><a href="">Del</a></td>
+                            <td><a href="">Manage</a></td>
+                            <td><a href="">Delete</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
