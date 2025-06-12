@@ -112,8 +112,14 @@ a {
 .whole-table {
     margin-top: 30px;
     margin-bottom: 50px;
-    background-color:rgba(0, 0, 0, 0) !important;
 }
+
+
+.table-body {
+    border: #004797;
+    border-top: calc(var(--bs-border-width) * 3) solid #001124;
+}
+
 
 /* View Enquiries */
 

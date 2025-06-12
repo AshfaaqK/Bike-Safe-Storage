@@ -184,7 +184,7 @@ def make_enquiry():
         new_enquiry.email = data.get('email')
         new_enquiry.phone = data.get('phone')
         new_enquiry.created_at = datetime.now().strftime("%d-%m-%y %H:%M")
-        new_enquiry.status = 'New Lead'
+        new_enquiry.status = 'Lead'
 
         db.session.add(new_enquiry)
         db.session.commit()

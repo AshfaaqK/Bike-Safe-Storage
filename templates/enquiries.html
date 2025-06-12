@@ -22,10 +22,10 @@
                 </tr>
             </thead>
 
-            <tbody class="table-group-divider">
+            <tbody class="table-body">
                 {% for enquiry in enquiries %}
                     <tr>
-                        <th>{{ enquiry.enquiry_id }}</th>
+                        <th><span class="badge text-bg-success">{{ enquiry.enquiry_id }}</span></th>
                         <td>{{ enquiry.first_name }}</td>
                         <td>{{ enquiry.last_name }}</td>
                         <td>{{ enquiry.email }}</td>
@@ -64,9 +64,15 @@
                             {% endif %}
                         </td>
                         <td>{{ enquiry.created_at }}</td>
-                        <td>{{ enquiry.status }}</td>
-                        <td><a href="">Manage</a></td>
-                        <td><a href="">Delete</a></td>
+                        <td>
+                            {% if enquiry.status == "Lead" %}
+
+                                <span class="badge rounded-pill text-bg-info">Lead</span>
+
+                            {% endif %}
+                        </td>
+                        <td><a href=""><button type="button" class="btn btn-outline-warning btn-sm">Manage</button></a></td>
+                        <td><a href=""><button type="button" class="btn btn-outline-danger btn-sm">Delete</button></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
