@@ -1,43 +1,76 @@
 {% include "mini-header.html" %}
 
-<section class="admin-panel" id="enquiries">
-    <div class="container d-flex justify-content-center">
-        <div class="table-responsive-lg">
-            <table class="table table-dark table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col"># Enquiry ID</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Message</th>
-                        <th scope="col">Dealer Notes</th>
-                        <th scope="col">Created on</th>
-                        <th scope="col">Status</th>
-                        <th class="text-center" scope="colgroup" colspan="2">Action</th>
-                    </tr>
-                </thead>
-
-                <tbody class="table-group-divider">
-                    {% for enquiry in enquiries %}
-                        <tr>
-                            <td>{{ enquiry.enquiry_id }}</td>
-                            <td>{{ enquiry.first_name }}</td>
-                            <td>{{ enquiry.last_name }}</td>
-                            <td>{{ enquiry.email }}</td>
-                            <td>{{ enquiry.phone }}</td>
-                            <td>{{ enquiry.message }}</td>
-                            <td>{{ enquiry.notes }}</td>
-                            <td>{{ enquiry.created_at }}</td>
-                            <td>{{ enquiry.status }}</td>
-                            <td><a href="">Manage</a></td>
-                            <td><a href="">Delete</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<section class="admin-panel d-flex" id="enquiries">
+    <div class="container-fluid table-responsive-lg">
+        <div class="d-flex justify-content-center">
+            <h1 class="table-title">Your Enquiries</h1>
         </div>
+
+        <table class="whole-table table table-dark table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"># ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Dealer Notes</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">Status</th>
+                    <th class="text-center" scope="colgroup" colspan="2">Action</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+                {% for enquiry in enquiries %}
+                    <tr>
+                        <th>{{ enquiry.enquiry_id }}</th>
+                        <td>{{ enquiry.first_name }}</td>
+                        <td>{{ enquiry.last_name }}</td>
+                        <td>{{ enquiry.email }}</td>
+                        <td>{{ enquiry.phone }}</td>
+                        <td class="message-text">
+                            {% if enquiry.message|length > 65 %}
+
+                                <span class="message-preview">{{ enquiry.message[:65] }}<span class="dots">...</span></span>
+                                <span class="message-full" style="display:none;">{{ enquiry.message }}</span>
+                                <button class="read-more-btn btn btn-link btn-sm">Read More</button>
+
+                            {% else %}
+
+                                <span>{{ enquiry.message }}</span>
+
+                            {% endif %}
+                        </td>
+                        <td class="notes-text">
+                            {% if enquiry.notes %}
+                                {% if enquiry.notes|length > 40 %}
+
+                                    <span class="message-preview">{{ enquiry.notes[:40] }}<span class="dots">...</span></span>
+                                    <span class="message-full" style="display:none;">{{ enquiry.notes }}</span>
+                                    <button class="read-more-btn btn btn-link btn-sm">Read More</button>
+
+                                {% else %}
+
+                                    <span>{{ enquiry.notes }}</span>
+
+                                {% endif %}
+                                
+                            {% else %}
+
+                                <span>No notes added</span>
+
+                            {% endif %}
+                        </td>
+                        <td>{{ enquiry.created_at }}</td>
+                        <td>{{ enquiry.status }}</td>
+                        <td><a href="">Manage</a></td>
+                        <td><a href="">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </section>
 

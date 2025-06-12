@@ -20,7 +20,6 @@ app.config['RECAPTCHA_USE_SSL'] = True
 app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv('RECAPTCHA_PUBLIC_KEY')
 app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv('RECAPTCHA_PRIVATE_KEY')
 app.config['RECAPTCHA_DATA_ATTRS'] = {'theme': 'dark'}
-app.config['RECAPTCHA_DISABLE'] = True
 db = SQLAlchemy(app)
 
 
@@ -153,7 +152,7 @@ def service_request():
         new_booking.reg = data.get('reg')
         new_booking.date = dt_object.date()
         new_booking.time = dt_object.time()
-        new_booking.created_at = datetime.now().strftime("%d-%m-%y %H:%M:%S")
+        new_booking.created_at = datetime.now().strftime("%d-%m-%y %H:%M")
         new_booking.status = 'New Request'
         new_booking.message = data.get('message')
 
@@ -184,8 +183,8 @@ def make_enquiry():
         new_enquiry.last_name = data.get('lastName')
         new_enquiry.email = data.get('email')
         new_enquiry.phone = data.get('phone')
-        new_enquiry.created_at = datetime.now().strftime("%d-%m-%y %H:%M:%S")
-        new_enquiry.status = 'Lead'
+        new_enquiry.created_at = datetime.now().strftime("%d-%m-%y %H:%M")
+        new_enquiry.status = 'New Lead'
 
         db.session.add(new_enquiry)
         db.session.commit()
