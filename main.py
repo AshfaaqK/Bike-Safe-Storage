@@ -137,7 +137,7 @@ def view_bookings():
 
 @app.route('/view-enquiries')
 def view_enquiries():
-    enquiries = db.session.execute(db.select(Enquiry).order_by(Enquiry.enquiry_id.desc())).scalars()
+    enquiries = db.session.execute(db.select(Enquiry).order_by(Enquiry.enquiry_id.desc())).scalars().all()
 
     return render_template('enquiries.html', enquiries=enquiries)
 

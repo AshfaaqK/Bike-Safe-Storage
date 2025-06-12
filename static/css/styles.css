@@ -107,23 +107,30 @@ a {
 .table-title {
     color: #fff;
     margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .whole-table {
     margin-top: 30px;
     margin-bottom: 50px;
+    --bs-table-bg: rgba(0, 0, 0, 0.2);
+    --bs-table-color: #fff;
+    backdrop-filter: blur(10px);
 }
-
 
 .table-body {
-    border: #004797;
-    border-top: calc(var(--bs-border-width) * 3) solid #001124;
+    border: #577291;
+    border-top: calc(var(--bs-border-width) * 3) solid #307ace;
 }
 
+table tbody tr:last-child {
+    border: none;
+}
 
 /* View Enquiries */
 
 .read-more-btn {
+    color: #3689e9;
     text-decoration: none;
     font-size: 0.9rem;
 }

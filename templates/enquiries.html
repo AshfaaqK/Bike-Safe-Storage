@@ -19,14 +19,14 @@
         {% endwith %}
 
         <div class="d-flex justify-content-center">
-            <h1 class="table-title">Your Enquiries</h1>
+            <h1 class="table-title">Total Enquiries - {{ enquiries | length }}</h1>
         </div>
 
         <div class="mb-3">
             <input type="text" id="searchInput" class="form-control" placeholder="Search enquiries...">
         </div>
 
-        <table class="whole-table table table-dark table-striped table-hover">
+        <table class="whole-table table">
             <thead>
                 <tr>
                     <th scope="col"># ID</th>
@@ -49,7 +49,7 @@
                         <td>{{ enquiry.first_name }}</td>
                         <td>{{ enquiry.last_name }}</td>
                         <td>{{ enquiry.email }}</td>
-                        <td>{{ enquiry.phone }}</td>
+                        <td>{{ enquiry.phone[:6] }} {{ enquiry.phone[6:] }}</td>
                         <td class="message-text">
                             {% if enquiry.message|length > 65 %}
 
