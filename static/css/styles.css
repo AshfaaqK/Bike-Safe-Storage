@@ -112,7 +112,7 @@ a {
 
 .whole-table {
     margin-top: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     --bs-table-bg: rgba(0, 0, 0, 0.2);
     --bs-table-color: #fff;
     backdrop-filter: blur(10px);
@@ -121,6 +121,10 @@ a {
 .table-body {
     border: #577291;
     border-top: calc(var(--bs-border-width) * 3) solid #307ace;
+}
+
+.enquiry-row:hover {
+    --bs-table-bg: rgba(255, 255, 255, 0.3);
 }
 
 table tbody tr:last-child {
@@ -145,6 +149,20 @@ table tbody tr:last-child {
 
 .notes-text {
     max-width: 400px;
+}
+
+.pagination {
+    margin-bottom: 40px;
+}
+
+.page-link {
+    background-color: #00000077;
+    color: #fff;
+}
+
+.disabled .page-link {
+    background-color: #00000077;
+    color: #fff;
 }
 
 /* Make an Enquiry & Service Request */
@@ -217,6 +235,10 @@ table tbody tr:last-child {
 
 .enquiry-input::placeholder {
     color: #fff;
+}
+
+.enquiry-input:focus::placeholder {
+    color: #000;
 }
 
 .recaptcha-warning {
