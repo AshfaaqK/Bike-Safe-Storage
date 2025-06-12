@@ -113,6 +113,16 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/delete-enquiry/<int:enquiry_id>')
+def delete_enquiry(enquiry_id):
+    db.session.execute(db.delete(Enquiry).where(Enquiry.enquiry_id == enquiry_id))
+    db.session.commit()
+
+    flash(f'🗑️ Enquiry #{enquiry_id} deleted successfully!', 'success')
+
+    return redirect(url_for('view_enquiries'))
+
+
 @app.route('/view-stock')
 def view_stock():
 
