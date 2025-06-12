@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const rowsPerPage = 10; // Number of rows to show per page
+    const rowsPerPage = 15; // Number of rows to show per page
     const allRows = document.querySelectorAll('.enquiry-row');
     let visibleRows = Array.from(allRows); // Tracks currently visible rows
     let pageCount = Math.ceil(visibleRows.length / rowsPerPage);
