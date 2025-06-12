@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Select all elements with the class 'read-more-btn' on the page
     document.querySelectorAll('.read-more-btn').forEach(button => {
-        
+
         // Add a click event listener to each button
         button.addEventListener('click', function () {
-            
+
             // Find the closest parent <td> element to the clicked button
             // This ensures we only affect the message in the current row
             const row = this.closest('td');
@@ -36,19 +36,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Pagination -----------------
-
-    // Pagination variables
     const rowsPerPage = 10; // Number of rows to show per page
-    const tableBody = document.getElementById('enquiriesTableBody');
-    const rows = document.querySelectorAll('.enquiry-row');
-    const pageCount = Math.ceil(rows.length / rowsPerPage);
+    const allRows = document.querySelectorAll('.enquiry-row');
+    let visibleRows = Array.from(allRows); // Tracks currently visible rows
+    let pageCount = Math.ceil(visibleRows.length / rowsPerPage);
     let currentPage = 1;
 
     // Pagination controls
     const prevPageBtn = document.getElementById('prevPage');
     const nextPageBtn = document.getElementById('nextPage');
-    const paginationList = document.querySelector('.pagination');
 
     // Search input
     const searchInput = document.getElementById('searchInput');
@@ -58,12 +54,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        rows.forEach((row, index) => {
-            if (index >= start && index < end) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+        // First hide all rows
+        allRows.forEach(row => row.style.display = 'none');
+
+        // Then show only the visible rows for current page
+        visibleRows.slice(start, end).forEach(row => {
+            row.style.display = '';
         });
 
         // Update pagination controls
@@ -72,6 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to update pagination controls
     function updatePaginationControls(page) {
+
+        // Recalculate page count based on visible rows
+        pageCount = Math.ceil(visibleRows.length / rowsPerPage);
+        currentPage = Math.min(page, pageCount) || 1;
+
         // Clear existing page numbers (except prev/next)
         const pageItems = document.querySelectorAll('.pagination .page-item:not(#prevPage):not(#nextPage)');
         pageItems.forEach(item => item.remove());
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add new page numbers
         for (let i = 1; i <= pageCount; i++) {
             const pageItem = document.createElement('li');
-            pageItem.className = 'page-item ' + (i === page ? 'active' : '');
+            pageItem.className = 'page-item ' + (i === currentPage ? 'active' : '');
 
             const pageLink = document.createElement('a');
             pageLink.className = 'page-link';
@@ -93,15 +94,33 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             pageItem.appendChild(pageLink);
-
-            // Insert before the next button
             nextPageBtn.parentNode.insertBefore(pageItem, nextPageBtn);
         }
 
         // Update prev/next button states
-        prevPageBtn.className = page === 1 ? 'page-item disabled' : 'page-item';
-        nextPageBtn.className = page === pageCount ? 'page-item disabled' : 'page-item';
+        prevPageBtn.className = currentPage === 1 ? 'page-item disabled' : 'page-item';
+        nextPageBtn.className = currentPage >= pageCount ? 'page-item disabled' : 'page-item';
     }
+
+    // Search functionality
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+
+        if (searchTerm === '') {
+            // If search is empty, show all rows
+            visibleRows = Array.from(allRows);
+        } else {
+            // Filter rows based on search term
+            visibleRows = Array.from(allRows).filter(row => {
+                return row.textContent.toLowerCase().includes(searchTerm);
+            });
+        }
+
+        // Reset to first page and update display
+        currentPage = 1;
+        updatePaginationControls(currentPage);
+        showPage(currentPage);
+    });
 
     // Event listeners for prev/next buttons
     prevPageBtn.addEventListener('click', function (e) {
@@ -118,24 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
             currentPage++;
             showPage(currentPage);
         }
-    });
-
-    // Search functionality
-    searchInput.addEventListener('input', function () {
-        const searchTerm = this.value.toLowerCase();
-
-        rows.forEach(row => {
-            const rowText = row.textContent.toLowerCase();
-            if (rowText.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-
-        // Reset pagination when searching
-        currentPage = 1;
-        updatePaginationControls(currentPage);
     });
 
     // Initialize the page
