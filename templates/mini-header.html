@@ -55,18 +55,6 @@
                                         <li><a class="dropdown-item" href="#">Scooters</a></li>
                                     </ul>
                                 </li>
-
-                            {% if not current_user.is_authenticated: %}
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                                </li>
-
-                            {% else: %}
-
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
                                     <ul class="dropdown-menu">
@@ -78,9 +66,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                                 </li>
-
-                            {% endif %}
-                            
                             </ul>
                         </div>
                     </div>
