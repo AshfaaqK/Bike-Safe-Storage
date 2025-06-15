@@ -145,7 +145,7 @@ a {
 }
 
 .enquiry-row:hover {
-    --bs-table-bg: rgba(255, 255, 255, 0.3);
+    --bs-table-bg: rgb(104, 118, 138);
 }
 
 table tbody tr:last-child {
@@ -168,9 +168,18 @@ table tbody tr:last-child {
     max-width: 500px;
 }
 
+.booking-message-text {
+    max-width: 375px;
+}
+
 .notes-text {
     max-width: 400px;
 }
+
+.booking-notes-text {
+    max-width: 250px;
+}
+
 
 .pagination {
     margin-bottom: 40px;

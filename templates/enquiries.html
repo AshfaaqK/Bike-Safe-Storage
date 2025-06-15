@@ -34,11 +34,11 @@
                     <th class="table-header-cols" scope="col">Last Name</th>
                     <th class="table-header-cols" scope="col">Email</th>
                     <th class="table-header-cols" scope="col">Phone</th>
-                    <th class="table-header-cols" scope="col">Message</th>
+                    <th class="table-header-cols" scope="col">Customer Message</th>
                     <th class="table-header-cols" scope="col">Dealer Notes</th>
                     <th class="table-header-cols" scope="col">Created on</th>
                     <th class="table-header-cols" scope="col">Status</th>
-                    <th class="table-header-cols" class="text-center" scope="colgroup" colspan="2">Action</th>
+                    <th class="table-header-cols text-center" scope="colgroup" colspan="2">Action</th>
                 </tr>
             </thead>
 
@@ -51,9 +51,9 @@
                         <td>{{ enquiry.email }}</td>
                         <td>{{ enquiry.phone[:6] }} {{ enquiry.phone[6:] }}</td>
                         <td class="message-text">
-                            {% if enquiry.message|length > 65 %}
+                            {% if enquiry.message|length > 58 %}
 
-                                <span class="message-preview">{{ enquiry.message[:65] }}<span class="dots">...</span></span>
+                                <span class="message-preview">{{ enquiry.message[:58] }}<span class="dots">...</span></span>
                                 <span class="message-full" style="display:none;">{{ enquiry.message }}</span>
                                 <button class="read-more-btn btn btn-link btn-sm">Read More</button>
 

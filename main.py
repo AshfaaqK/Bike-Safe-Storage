@@ -113,6 +113,16 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/delete-booking/<int:booking_id>')
+def delete_booking(booking_id):
+    db.session.execute(db.delete(Booking).where(Booking.booking_id == booking_id))
+    db.session.commit()
+
+    flash(f'🗑️ Enquiry #{booking_id} deleted successfully!', 'success')
+
+    return redirect(url_for('view_bookings'))
+
+
 @app.route('/delete-enquiry/<int:enquiry_id>')
 def delete_enquiry(enquiry_id):
     db.session.execute(db.delete(Enquiry).where(Enquiry.enquiry_id == enquiry_id))
@@ -131,8 +141,9 @@ def view_stock():
 
 @app.route('/view-bookings')
 def view_bookings():
+    bookings = db.session.execute(db.select(Booking).order_by(Booking.booking_id.desc())).scalars().all()
 
-    return render_template('bookings.html')
+    return render_template('bookings.html', bookings=bookings)
 
 
 @app.route('/view-enquiries')
@@ -163,7 +174,7 @@ def service_request():
         new_booking.date = dt_object.date()
         new_booking.time = dt_object.time()
         new_booking.created_at = datetime.now().strftime("%d-%m-%y %H:%M")
-        new_booking.status = 'New Request'
+        new_booking.status = 'New'
         new_booking.message = data.get('message')
 
         db.session.add(new_booking)
