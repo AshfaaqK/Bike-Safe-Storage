@@ -118,6 +118,27 @@ a {
     backdrop-filter: blur(10px);
 }
 
+.table-head {
+    --bs-table-bg: rgb(38, 89, 184);
+    height: 80px;
+}
+
+.table-header-cols {
+    position: relative;
+}
+
+.table-header-cols:not(:last-child):after {
+    content: '';
+    height: 80%;
+    width: 1px;
+
+    position: absolute;
+    right: 0;
+    top: 13%;
+
+    background-color: #fff;
+}
+
 .table-body {
     border: #577291;
     border-top: calc(var(--bs-border-width) * 3) solid #307ace;
