@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user ,login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.exc import SQLAlchemyError
 from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm
 from dotenv import load_dotenv
 import os
@@ -115,20 +116,32 @@ def home():
 
 @app.route('/delete-booking/<int:booking_id>')
 def delete_booking(booking_id):
-    db.session.execute(db.delete(Booking).where(Booking.booking_id == booking_id))
-    db.session.commit()
+    try:
+        booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()
+        db.session.delete(booking)
+        db.session.commit()
 
-    flash(f'🗑️ Enquiry #{booking_id} deleted successfully!', 'success')
+        flash(f'🗑️ Enquiry #{booking_id} deleted successfully!', 'success')
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash(f'❌ Failed to delete Booking #{booking_id}. Error: {str(e)}', 'danger')
 
     return redirect(url_for('view_bookings'))
 
 
 @app.route('/delete-enquiry/<int:enquiry_id>')
 def delete_enquiry(enquiry_id):
-    db.session.execute(db.delete(Enquiry).where(Enquiry.enquiry_id == enquiry_id))
-    db.session.commit()
+    try:
+        enquiry = db.session.execute(db.select(Enquiry).filter_by(enquiry_id=enquiry_id)).scalars().first()
+        db.session.delete(enquiry)
+        db.session.commit()
 
-    flash(f'🗑️ Enquiry #{enquiry_id} deleted successfully!', 'success')
+        flash(f'🗑️ Enquiry #{enquiry_id} deleted successfully!', 'success')
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash(f'❌ Failed to delete Enquiry #{enquiry_id}. Error: {str(e)}', 'danger')
 
     return redirect(url_for('view_enquiries'))
 
@@ -163,14 +176,16 @@ def service_request():
         date_time = data.get('date_time')
         dt_object = datetime.strptime(date_time, '%Y-%m-%dT%H:%M')
 
+        raw_phone = data.get('phone')
+
         new_booking = Booking()
 
         new_booking.booking_type = data.get('booking_type')
         new_booking.first_name = data.get('firstName')
         new_booking.last_name = data.get('lastName')
         new_booking.email = data.get('email')
-        new_booking.phone = data.get('phone')
-        new_booking.reg = data.get('reg')
+        new_booking.phone = raw_phone.replace(' ', '')
+        new_booking.reg = data.get('reg').upper()
         new_booking.date = dt_object.date()
         new_booking.time = dt_object.time()
         new_booking.created_at = datetime.now().strftime("%d-%m-%y %H:%M")
@@ -197,13 +212,15 @@ def make_enquiry():
     if form.validate_on_submit():
         data = request.form
 
+        raw_phone = data.get('phone')
+
         new_enquiry = Enquiry()
 
         new_enquiry.message = data.get('message')
         new_enquiry.first_name = data.get('firstName')
         new_enquiry.last_name = data.get('lastName')
         new_enquiry.email = data.get('email')
-        new_enquiry.phone = data.get('phone')
+        new_enquiry.phone = raw_phone.replace(' ', '')
         new_enquiry.created_at = datetime.now().strftime("%d-%m-%y %H:%M")
         new_enquiry.status = 'Lead'
 
