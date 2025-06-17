@@ -36,7 +36,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const rowsPerPage = 15; // Number of rows to show per page
+    // Rows per page dropdown element
+    const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
+    // Results info text element
+    const resultsInfo = document.getElementById('resultsInfo');
+    // First/last page buttons
+    const firstPageBtn = document.getElementById('firstPage');
+    const lastPageBtn = document.getElementById('lastPage');
+
+    let rowsPerPage = 10; // Number of rows to show per page
     const allRows = document.querySelectorAll('.enquiry-row');
     let visibleRows = Array.from(allRows); // Tracks currently visible rows
     let pageCount = Math.ceil(visibleRows.length / rowsPerPage);
@@ -62,8 +70,17 @@ document.addEventListener('DOMContentLoaded', function () {
             row.style.display = '';
         });
 
+        // Update Results Info
+        updateResultsInfo(start, end);
+
         // Update pagination controls
         updatePaginationControls(page);
+    }
+
+    // Function to update results info
+    function updateResultsInfo(start, end) {
+        // Show the parts of enquiries that are shown on the page
+        resultsInfo.textContent = `Showing ${start + 1} - ${end} of ${visibleRows.length} results`;
     }
 
     // Function to update pagination controls
@@ -74,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         currentPage = Math.min(page, pageCount) || 1;
 
         // Clear existing page numbers (except prev/next)
-        const pageItems = document.querySelectorAll('.pagination .page-item:not(#prevPage):not(#nextPage)');
+        const pageItems = document.querySelectorAll('.pagination .page-item:not(#prevPage):not(#nextPage):not(#firstPage):not(#lastPage)');
         pageItems.forEach(item => item.remove());
 
         // Add new page numbers
@@ -97,10 +114,40 @@ document.addEventListener('DOMContentLoaded', function () {
             nextPageBtn.parentNode.insertBefore(pageItem, nextPageBtn);
         }
 
-        // Update prev/next button states
-        prevPageBtn.className = currentPage === 1 ? 'page-item disabled' : 'page-item';
-        nextPageBtn.className = currentPage >= pageCount ? 'page-item disabled' : 'page-item';
+        // Update Pagination Buttons
+        firstPageBtn.classList.toggle('disabled', currentPage === 1);
+        prevPageBtn.classList.toggle('disabled', currentPage === 1);
+        nextPageBtn.classList.toggle('disabled', currentPage >= pageCount);
+        lastPageBtn.classList.toggle('disabled', currentPage >= pageCount);
     }
+
+    // Event listener to change amount of rows per page
+    rowsPerPageSelect.addEventListener('change', function() {
+        rowsPerPage = parseInt(this.value);
+        currentPage = 1;
+        updatePaginationControls(currentPage);
+        showPage(currentPage);
+    });
+
+    // Event listener for first/last page buttons
+    firstPageBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage = 1;
+            showPage(currentPage);
+            updatePaginationControls(currentPage);
+        }
+    });
+
+    lastPageBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const lastPage = Math.ceil(visibleRows.length / rowsPerPage);
+        if (currentPage < lastPage) {
+            currentPage = lastPage;
+            showPage(currentPage);
+            updatePaginationControls(currentPage);
+        }
+    });
 
     // Search functionality
     searchInput.addEventListener('input', function () {
