@@ -85,17 +85,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to update pagination controls
     function updatePaginationControls(page) {
-
         // Recalculate page count based on visible rows
         pageCount = Math.ceil(visibleRows.length / rowsPerPage);
         currentPage = Math.min(page, pageCount) || 1;
 
-        // Clear existing page numbers (except prev/next)
+        // Clear existing page numbers (except prev/next/first/last)
         const pageItems = document.querySelectorAll('.pagination .page-item:not(#prevPage):not(#nextPage):not(#firstPage):not(#lastPage)');
         pageItems.forEach(item => item.remove());
 
+        // Limit page numbers to 5
+        let maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = startPage + maxVisiblePages - 1;
+
+        // Adjust if endPage exceeds total pages
+        if (endPage > pageCount) {
+            endPage = pageCount;
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
         // Add new page numbers
-        for (let i = 1; i <= pageCount; i++) {
+        for (let i = startPage; i <= endPage; i++) {
             const pageItem = document.createElement('li');
             pageItem.className = 'page-item ' + (i === currentPage ? 'active' : '');
 
