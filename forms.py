@@ -4,6 +4,10 @@ from wtforms.validators import InputRequired, Email
 
 SERVICES = [("Storage", "Storage"), ("Detailing", "Detailing"), ("Service", "Service"), ("Repairs", "Repairs"), ("Transport", "Transport"), ("Other", "Other")]
 
+class RegistrationLookUpForm(FlaskForm):
+    registration = StringField('Vehicle Registration', validators=[InputRequired("Please enter a registration.")])
+
+
 class MakeServiceRequestForm(FlaskForm):
     booking_type = SelectField("Select Your Desired Service", choices=SERVICES)
     message = TextAreaField("Leave a message for us (Optional):")

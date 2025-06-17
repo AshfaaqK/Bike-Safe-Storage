@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user ,login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import SQLAlchemyError
-from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm
+from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm, RegistrationLookUpForm
 from dotenv import load_dotenv
+import requests
 import os
 
 load_dotenv()
@@ -47,7 +48,7 @@ class Vehicle(db.Model):
     reg = db.Column(db.String(100), nullable=False)
     mileage = db.Column(db.Integer, nullable=False)
     trans = db.Column(db.String(100), nullable=False)
-    url = db.Column(db.String(255), nullable=False)
+    url = db.Column(db.String(255), nullable=True)
 
     category = db.Column(db.String(100), nullable=True)
     engine_cc = db.Column(db.Integer, nullable=True)
@@ -56,6 +57,7 @@ class Vehicle(db.Model):
     first_reg = db.Column(db.Date, nullable=True)
     created = db.Column(db.String(100), nullable=True)
     euro = db.Column(db.String(100), nullable=True)
+    realDE = db.Column(db.Integer, nullable=True)
 
 
 class Enquiry(db.Model):
@@ -114,6 +116,30 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/api/vehicle-lookup', methods=['POST'])
+def vehicle_lookup():
+    registration = request.json.get('registration')
+
+    dvla_url = 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
+
+    headers = {
+        'x-api-key': os.getenv('DVLA_API_KEY'),
+        'Content-Type': 'application/json'
+    }
+
+    data = {'registrationNumber': registration}
+
+    try:
+        response = requests.post(dvla_url, headers=headers, json=data)
+        print(response.json(), response.status_code)
+
+        return jsonify(response.json()), response.status_code
+    
+    except Exception as e:
+
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/delete-booking/<int:booking_id>')
 def delete_booking(booking_id):
     try:
@@ -148,8 +174,9 @@ def delete_enquiry(enquiry_id):
 
 @app.route('/view-stock')
 def view_stock():
+    form = RegistrationLookUpForm()
 
-    return render_template('inventory.html')
+    return render_template('inventory.html', form=form)
 
 
 @app.route('/view-bookings')

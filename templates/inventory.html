@@ -1,7 +1,30 @@
 {% include "header.html" %}
 
 <section class="admin-panel" id="inventory">
+    <div class="d-flex justify-content-center">
+        <div class="container input-registration-form enquiry-form">
 
+            <form id="registrationForm">
+                {{ form.csrf_token }}
+                
+                <div class="row mb-3">
+                    {{ form.registration.label(class_ = 'enquiry-labels reg-label') }}
+
+                    <div class="col-sm-8 enquiry-fields">
+                        {{ form.registration(id="registrationInput", class_ = 'form-control-lg enquiry-input reg-input', placeholder='AB25 CDE') }}
+                    </div>
+
+                    <div class="col-sm-4 mb-3 d-flex justify-content-center enquiry-fields">
+                        <button class="btn btn-outline-success" type="submit">Lookup Vehicle</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div id="vehicleDetails" style="color: #fff;"></div>
 </section>
 
 {% include "footer.html" %}

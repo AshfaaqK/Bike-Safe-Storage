@@ -156,6 +156,20 @@ table tbody tr:last-child {
     border: none;
 }
 
+/* Inventory */
+
+.input-registration-form {
+    max-width: 500px !important;
+}
+
+.reg-label {
+    font-size: large;
+}
+
+.reg-input {
+    width: 100%;
+}
+
 /* View Enquiries */
 
 .read-more-btn {
