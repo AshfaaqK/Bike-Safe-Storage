@@ -57,7 +57,7 @@ class Vehicle(db.Model):
     first_reg = db.Column(db.Date, nullable=True)
     created = db.Column(db.String(100), nullable=True)
     euro = db.Column(db.String(100), nullable=True)
-    realDE = db.Column(db.Integer, nullable=True)
+    co2_em = db.Column(db.Integer, nullable=True)
 
 
 class Enquiry(db.Model):
@@ -118,20 +118,20 @@ def home():
 
 @app.route('/api/vehicle-lookup', methods=['POST'])
 def vehicle_lookup():
-    registration = request.json.get('registration')
+    registration = request.json.get('registrationNumber')
 
+    test_dvla_url = 'https://uat.driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
     dvla_url = 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
 
     headers = {
-        'x-api-key': os.getenv('DVLA_API_KEY'),
+        'x-api-key': os.getenv('TEST_DVLA_API_KEY'),
         'Content-Type': 'application/json'
     }
 
-    data = {'registrationNumber': registration}
+    payload = {'registrationNumber': registration}
 
     try:
-        response = requests.post(dvla_url, headers=headers, json=data)
-        print(response.json(), response.status_code)
+        response = requests.request('POST', test_dvla_url, headers=headers, json=payload)
 
         return jsonify(response.json()), response.status_code
     

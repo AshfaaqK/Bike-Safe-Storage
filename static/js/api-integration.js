@@ -10,11 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ registration: registration })
+            body: JSON.stringify({ registrationNumber: registration })
         })
             .then(response => response.json())
             .then(data => {
-                // Display raw JSON with syntax highlighting
                 vehicleDetails.innerHTML = `
                     <h3>API Response (JSON)</h3>
                     <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
