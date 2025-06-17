@@ -195,7 +195,7 @@ table tbody tr:last-child {
 }
 
 .disabled .page-link {
-    background-color: #00000077;
+    background-color: #e2e2e277;
     color: #fff;
 }
 
