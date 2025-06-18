@@ -170,6 +170,15 @@ table tbody tr:last-child {
     width: 100%;
 }
 
+.vehicle-details-preview {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+ .vehicle-details-text {
+    color: #a4d100;
+ }
+
 /* View Enquiries */
 
 .read-more-btn {

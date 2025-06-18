@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
     document.getElementById("registrationLookupForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const reg = document.getElementById("registrationInput").value;
@@ -23,28 +22,51 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error(errorData.message || "Too many requests. Please wait and try again.");
                 }
 
+                // Show api errors
                 document.getElementById("apiErrorMessage").textContent = errorMessages;
                 document.getElementById("apiError").style.display = "block";
+                document.getElementById("vehicleResultsPreview").style.display = "none";
                 document.getElementById("addVehicleForm").style.display = "none";
             } else {
-                document.getElementById("vehicleMake").value = data.make || "";
-                document.getElementById("vehicleReg").value = data.registrationNumber || "";
-                document.getElementById("vehicleFuel").value = data.fuelType || "";
-                document.getElementById("vehicleColour").value = data.colour || "";
-                document.getElementById("vehicleEngineSize").value = data.engineCapacity || "";
-                document.getElementById("vehicleFirstReg").value = data.monthOfFirstRegistration || "";
-                document.getElementById("vehicleCreated").value = data.yearOfManufacture || "";
-                document.getElementById("vehicleEuro").value = data.euroStatus || "";
-                document.getElementById("vehicleCO2").value = data.co2Emissions || "";
+                // Show preview with the data
+                document.getElementById("previewMake").textContent = data.make || "";
+                document.getElementById("previewReg").textContent = data.registrationNumber || "";
+                document.getElementById("previewFuel").textContent = data.fuelType || "";
+                document.getElementById("previewColour").textContent = data.colour || "";
+                document.getElementById("previewEngineSize").textContent = data.engineCapacity || "";
+                document.getElementById("previewFirstReg").textContent = data.monthOfFirstRegistration || "";
+                document.getElementById("previewCreated").textContent = data.yearOfManufacture || "";
+                document.getElementById("previewEuro").textContent = data.euroStatus || "";
+                document.getElementById("previewCO2").textContent = data.co2Emissions || "";
 
-                document.getElementById("addVehicleForm").style.display = "block";
+                document.getElementById("vehicleResultsPreview").style.display = "block";
                 document.getElementById("apiError").style.display = "none";
+                document.getElementById("addVehicleForm").style.display = "none";
             }
         } catch (error) {
+            // Show other errors
             document.getElementById("apiErrorMessage").textContent = error;
             document.getElementById("apiError").style.display = "block";
+            document.getElementById("vehicleResultsPreview").style.display = "none";
             document.getElementById("addVehicleForm").style.display = "none";
         }
     });
 
+    // Add event listener for the confirm button
+    document.getElementById("confirmDetailsBtn").addEventListener("click", function() {
+        // Transfer data from preview to form
+        document.getElementById("vehicleMake").value = document.getElementById("previewMake").textContent;
+        document.getElementById("vehicleReg").value = document.getElementById("previewReg").textContent;
+        document.getElementById("vehicleFuel").value = document.getElementById("previewFuel").textContent;
+        document.getElementById("vehicleColour").value = document.getElementById("previewColour").textContent;
+        document.getElementById("vehicleEngineSize").value = document.getElementById("previewEngineSize").textContent;
+        document.getElementById("vehicleFirstReg").value = document.getElementById("previewFirstReg").textContent;
+        document.getElementById("vehicleCreated").value = document.getElementById("previewCreated").textContent;
+        document.getElementById("vehicleEuro").value = document.getElementById("previewEuro").textContent;
+        document.getElementById("vehicleCO2").value = document.getElementById("previewCO2").textContent;
+
+        // Show form and hide preview
+        document.getElementById("addVehicleForm").style.display = "block";
+        document.getElementById("vehicleResultsPreview").style.display = "none";
+    });
 });

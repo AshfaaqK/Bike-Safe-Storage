@@ -110,11 +110,6 @@ def load_user(user_id):
     return db.session.get(User, int(user_id))
 
 
-@app.route('/test_auth')
-def test_auth():
-    return f"Auth status: {current_user.is_authenticated}"
-
-
 @app.route('/')
 def home():
 
