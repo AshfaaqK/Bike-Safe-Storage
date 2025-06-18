@@ -25,8 +25,7 @@ app.config['RECAPTCHA_DATA_ATTRS'] = {'theme': 'dark'}
 db = SQLAlchemy(app)
 
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app)
 
 
 class User(UserMixin, db.Model):
@@ -109,6 +108,11 @@ with app.app_context():
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
+
+
+@app.route('/test_auth')
+def test_auth():
+    return f"Auth status: {current_user.is_authenticated}"
 
 
 @app.route('/')
@@ -269,10 +273,15 @@ def make_enquiry():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    if db.session.execute(db.select(User)).scalars().first():
-            flash("Forbidden Access. Log in instead.", 'danger')
+    if current_user.is_authenticated:
+        flash("❌ You are already logged in.", 'danger')
 
-            return redirect(url_for('login'))
+        return redirect(url_for('home'))
+        
+    elif db.session.execute(db.select(User)).scalars().first():    
+        flash("🛑 Forbidden Access. Log in instead.", 'danger')
+
+        return redirect(url_for('login'))
 
     form = RegisterForm()
 
@@ -280,8 +289,7 @@ def register():
         email = request.form.get('email')
 
         if db.session.execute(db.select(User).filter_by(email=email)).scalars().first():
-            # User already exists
-            flash("You've already signed up with that email, log in instead!", 'warning')
+            flash("❌ You've already signed up with that email, log in instead!", 'warning')
 
             return redirect(url_for('login'))
         
@@ -301,7 +309,7 @@ def register():
 
         login_user(new_user)
 
-        flash("You have successfully created an account!", 'success')
+        flash("✅ You have successfully created an account!", 'success')
 
         return redirect(url_for('home'))
 
@@ -319,16 +327,16 @@ def login():
         user = db.session.execute(db.select(User).filter_by(email=email)).scalars().first()
 
         if not user:
-            flash("That email does not exist.", 'danger')
+            flash("🔒 Login failed - please try again", 'danger')
             return redirect(url_for('login'))
 
         elif not check_password_hash(user.password, password):
-            flash("Email or password is incorrect.", 'danger')
+            flash("🔒 Login failed - please try again", 'danger')
             return redirect(url_for('login'))
 
         else:
             login_user(user)
-            flash("Successfully logged in.", 'success')
+            flash("✅ Successfully logged in.", 'success')
 
             return redirect(url_for('home'))
 
@@ -338,6 +346,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash("✅ Successfully logged out.", 'success')
 
     return redirect(url_for('home'))
 
