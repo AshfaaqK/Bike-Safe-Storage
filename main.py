@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user ,login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import SQLAlchemyError
-from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm, RegistrationLookUpForm
+from forms import RegisterForm, LoginForm, MakeEnquiryForm, MakeServiceRequestForm, RegistrationLookUpForm, AddVehicleForm
 from dotenv import load_dotenv
 import requests
 import os
@@ -58,6 +58,7 @@ class Vehicle(db.Model):
     created = db.Column(db.String(100), nullable=True)
     euro = db.Column(db.String(100), nullable=True)
     co2_em = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.String(30), nullable=False)
 
 
 class Enquiry(db.Model):
@@ -174,9 +175,10 @@ def delete_enquiry(enquiry_id):
 
 @app.route('/view-stock')
 def view_stock():
-    form = RegistrationLookUpForm()
+    lookup_form = RegistrationLookUpForm()
+    form = AddVehicleForm()
 
-    return render_template('inventory.html', form=form)
+    return render_template('inventory.html', lookup_form=lookup_form, form=form)
 
 
 @app.route('/view-bookings')

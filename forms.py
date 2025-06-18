@@ -1,8 +1,33 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField
+from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField, IntegerField, DateField
 from wtforms.validators import InputRequired, Email
 
+VEHICLE_TYPE = [("Motorcycle", "Motorcycle"), ("Scooter", "Scooter")]
+TRANSMISSION = [("Manual", "Manual"), ("Automatic", "Automatic")]
+CATEGORY = [("None", "None"), ("N", "Category N"), ("S", "Category S")]
+FUEL_TYPE = [("Petrol", "PETROL"), ("Diesel", "DIESEL"), ("Electric", "ELECTRICITY")]
+STATUS = [("Sale", "For Sale"), ("Due In", "Due In"), ("Sold", "Sold")]
 SERVICES = [("Storage", "Storage"), ("Detailing", "Detailing"), ("Service", "Service"), ("Repairs", "Repairs"), ("Transport", "Transport"), ("Other", "Other")]
+
+class AddVehicleForm(FlaskForm):
+    vehicle_type = SelectField("Vehicle Type", choices=VEHICLE_TYPE)
+    make = StringField("Make", validators=[InputRequired("Please enter the make.")])
+    model = StringField("Model", validators=[InputRequired("Please enter the model.")])
+    reg = StringField("Registration", validators=[InputRequired("Please enter the registration.")])
+    mileage = IntegerField("Mileage", validators=[InputRequired("Please enter the mileage.")])
+    transmission = SelectField("Transmission", choices=TRANSMISSION)
+    category = SelectField("Category", choices=CATEGORY)
+    engine_size = IntegerField("Engine Size")
+    colour = StringField("Colour", validators=[InputRequired("Please enter the colour.")])
+    fuel_type = SelectField("Fuel Type", choices=FUEL_TYPE)
+    first_reg = DateField("First Reg Date")
+    created = IntegerField("Year of Manufacture")
+    euro = StringField("Euro Status")
+    co2_em = IntegerField("CO2 Emissions")
+    status = SelectField("Vehicle Status", choices=STATUS)
+
+    submit = SubmitField("Add Vehicle")
+
 
 class RegistrationLookUpForm(FlaskForm):
     registration = StringField('Vehicle Registration', validators=[InputRequired("Please enter a registration.")])

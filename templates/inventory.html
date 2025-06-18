@@ -4,14 +4,14 @@
     <div class="d-flex justify-content-center">
         <div class="container input-registration-form enquiry-form">
 
-            <form id="registrationForm">
-                {{ form.csrf_token }}
+            <form id="registrationLookupForm">
+                {{ lookup_form.csrf_token }}
                 
                 <div class="row mb-3">
-                    {{ form.registration.label(class_ = 'enquiry-labels reg-label') }}
+                    {{ lookup_form.registration.label(class_ = 'enquiry-labels reg-label') }}
 
                     <div class="col-sm-8 enquiry-fields">
-                        {{ form.registration(id='registrationInput', class_ = 'form-control-lg enquiry-input reg-input', placeholder='AB25 CDE') }}
+                        {{ lookup_form.registration(id='registrationInput', class_ = 'form-control-lg enquiry-input reg-input', placeholder='Enter registration') }}
                     </div>
 
                     <div class="col-sm-4 mb-3 d-flex justify-content-center enquiry-fields">
@@ -21,6 +21,94 @@
 
             </form>
 
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div id="apiError" class="container enquiry-form" style="display: none;">
+            <p id="apiErrorMessage" class="text-center"></p>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div id="addVehicleForm" class="container enquiry-form" style="display: none;">
+            <h1 class="text-center">Create Vehicle Stock</h1>
+
+            <hr>
+
+            <form method="POST" action="{{ url_for('view_stock') }}">
+                {{ form.csrf_token }}
+
+                <div class="row mb-3">
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.vehicle_type.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.vehicle_type(id='vehicleType', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.make.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.make(id='vehicleMake', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.model.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.model(id='vehicleModel', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.reg.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.reg(id='vehicleReg', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.mileage.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.mileage(id='vehicleMileage', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.transmission.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.transmission(id='vehicleTrans', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.category.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.category(id='vehicleCategory', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.fuel_type.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.fuel_type(id='vehicleFuel', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.colour.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.colour(id='vehicleColour', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.engine_size.label(class_ = 'enquiry-labels') }}
+                        {{ form.engine_size(id='vehicleEngineSize', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.first_reg.label(class_ = 'enquiry-labels') }}
+                        {{ form.first_reg(id='vehicleFirstReg', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.created.label(class_ = 'enquiry-labels') }}
+                        {{ form.created(id='vehicleCreated', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.euro.label(class_ = 'enquiry-labels') }}
+                        {{ form.euro(id='vehicleEuro', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.co2_em.label(class_ = 'enquiry-labels') }}
+                        {{ form.co2_em(id='vehicleCO2', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
+                        {{ form.status.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
+                        {{ form.status(id='vehicleStatus', class_ = 'form-control enquiry-input') }}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="mb-3 enquiry-fields">
+                        {{ form.submit(class_ = 'btn btn-outline-success') }}
+                    </div>
+                </div>
+
+            </form>
         </div>
     </div>
 
