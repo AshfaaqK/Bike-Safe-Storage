@@ -54,7 +54,7 @@ class Vehicle(db.Model):
     engine_cc = db.Column(db.Integer, nullable=True)
     colour = db.Column(db.String(100), nullable=True)
     fuel_type = db.Column(db.String(100), nullable=True)
-    first_reg = db.Column(db.Date, nullable=True)
+    first_reg = db.Column(db.String(20), nullable=True)
     created = db.Column(db.String(100), nullable=True)
     euro = db.Column(db.String(100), nullable=True)
     co2_em = db.Column(db.Integer, nullable=True)

@@ -5,7 +5,7 @@ from wtforms.validators import InputRequired, Email
 VEHICLE_TYPE = [("Motorcycle", "Motorcycle"), ("Scooter", "Scooter")]
 TRANSMISSION = [("Manual", "Manual"), ("Automatic", "Automatic")]
 CATEGORY = [("None", "None"), ("N", "Category N"), ("S", "Category S")]
-FUEL_TYPE = [("Petrol", "PETROL"), ("Diesel", "DIESEL"), ("Electric", "ELECTRICITY")]
+FUEL_TYPE = [("PETROL", "Petrol"), ("DIESEL", "Diesel"), ("ELECTRICITY", "Electric")]
 STATUS = [("Sale", "For Sale"), ("Due In", "Due In"), ("Sold", "Sold")]
 SERVICES = [("Storage", "Storage"), ("Detailing", "Detailing"), ("Service", "Service"), ("Repairs", "Repairs"), ("Transport", "Transport"), ("Other", "Other")]
 
@@ -20,7 +20,7 @@ class AddVehicleForm(FlaskForm):
     engine_size = IntegerField("Engine Size")
     colour = StringField("Colour", validators=[InputRequired("Please enter the colour.")])
     fuel_type = SelectField("Fuel Type", choices=FUEL_TYPE)
-    first_reg = DateField("First Reg Date")
+    first_reg = StringField("First Reg Date")
     created = IntegerField("Year of Manufacture")
     euro = StringField("Euro Status")
     co2_em = IntegerField("CO2 Emissions")
