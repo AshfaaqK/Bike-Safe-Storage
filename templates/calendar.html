@@ -1,0 +1,87 @@
+{% include "mini-header.html" %}
+
+<section class="admin-panel d-flex" id="bookings-calendar">
+    <div class="container-fluid">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-center">
+            <h1 class="table-title">Service Booking Calendar</h1>
+        </div>
+
+        <div class="row mb-2 align-items-end">
+            <h5 class="col enquiry-parameter-text ms-2 mb-0">
+                Total Bookings - {{ bookings | length }}
+            </h5>
+            
+            <div class="col d-flex justify-content-end">
+                <div class="btn-group">
+                    <a href="{{ url_for('view_bookings') }}" class="btn btn-outline-light">
+                        <i class="bi bi-table"></i> Table View
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-dark bg-opacity-75 text-white mb-5">
+            <div class="card-body p-0">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <span class="badge" id="modalStatusBadge"></span>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Customer:</strong> <span id="modalCustomer"></span></p>
+                        <p><strong>Phone:</strong> <span id="modalPhone"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Vehicle:</strong> <span id="modalVehicle"></span></p>
+                        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    </div>
+                </div>
+                <p><strong>Time:</strong> <span id="modalTime"></span></p>
+                <p><strong>Message:</strong></p>
+                <div id="modalMessage" class="mb-3 p-2 bg-secondary bg-opacity-25 rounded"></div>
+                <div class="mb-3">
+                    <label for="statusSelect" class="form-label">Update Status:</label>
+                    <select class="form-select bg-dark text-white" id="statusSelect">
+                        <option value="New">New</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="adminNotes" class="form-label">Admin Notes:</label>
+                    <textarea class="form-control bg-dark text-white" id="adminNotes" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %}

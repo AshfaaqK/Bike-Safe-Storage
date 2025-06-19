@@ -97,6 +97,83 @@ a {
     min-width: auto;
 }
 
+/* Calendar */
+
+#calendar {
+    --fc-border-color: #495057;
+    --fc-today-bg-color: rgba(63, 81, 181, 0.15);
+    --fc-neutral-bg-color: transparent;
+    --fc-page-bg-color: rgba(0, 0, 0, 0.5);
+    --fc-event-border-color: transparent;
+}
+
+.fc .fc-timegrid-slot {
+    height: 2.2em !important;
+}
+
+.fc-timegrid-event-harness {
+    width: 102%;
+}
+
+.fc-event {
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.85rem;
+}
+
+.fc-event-new {
+    background-color: #0dcaf0;
+}
+
+.fc-event-confirmed {
+    background-color: #198754;
+}
+
+.fc-event-completed {
+    background-color: #0d6efd;
+}
+
+.fc-event-cancelled {
+    background-color: #dc3545;
+    opacity: 0.7;
+}
+
+.fc-event-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fc-daygrid-event-dot {
+    display: none;
+}
+
+/* Modal Styles */
+
+#bookingModal .modal-content {
+    border: 1px solid #495057;
+}
+
+#bookingModal .modal-header {
+    border-bottom: 1px solid #495057;
+}
+
+#bookingModal .modal-footer {
+    border-top: 1px solid #495057;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+    .fc-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .fc-toolbar-title {
+        font-size: 1.2rem;
+    }
+}
+
 /* Admin Panel */
 
 .admin-panel {

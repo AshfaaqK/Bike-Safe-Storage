@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_login import UserMixin, LoginManager, login_user, current_user, logout_user ,login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import SQLAlchemyError
@@ -114,6 +114,62 @@ def load_user(user_id):
 def home():
 
     return render_template('index.html')
+
+
+@app.route('/calendar')
+def view_calendar():
+    bookings = db.session.execute(db.select(Booking).order_by(Booking.booking_id.desc())).scalars().all()
+
+    return render_template('calendar.html', bookings=bookings)
+
+
+@app.route('/api/bookings/calendar')
+def get_calendar_bookings():
+    bookings = db.session.execute(db.select(Booking).order_by(Booking.date, Booking.time)).scalars().all()
+    
+    events = []
+    for booking in bookings:
+        start_datetime = datetime.combine(booking.date, booking.time)
+        end_datetime = start_datetime + timedelta(hours=1)  # Default 1 hour duration
+        
+        events.append({
+            'id': booking.booking_id,
+            'title': f"{booking.booking_type} - {booking.reg}",
+            'start': start_datetime.isoformat(),
+            'end': end_datetime.isoformat(),
+            'className': f'fc-event-{booking.status.lower()}',
+            'extendedProps': {
+                'customer': f"{booking.first_name} {booking.last_name}",
+                'phone': booking.phone,
+                'email': booking.email,
+                'vehicle': booking.reg,
+                'message': booking.message,
+                'notes': booking.notes,
+                'status': booking.status
+            }
+        })
+    
+    return jsonify(events)
+
+
+@app.route('/api/bookings/<int:booking_id>', methods=['PATCH'])
+def update_booking(booking_id):
+    try:
+        data = request.json
+        booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()
+        
+        if booking:
+            booking.status = data.get('status', booking.status)
+            booking.notes = data.get('notes', booking.notes)
+            db.session.commit()
+            
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Booking not found'}), 404
+            
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 @app.route('/api/vehicle-lookup', methods=['POST'])
