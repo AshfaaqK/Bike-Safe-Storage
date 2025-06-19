@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("registrationLookupForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        document.getElementById("loadingSpinner").style.display = "block";
         const reg = document.getElementById("registrationInput").value;
 
         try {
@@ -19,11 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (response.status === 429) {
                     const errorData = await response.json();
+                    document.getElementById("loadingSpinner").style.display = "none";
                     throw new Error(errorData.message || "Too many requests. Please wait and try again.");
                 }
 
                 // Show api errors
                 document.getElementById("apiErrorMessage").textContent = errorMessages;
+                document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("apiError").style.display = "block";
                 document.getElementById("vehicleResultsPreview").style.display = "none";
                 document.getElementById("addVehicleForm").style.display = "none";
@@ -39,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("previewEuro").textContent = data.euroStatus || "";
                 document.getElementById("previewCO2").textContent = data.co2Emissions || "";
 
+                document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("vehicleResultsPreview").style.display = "block";
                 document.getElementById("apiError").style.display = "none";
                 document.getElementById("addVehicleForm").style.display = "none";
@@ -46,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             // Show other errors
             document.getElementById("apiErrorMessage").textContent = error;
+            document.getElementById("loadingSpinner").style.display = "none";
             document.getElementById("apiError").style.display = "block";
             document.getElementById("vehicleResultsPreview").style.display = "none";
             document.getElementById("addVehicleForm").style.display = "none";
@@ -54,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add event listener for the confirm button
     document.getElementById("confirmDetailsBtn").addEventListener("click", function() {
+        document.getElementById("loadingSpinner").style.display = "block";
         // Transfer data from preview to form
         document.getElementById("vehicleMake").value = document.getElementById("previewMake").textContent;
         document.getElementById("vehicleReg").value = document.getElementById("previewReg").textContent;
@@ -66,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("vehicleCO2").value = document.getElementById("previewCO2").textContent;
 
         // Show form and hide preview
+        document.getElementById("loadingSpinner").style.display = "none";
         document.getElementById("addVehicleForm").style.display = "block";
         document.getElementById("vehicleResultsPreview").style.display = "none";
     });
