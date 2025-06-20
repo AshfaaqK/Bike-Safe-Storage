@@ -25,7 +25,7 @@
 
                     <hr>
 
-                    <form method="POST" action="{{ url_for('register') }}">
+                    <form method="POST" action="{{ url_for('auth.register') }}">
                         {{ form.csrf_token }}
 
                         <div class="mb-3">
@@ -46,7 +46,7 @@
                     <hr>
 
                     <div class="text-center">
-                        <a href="{{ url_for('login') }}">Already have an account? Login here.</a>
+                        <a href="{{ url_for('auth.login') }}">Already have an account? Login here.</a>
                     </div>
                 </div>
             </div>

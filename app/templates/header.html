@@ -7,8 +7,6 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet'>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="../static/images/favicon/apple-touch-icon.png">
@@ -17,13 +15,26 @@
     <link rel="manifest" href="../static/images/favicon/site.webmanifest">
 </head>
 <body>
-    <div class="navbar-bg mini-navbar-bg">
+    <div class="navbar-bg">
         <div class="container-l">
             <nav class="navbar navbar-expand-lg rounded" aria-label="navbar start">
-                <div class="container">
-                    <a class="navbar-brand col me-0" href="{{ url_for('home') }}">
-                        <img class="bss-logo-main mini-header-logo" src="./static/images/bss-logo.png" alt="BSS">
-                    </a>
+                <div class="container-fluid justify-content-evenly">
+                    <div class="navbar-brand col me-0">
+                        <a class="navbar-brand col me-0" href="{{ url_for('views.home') }}">
+                            <img class="bss-logo-main" src="./static/images/bss-logo.png" alt="BSS">
+                        </a>
+
+                        <span class="contact-info">
+                            BSS Engineering & Consultancy LTD.
+                            <br>Unit 4
+                            <br>15-17 Roebuck Road Hainault
+                            <br>London, IG6 3TU
+                            <br>
+                            <br>e: office@bikesafestorage.co.uk
+                            <br>DL: 0787 650 2001
+                            <br>DL: 0785 738 5916
+                        </span>
+                    </div>
                     
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -46,8 +57,8 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Enquire</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ url_for('make_enquiry') }}">Make an Enquiry</a></li>
-                                        <li><a class="dropdown-item" href="{{ url_for('service_request') }}">Service Booking</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('enquiries.make_enquiry') }}">Make an Enquiry</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('bookings.service_request') }}">Service Booking</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -57,21 +68,56 @@
                                         <li><a class="dropdown-item" href="#">Scooters</a></li>
                                     </ul>
                                 </li>
+
+                            {% if not current_user.is_authenticated: %}
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Contact Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('auth.login') }}"><i class="fa-solid fa-user"></i> Login</a>
+                                </li>
+
+                            {% else: %}
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ url_for('view_enquiries') }}">Enquiries</a></li>
-                                        <li><a class="dropdown-item" href="{{ url_for('view_bookings') }}">Bookings</a></li>
-                                        <li><a class="dropdown-item" href="{{ url_for('view_stock') }}">Inventory</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('enquiries.view_enquiries') }}">Enquiries</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('bookings.view_bookings') }}">Bookings</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('views.view_stock') }}">Inventory</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('logout') }}"><i class="fa-sharp fa-solid fa-arrow-right-to-bracket fa-rotate-180"></i> Logout</a>
+                                    <a class="nav-link" href="{{ url_for('auth.logout') }}"><i class="fa-sharp fa-solid fa-arrow-right-to-bracket fa-rotate-180"></i> Logout</a>
                                 </li>
+
+                            {% endif %}
+                            
                             </ul>
                         </div>
                     </div>
                 </div>
             </nav>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="icon-links">
+                <a href="https://www.facebook.com/people/BSS-Motorcycles/61561302381753">
+                    <i class="fa-brands fa-facebook fa-3x social-link"></i>
+                </a>
+                <a href="https://www.instagram.com/bss_motorcycles">
+                    <i class="fa-brands fa-instagram fa-3x social-link"></i>
+                </a>
+                <a href="https://www.tiktok.com/@bssmotorcycles">
+                    <i class="fa-brands fa-tiktok fa-3x social-link"></i>
+                </a>
+                <a href="mailto:office@bikesafestorage.co.uk">
+                    <i class="fa-solid fa-envelope fa-3x social-link"></i>
+                </a>
+                <a href="tel:07876502001">
+                    <i class="fa-solid fa-phone fa-3x social-link"></i>
+                </a>
+            </div>
         </div>
     </div>

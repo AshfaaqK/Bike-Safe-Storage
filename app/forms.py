@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField, IntegerField, DateField
+from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField, IntegerField
 from wtforms.validators import InputRequired, Email
 
 VEHICLE_TYPE = [("Motorcycle", "Motorcycle"), ("Scooter", "Scooter")]
@@ -8,6 +8,7 @@ CATEGORY = [("None", "None"), ("N", "Category N"), ("S", "Category S")]
 FUEL_TYPE = [("PETROL", "Petrol"), ("DIESEL", "Diesel"), ("ELECTRICITY", "Electric")]
 STATUS = [("Sale", "For Sale"), ("Due In", "Due In"), ("Sold", "Sold")]
 SERVICES = [("Storage", "Storage"), ("Detailing", "Detailing"), ("Service", "Service"), ("Repairs", "Repairs"), ("Transport", "Transport"), ("Other", "Other")]
+
 
 class AddVehicleForm(FlaskForm):
     vehicle_type = SelectField("Vehicle Type", choices=VEHICLE_TYPE)
@@ -48,6 +49,7 @@ class MakeServiceRequestForm(FlaskForm):
     recaptcha = RecaptchaField()
 
     submit = SubmitField("Submit Request")
+
 
 class MakeEnquiryForm(FlaskForm):
     message = TextAreaField("Leave Your Message", validators=[InputRequired("Please enter what you are enquiring about.")])
