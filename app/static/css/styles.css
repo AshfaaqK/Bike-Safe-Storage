@@ -2,6 +2,11 @@ body {
     font-family: "Bahnschrift";
 }
 
+a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
 /* Header */
 
 .bss-logo-main {
@@ -99,43 +104,98 @@ a {
 
 /* Calendar */
 
+.current-datetime {
+    color: #fff;
+    font-weight: 200;
+    margin-top: 30px;
+}
+
 #calendar {
     --fc-border-color: #495057;
     --fc-today-bg-color: rgba(63, 81, 181, 0.15);
     --fc-neutral-bg-color: transparent;
     --fc-page-bg-color: rgba(0, 0, 0, 0.5);
     --fc-event-border-color: transparent;
+    padding: 40px 20px 30px 20px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 25px 35px rgba(0, 0, 0, 0.9);
+    border: 2px #d8d8d8 solid;
+    border-radius: 10px;
 }
 
-.fc .fc-timegrid-slot {
-    height: 2.2em !important;
+.fc-header-toolbar {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.fc-button {
+    border: 1px #006eff solid !important;
+    background-color: transparent !important;
+    border-radius: 10px !important;
+    height: 45px !important;
+    font-size: large !important;
+}
+
+.fc-button:hover {
+    background-color: rgba(0, 110, 255, 0.1) !important;
+}
+
+.fc-button:disabled {
+    background-color: transparent !important;
+}
+
+.fc-prev-button, .fc-next-button {
+    width: 62px !important;    
+}
+
+.fc-today-button, .fc-dayGridMonth-button, .fc-timeGridWeek-button, .fc-timeGridDay-button {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.fc-button-active {
+    background-color: #006eff !important;
+}
+
+.fc-button-active:hover {
+    background-color: #006eff !important;
 }
 
 .fc-timegrid-event-harness {
     width: 102%;
+    cursor: pointer;
+}
+
+.fc-timegrid-event {
+    transition: background-color 0.3s ease;
+    min-height: initial;
+    height: fit-content;
+}
+
+.fc-timegrid-event:hover {
+    background-color: rgba(110, 110, 110, 0.774) !important;
 }
 
 .fc-event {
     border-radius: 4px;
     padding: 1px 6px;
-    font-size: 0.85rem;
+    font-size: 1rem !important;
 }
 
 .fc-event-new {
-    background-color: #0dcaf0;
+    background-color: #0b94af !important;
 }
 
 .fc-event-confirmed {
-    background-color: #198754;
+    background-color: #198754 !important;
 }
 
 .fc-event-completed {
-    background-color: #0d6efd;
+    background-color: #4700cc !important;
 }
 
 .fc-event-cancelled {
-    background-color: #dc3545;
-    opacity: 0.7;
+    background-color: #dc3545 !important;
 }
 
 .fc-event-content {
@@ -171,6 +231,79 @@ a {
     
     .fc-toolbar-title {
         font-size: 1.2rem;
+    }
+}
+
+/* Calendar Responsive Styles */
+@media (max-width: 767px) {
+    /* Smaller font sizes for mobile */
+    .fc .fc-toolbar-title {
+        font-size: 1.1rem !important;
+    }
+    
+    /* Compact buttons */
+    .fc .fc-button {
+        padding: 0.3rem 0.5rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    /* Adjust time slots */
+    .fc .fc-timegrid-slot {
+        height: 1.8em !important;
+        font-size: 0.8rem !important;
+    }
+    
+    /* Compact events */
+    .fc-event {
+        font-size: 0.7rem !important;
+        padding: 0 2px !important;
+    }
+    
+    /* Hide some elements on small screens */
+    .fc-col-header-cell-cushion {
+        font-size: 0.7rem !important;
+    }
+    
+    /* Modal adjustments */
+    #bookingModal .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    #bookingModal .modal-content {
+        width: 100vw;
+        margin-left: -15px;
+    }
+}
+
+@media (max-width: 575px) {
+    /* Even more compact view for very small screens */
+    .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    
+    .fc .fc-toolbar-title {
+        font-size: 1rem !important;
+        margin: 0.3rem 0 !important;
+    }
+    
+    /* Stack calendar toolbar buttons */
+    .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.3rem;
+    }
+    
+    /* Event content adjustments */
+    .fc-event-content div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Hide non-essential event info on smallest screens */
+    .fc-event-content div:nth-child(2) {
+        display: none;
     }
 }
 
@@ -436,6 +569,15 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .login-reg-btn {
     margin-top: 10px;
     width: 100%;
+}
+
+.login-instead {
+    color: #006eff;
+}
+
+.login-instead:hover {
+    color: #3183ff;
+    text-decoration: underline;
 }
 
 /* Footer */

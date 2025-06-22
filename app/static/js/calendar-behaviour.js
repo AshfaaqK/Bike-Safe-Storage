@@ -3,17 +3,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
     let currentBookingId = null;
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridWeek',
+    const calendar = new window.FullCalendar.Calendar(calendarEl, {
+        initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
+
+        locale: 'en-GB',
+
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: window.innerWidth < 768 ? '' : 'dayGridMonth,timeGridWeek,timeGridDay'
         },
+
+        views: {
+            dayGridMonth: {
+                titleFormat: { year: 'numeric', month: 'long' }
+            },
+
+            timeGridWeek: {
+                titleFormat: { month: 'long', day: 'numeric' }
+            },
+
+            timeGridDay: {
+                titleFormat: { day: 'numeric', month: 'long' }
+            }
+        },
+
         firstDay: 1, // Monday
         slotMinTime: "07:00:00",
         slotMaxTime: "21:00:00",
-        slotDuration: '00:30:00',
+        slotDuration: '00:15:00',
         slotLabelInterval: '01:00:00',
         allDaySlot: false,
         nowIndicator: true,
@@ -54,9 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return {
                 html: `
                     <div class="fc-event-content p-1">
-                        <div class="fw-bold">${arg.timeText}</div>
-                        <div>${arg.event.title}</div>
-                        <small>${arg.event.extendedProps.customer.split(' ')[0]}</small>
+                        <div class="fw-bold">${arg.timeText} - ${arg.event.title.split(' ')[0]}</div>
+                        <div>${arg.event.extendedProps.customer} - ${arg.event.title.split(' ')[2]}</div>
                     </div>
                 `
             };
@@ -100,4 +117,49 @@ document.addEventListener('DOMContentLoaded', function () {
             default: return 'bg-secondary';
         }
     }
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth < 768) {
+            calendar.changeView('timeGridDay');
+            calendar.setOption('headerToolbar', {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+            });
+        } else {
+            calendar.changeView('timeGridWeek');
+            calendar.setOption('headerToolbar', {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            });
+        }
+    });
+
+    function formatCurrentDateTime() {
+        const now = new Date();
+        const day = now.getDate();
+        const month = now.toLocaleString('en-GB', { month: 'long' });
+        const year = now.getFullYear();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+
+        const suffix =
+            (day === 1 || day === 21 || day === 31) ? 'st' :
+                (day === 2 || day === 22) ? 'nd' :
+                    (day === 3 || day === 23) ? 'rd' : 'th';
+
+        return `${day}${suffix} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function updateLiveClock() {
+        const clockElement = document.getElementById('currentDateTime');
+        if (clockElement) {
+            clockElement.textContent = formatCurrentDateTime();
+        }
+    }
+
+    updateLiveClock();
+    setInterval(updateLiveClock, 1000);
 });
