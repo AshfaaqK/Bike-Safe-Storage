@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from app import db
-from app.models import Booking, Enquiry
+from app.models import Booking
 from app.forms import RegistrationLookUpForm, AddVehicleForm
 
 bp = Blueprint('views', __name__)

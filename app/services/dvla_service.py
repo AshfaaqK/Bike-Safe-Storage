@@ -1,6 +1,5 @@
 import requests
 import os
-from flask import jsonify
 
 
 def vehicle_lookup(registration):
