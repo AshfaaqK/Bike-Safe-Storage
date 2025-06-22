@@ -187,12 +187,12 @@ a {
     background-color: #0b94af !important;
 }
 
-.fc-event-confirmed {
-    background-color: #198754 !important;
+.fc-event-completed {
+    background-color: #00499c !important;
 }
 
-.fc-event-completed {
-    background-color: #4700cc !important;
+.fc-event-confirmed {
+    background-color: #47884d !important;
 }
 
 .fc-event-cancelled {
@@ -265,15 +265,6 @@ a {
         font-size: 0.7rem !important;
     }
     
-    /* Modal adjustments */
-    #bookingModal .modal-dialog {
-        margin: 0.5rem;
-    }
-    
-    #bookingModal .modal-content {
-        width: 100vw;
-        margin-left: -15px;
-    }
 }
 
 @media (max-width: 575px) {

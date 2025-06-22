@@ -49,37 +49,72 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-white">
             <div class="modal-header border-secondary">
-                <h5 class="modal-title" id="modalTitle"></h5>
+                <h5 class="modal-title me-3" id="modalTitle"></h5>
                 <span class="badge" id="modalStatusBadge"></span>
             </div>
+
             <div class="modal-body">
                 <div class="row mb-3">
-                    <div class="col-md-6">
-                        <p><strong>Customer:</strong> <span id="modalCustomer"></span></p>
-                        <p><strong>Phone:</strong> <span id="modalPhone"></span></p>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalFirstName" class="form-label">First Name:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="modalFirstName">
                     </div>
-                    <div class="col-md-6">
-                        <p><strong>Vehicle:</strong> <span id="modalVehicle"></span></p>
-                        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalLastName" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="modalLastName">
                     </div>
-                </div>
-                <p><strong>Time:</strong> <span id="modalTime"></span></p>
-                <p><strong>Message:</strong></p>
-                <div id="modalMessage" class="mb-3 p-2 bg-secondary bg-opacity-25 rounded"></div>
-                <div class="mb-3">
-                    <label for="statusSelect" class="form-label">Update Status:</label>
-                    <select class="form-select bg-dark text-white" id="statusSelect">
-                        <option value="New">New</option>
-                        <option value="Confirmed">Confirmed</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="adminNotes" class="form-label">Admin Notes:</label>
-                    <textarea class="form-control bg-dark text-white" id="adminNotes" rows="3"></textarea>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalPhone" class="form-label">Phone:</label>
+                        <input type="tel" class="form-control bg-dark text-white" id="modalPhone">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalEmail" class="form-label">Email:</label>
+                        <input type="email" class="form-control bg-dark text-white" id="modalEmail">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalVehicle" class="form-label">Registration:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="modalVehicle">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalDateTime" class="form-label">Date & Time:</label>
+                        <input type="datetime-local" class="form-control bg-dark text-white" id="modalDateTime">
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="modalMessage" class="form-label">Customer Message:</label>
+                        <textarea class="form-control bg-dark text-white" id="modalMessage" rows="4"></textarea>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="statusSelect" class="form-label">Update Status:</label>
+                        <select class="form-select bg-dark text-white" id="statusSelect">
+                            <option value="New">New</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-sm-6 mb-3">
+                        <label for="typeSelect" class="form-label">Update Type:</label>
+                        <select class="form-select bg-dark text-white" id="typeSelect">
+                            <option value="Storage">Storage</option>
+                            <option value="Detailing">Detailing</option>
+                            <option value="Service">Service</option>
+                            <option value="Repairs">Repairs</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="adminNotes" class="form-label">Admin Notes:</label>
+                        <textarea class="form-control bg-dark text-white" id="adminNotes" rows="4"></textarea>
+                    </div>
                 </div>
             </div>
+
             <div class="modal-footer border-secondary">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>

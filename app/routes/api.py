@@ -29,7 +29,8 @@ def get_calendar_bookings():
                 'vehicle': booking.reg,
                 'message': booking.message,
                 'notes': booking.notes,
-                'status': booking.status
+                'status': booking.status,
+                'type': booking.booking_type
             }
         })
     
@@ -43,8 +44,20 @@ def update_booking(booking_id):
         booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()
         
         if booking:
+            date_time = datetime.strptime(data.get('start'), '%Y-%m-%dT%H:%M')
+            
             booking.status = data.get('status', booking.status)
             booking.notes = data.get('notes', booking.notes)
+            booking.booking_type = data.get('type', booking.booking_type)
+            booking.first_name = data.get('firstName', booking.first_name)
+            booking.last_name = data.get('lastName', booking.last_name)
+            booking.phone = data.get('phone', booking.phone)
+            booking.email = data.get('email', booking.email)
+            booking.reg = data.get('vehicle', booking.reg)
+            booking.message = data.get('message', booking.message)
+            booking.date = date_time.date()
+            booking.time = date_time.time()
+            
             db.session.commit()
             
             return jsonify({'success': True})

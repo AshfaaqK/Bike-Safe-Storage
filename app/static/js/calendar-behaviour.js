@@ -50,18 +50,28 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         eventClick: function (info) {
             currentBookingId = info.event.id;
-            document.getElementById('modalTitle').textContent = info.event.title;
-            document.getElementById('modalCustomer').textContent = info.event.extendedProps.customer;
-            document.getElementById('modalPhone').textContent = info.event.extendedProps.phone;
-            document.getElementById('modalEmail').textContent = info.event.extendedProps.email;
-            document.getElementById('modalVehicle').textContent = info.event.extendedProps.vehicle;
-            document.getElementById('modalTime').textContent =
-                `${info.event.start.toLocaleDateString()} • ${info.event.start.toLocaleTimeString()} - ${info.event.end.toLocaleTimeString()}`;
-            document.getElementById('modalMessage').textContent = info.event.extendedProps.message || 'No message';
+
+            const fullName = info.event.extendedProps.customer || '';
+            const nameParts = fullName.split(' ');
+            const firstName = nameParts[0] || '';
+            const lastName = nameParts.slice(1).join(' ') || '';
+
+            document.getElementById('modalTitle').textContent = `#${currentBookingId} - ${info.event.title}`;
+            document.getElementById('modalFirstName').value = firstName;
+            document.getElementById('modalLastName').value = lastName;
+            document.getElementById('modalPhone').value = info.event.extendedProps.phone || '';
+            document.getElementById('modalEmail').value = info.event.extendedProps.email || '';
+            document.getElementById('modalVehicle').value = info.event.extendedProps.vehicle || '';
+
+            const startDateTime = info.event.end;
+            const formattedDateTime = startDateTime.toISOString().slice(0, 16);
+            document.getElementById('modalDateTime').value = formattedDateTime;
+
+            document.getElementById('modalMessage').value = info.event.extendedProps.message || '';
             document.getElementById('statusSelect').value = info.event.extendedProps.status;
+            document.getElementById('typeSelect').value = info.event.extendedProps.type;
             document.getElementById('adminNotes').value = info.event.extendedProps.notes || '';
 
-            // Update status badge
             const statusBadge = document.getElementById('modalStatusBadge');
             statusBadge.textContent = info.event.extendedProps.status;
             statusBadge.className = 'badge ' + getStatusBadgeClass(info.event.extendedProps.status);
@@ -72,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return {
                 html: `
                     <div class="fc-event-content p-1">
-                        <div class="fw-bold">${arg.timeText} - ${arg.event.title.split(' ')[0]}</div>
-                        <div>${arg.event.extendedProps.customer} - ${arg.event.title.split(' ')[2]}</div>
+                        <div>${arg.timeText.split(' ')[0]} - ${arg.event.title.split(' ')[0]}</div>
+                        <div>${arg.event.extendedProps.customer} - ${arg.event.extendedProps.vehicle}</div>
                     </div>
                 `
             };
@@ -82,10 +92,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 
-    // Save changes handler
     document.getElementById('saveChangesBtn').addEventListener('click', function () {
         const status = document.getElementById('statusSelect').value;
+        const type = document.getElementById('typeSelect').value;
         const notes = document.getElementById('adminNotes').value;
+
+        const firstName = document.getElementById('modalFirstName').value;
+        const lastName = document.getElementById('modalLastName').value;
+        const phone = document.getElementById('modalPhone').value;
+        const email = document.getElementById('modalEmail').value;
+        const vehicle = document.getElementById('modalVehicle').value;
+        const message = document.getElementById('modalMessage').value;
+        const dateTime = document.getElementById('modalDateTime').value;
 
         fetch(`/api/bookings/${currentBookingId}`, {
             method: 'PATCH',
@@ -94,7 +112,15 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({
                 status: status,
-                notes: notes
+                type: type,
+                notes: notes,
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                email: email,
+                vehicle: vehicle,
+                message: message,
+                start: dateTime
             })
         })
             .then(response => response.json())
