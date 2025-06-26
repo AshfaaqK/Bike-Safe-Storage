@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField, IntegerField
+from flask_wtf.file import FileAllowed, MultipleFileField
+from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField, IntegerField, BooleanField
 from wtforms.validators import InputRequired, Email
 
 VEHICLE_TYPE = [("Motorcycle", "Motorcycle"), ("Scooter", "Scooter")]
@@ -26,6 +27,9 @@ class AddVehicleForm(FlaskForm):
     euro = StringField("Euro Status")
     co2_em = IntegerField("CO2 Emissions")
     status = SelectField("Vehicle Status", choices=STATUS)
+    
+    images = MultipleFileField("Vehicle Images", validators=[FileAllowed(["jpg", "jpeg", "png"], "Only JPEG, JPG or PNG images allowed.")])
+    skip_images = BooleanField("Skip images for now (use default image)")
 
     submit = SubmitField("Add Vehicle")
 

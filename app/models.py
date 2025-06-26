@@ -19,7 +19,6 @@ class Vehicle(db.Model):
     reg = db.Column(db.String(100), nullable=False)
     mileage = db.Column(db.Integer, nullable=False)
     trans = db.Column(db.String(100), nullable=False)
-    url = db.Column(db.String(255), nullable=True)
     category = db.Column(db.String(100), nullable=True)
     engine_cc = db.Column(db.Integer, nullable=True)
     colour = db.Column(db.String(100), nullable=True)
@@ -29,7 +28,19 @@ class Vehicle(db.Model):
     euro = db.Column(db.String(100), nullable=True)
     co2_em = db.Column(db.Integer, nullable=True)
     status = db.Column(db.String(30), nullable=False)
+    
+    images = db.relationship('VehicleImage', back_populates='vehicle', cascade='all, delete-orphan')
 
+
+class VehicleImage(db.Model):
+    __tablename__ = 'vehicle_images'
+    image_id = db.Column(db.Integer, primary_key=True)
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicles.vehicle_id'), nullable=False)
+    image_path = db.Column(db.String(255), nullable=False)
+    is_primary = db.Column(db.Boolean, default=False, nullable=False)
+
+    vehicle = db.relationship('Vehicle', back_populates='images')
+    
 
 class Enquiry(db.Model):
     __tablename__ = 'enquiries'

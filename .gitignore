@@ -38,8 +38,16 @@ logs/
 htmlcov/
 .pytest_cache/
 
-# Static and media files (if not version controlled)
-static/uploads/
+# Ignore all vehicle subdirectories and their contents
+/app/static/uploads/vehicle_images/*
+
+# But keep tracking the empty directories
+!/app/static/uploads/vehicle_images/.gitkeep
+
+# Temporary upload files
+*.tmp
+
+# Media files (if not version controlled)
 media/
 
 # macOS

@@ -1,3 +1,4 @@
+from flask_uploads import IMAGES
 import os
 from dotenv import load_dotenv
 
@@ -13,3 +14,7 @@ class Config:
     RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     TEST_DVLA_API_KEY = os.getenv('TEST_DVLA_API_KEY')
+    UPLOADED_IMAGES_DEST = 'app/static/uploads/vehicle_images'
+    UPLOADED_IMAGES_URL = '/app/static/uploads/vehicle_images/'
+    UPLOADED_IMAGES_ALLOW = IMAGES
+    UPLOADS_DEFAULT_DEST = 'app/static/uploads'

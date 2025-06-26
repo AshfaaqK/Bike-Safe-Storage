@@ -2,6 +2,7 @@ from config import Config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_uploads import configure_uploads, IMAGES, UploadSet
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -13,6 +14,9 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     login_manager.init_app(app)
+    
+    images = UploadSet('images', IMAGES)
+    configure_uploads(app, images)
 
     from app.models import User
 

@@ -2,6 +2,24 @@
 
 <section class="admin-panel" id="inventory">
     <div class="d-flex justify-content-center">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {{ message }}
+                        </div>
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="d-flex justify-content-center">
         <div class="container input-registration-form enquiry-form">
 
             <form id="registrationLookupForm">
@@ -65,7 +83,7 @@
 
             <hr>
 
-            <form method="POST" action="{{ url_for('views.view_stock') }}">
+            <form method="POST" action="{{ url_for('views.view_stock') }}" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
                 <div class="row mb-3">
@@ -128,6 +146,17 @@
                     <div class="col-sm-4 enquiry-fields">
                         {{ form.status.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                         {{ form.status(id='vehicleStatus', class_ = 'form-control enquiry-input') }}
+                    </div>
+                    <div class="col-sm-12 enquiry-fields">
+                        {{ form.images.label(class_ = 'enquiry-labels') }}
+                        {{ form.images(class_ = 'form-control enquiry-input') }}
+                        <small class="form-text text-muted">Upload multiple images of the vehicle</small>
+                    </div>
+                    <div class="col-sm-12 enquiry-fields">
+                        <div class="form-check">
+                            {{ form.skip_images(class_ = 'form-check-input') }}
+                            {{ form.skip_images.label(class_ = 'form-check-label enquiry-labels') }}
+                        </div>
                     </div>
                 </div>
 
