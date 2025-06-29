@@ -50,17 +50,27 @@ def view_stock():
             )
             
             db.session.add(vehicle)
-            db.session.commit()
-            
-            print(1, request.form.get('skip_images'), request.form.get('images'))
-            print(2, form.skip_images.data, form.images.data)
-            print(3, not form.skip_images.data, form.images.data)
+            db.session.flush()
             
             if not form.skip_images.data:
+                first_image = form.first_image.data
                 uploaded_files = request.files.getlist('images')
                 if uploaded_files and uploaded_files[0].filename:
                     vehicle_dir = os.path.join(current_app.config['UPLOADED_IMAGES_DEST'], str(vehicle.vehicle_id))
                     os.makedirs(vehicle_dir, exist_ok=True)
+                    
+                    if first_image:
+                        timestamp = datetime.now().strftime('%Y%m%d_%H%M')
+                        first_filename = f"{timestamp}_primary.jpg"
+                        first_image.save(os.path.join(vehicle_dir, first_filename))
+                        
+                        vehicle_image = VehicleImage(
+                            vehicle_id=vehicle.vehicle_id,
+                            image_path=f"{vehicle.vehicle_id}/{first_filename}",
+                            is_primary=True
+                        )
+                        
+                        db.session.add(vehicle_image)
                     
                     for i, image in enumerate(uploaded_files):
                         if image.filename:
@@ -72,8 +82,9 @@ def view_stock():
                             vehicle_image = VehicleImage(
                                 vehicle_id=vehicle.vehicle_id,
                                 image_path=f"{vehicle.vehicle_id}/{filename}",
-                                is_primary=(i == 0)
+                                is_primary=False
                             )
+                            
                             db.session.add(vehicle_image)
                     
                     db.session.commit()

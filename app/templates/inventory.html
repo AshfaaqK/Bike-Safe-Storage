@@ -86,7 +86,7 @@
             <form method="POST" action="{{ url_for('views.view_stock') }}" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
-                <div class="row mb-3">
+                <div class="row mb-1">
                     <div class="col-sm-4 enquiry-fields">
                         {{ form.vehicle_type.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                         {{ form.vehicle_type(id='vehicleType', class_ = 'form-control enquiry-input') }}
@@ -147,21 +147,26 @@
                         {{ form.status.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                         {{ form.status(id='vehicleStatus', class_ = 'form-control enquiry-input') }}
                     </div>
-                    <div class="col-sm-12 enquiry-fields">
+                    <div id="firstImageContainer" class="col-sm-6 enquiry-fields">
+                        {{ form.first_image.label(class_ = 'enquiry-labels') }}
+                        {{ form.first_image(class_ = 'form-control enquiry-input mb-1') }}
+                        <small class="form-text text-white">First image to be used on the listing</small>
+                    </div>
+                    <div id="allImagesContainer" class="col-sm-6 enquiry-fields">
                         {{ form.images.label(class_ = 'enquiry-labels') }}
-                        {{ form.images(class_ = 'form-control enquiry-input') }}
-                        <small class="form-text text-muted">Upload multiple images of the vehicle</small>
+                        {{ form.images(class_ = 'form-control enquiry-input mb-1') }}
+                        <small class="form-text text-white">All other images for the vehicle</small>
                     </div>
                     <div class="col-sm-12 enquiry-fields">
-                        <div class="form-check">
-                            {{ form.skip_images(class_ = 'form-check-input') }}
-                            {{ form.skip_images.label(class_ = 'form-check-label enquiry-labels') }}
+                        <div class="d-flex justify-content-center">
+                            {{ form.skip_images(class_ = 'form-check-input enquiry-input', id='skipImagesCheckbox') }}
+                            {{ form.skip_images.label(class_ = 'form-check-label enquiry-labels ms-2') }}
                         </div>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-center">
-                    <div class="mb-3 enquiry-fields">
+                <div class="d-flex justify-content-center mb-2">
+                    <div class="enquiry-fields">
                         {{ form.submit(class_ = 'btn btn-outline-success') }}
                     </div>
                 </div>

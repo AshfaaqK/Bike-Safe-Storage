@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const skipImagesCheckbox = document.getElementById('skipImagesCheckbox');
+    const firstImageContainer = document.getElementById('firstImageContainer');
+    const allImagesContainer = document.getElementById('allImagesContainer');
+
+    skipImagesCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            firstImageContainer.style.display = 'none';
+            allImagesContainer.style.display = 'none';
+        } else {
+            firstImageContainer.style.display = 'block';
+            allImagesContainer.style.display = 'block';
+        }
+    });
+
     // Message Expand/Collapse -----------------
 
     // Select all elements with the class 'read-more-btn' on the page
@@ -35,6 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // Pagination and Search Functionality -----------------
 
     // Rows per page dropdown element
     const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
