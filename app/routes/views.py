@@ -17,6 +17,13 @@ def home():
     return render_template('index.html')
 
 
+@bp.route('/motorcycles')
+def view_motorcycles():
+    motorcycles = db.session.execute(db.select(Vehicle).filter_by(vehicle_type='Motorcycle').order_by(Vehicle.vehicle_id.desc())).scalars().all()
+    
+    return render_template('motorcycles.html', motorcycles=motorcycles, image_path=current_app.config['UPLOADED_IMAGES_DEST'])
+
+
 @bp.route('/calendar')
 def view_calendar():
     bookings = db.session.execute(db.select(Booking).order_by(Booking.booking_id.desc())).scalars().all()
@@ -87,7 +94,7 @@ def view_stock():
                             
                             db.session.add(vehicle_image)
                     
-                    db.session.commit()
+            db.session.commit()
             
             flash('✅ Vehicle added successfully!', 'success')
             return redirect(url_for('views.view_stock'))
