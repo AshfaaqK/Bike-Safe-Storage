@@ -134,6 +134,7 @@ a {
 }
 
 .listing-price {
+    color: #cf7c38;
     transition: color 0.3s ease;
 }
 

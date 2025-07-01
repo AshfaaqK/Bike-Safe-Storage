@@ -28,6 +28,7 @@ class Vehicle(db.Model):
     euro = db.Column(db.String(100), nullable=True)
     co2_em = db.Column(db.Integer, nullable=True)
     status = db.Column(db.String(30), nullable=False)
+    price = db.Column(db.Integer, nullable=True)
     
     images = db.relationship('VehicleImage', back_populates='vehicle', cascade='all, delete-orphan')
 

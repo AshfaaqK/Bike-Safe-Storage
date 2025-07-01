@@ -39,8 +39,8 @@
                         alt="{{ motorcycle.make }} {{ motorcycle.model }}">
 
                         <div class="card-body ms-2">
-                            <a href=""><h5 class="card-title">{{ motorcycle.make }} {{ motorcycle.model }}</h5></a>
-                            <p class="card-text">{{ motorcycle.reg }}</p>
+                            <a href=""><h5 class="card-title">{{ motorcycle.make | capitalize }}</h5></a>
+                            <p class="card-text">{{ motorcycle.model }}</p>
                             
                             <div class="row">
                                 <div class="col-6">
@@ -50,17 +50,25 @@
                                     <p><i class="bi bi-gear h6"></i> {{ motorcycle.trans }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <p><i class="bi bi-speedometer2 h6"></i> {{ motorcycle.mileage }}</p>
+                                    <p><i class="bi bi-speedometer2 h6"></i> {{ "{:,}".format(motorcycle.mileage) }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <p><i class="bi bi-fuel-pump h6"></i> {{ motorcycle.fuel_type }}</p>
+                                    <p>
+                                        {% if motorcycle.fuel_type == "ELECTRICITY" %}
+                                            <i class="bi bi-lightning-charge h6"></i> 
+                                            Electric
+                                        {% else %}
+                                            <i class="bi bi-fuel-pump h6"></i> 
+                                            {{ motorcycle.fuel_type | capitalize }}
+                                        {% endif %}
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row align-items-center mb-3 ms-2">
                             <div class="col-6">
-                                <h4 class="listing-price ms-1 mt-2">£4,832</h4>
+                                <h4 class="listing-price ms-1 mt-2">£{{ "{:,}".format(motorcycle.price) }}</h4>
                             </div>
                         </div>
                     </div>
