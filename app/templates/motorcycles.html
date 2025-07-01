@@ -30,40 +30,37 @@
         <div class="row">
             {% for motorcycle in motorcycles %}
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="card">
+                    <div class="card listings-card">
 
                         {% set primary_image = motorcycle.images|selectattr('is_primary') | first %}
 
                         <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}" 
-                        class="card-img-top" 
+                        class="card-img-top listings-image" 
                         alt="{{ motorcycle.make }} {{ motorcycle.model }}">
 
-                        <div class="card-body">
-                            <h5 class="card-title">{{ motorcycle.make }} {{ motorcycle.model }}</h5>
-                            <p class="card-text text-muted">{{ motorcycle.reg }}</p>
+                        <div class="card-body ms-2">
+                            <a href=""><h5 class="card-title">{{ motorcycle.make }} {{ motorcycle.model }}</h5></a>
+                            <p class="card-text">{{ motorcycle.reg }}</p>
                             
                             <div class="row">
                                 <div class="col-6">
-                                    <small><i class="bi bi-calendar"></i> {{ motorcycle.created }}</small>
+                                    <p><i class="bi bi-calendar h6"></i> {{ motorcycle.created }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <small><i class="bi bi-gear"></i> {{ motorcycle.trans }}</small>
+                                    <p><i class="bi bi-gear h6"></i> {{ motorcycle.trans }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <small><i class="bi bi-speedometer2"></i> {{ motorcycle.mileage }}</small>
+                                    <p><i class="bi bi-speedometer2 h6"></i> {{ motorcycle.mileage }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <small><i class="bi bi-fuel-pump"></i> {{ motorcycle.fuel_type }}</small>
+                                    <p><i class="bi bi-fuel-pump h6"></i> {{ motorcycle.fuel_type }}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row align-items-center mb-3 ms-2">
                             <div class="col-6">
-                                <h4>£4,832</h4>
-                            </div>
-                            <div class="col-6">
-                                <a href="" class="btn btn-primary">View Details</a>
+                                <h4 class="listing-price ms-1 mt-2">£4,832</h4>
                             </div>
                         </div>
                     </div>

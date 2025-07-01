@@ -102,6 +102,45 @@ a {
     min-width: auto;
 }
 
+/* Motorcycles */
+
+.listings-image {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.listings-card {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 25px 35px rgba(0, 0, 0, 0.9);
+    border: 1px #d8d8d8 solid;
+    border-radius: 10px;
+    color: #fff;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listings-card:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 30px 45px rgba(0, 0, 0, 0.9);
+    transform: translateY(-5px);
+}
+
+.card-title {
+    transition: color 0.3s ease;
+}
+
+.card-title:hover {
+    color: #006eff;
+}
+
+.listing-price {
+    transition: color 0.3s ease;
+}
+
+.listing-price:hover {
+    color: #468d2b;
+}
+
 /* Calendar */
 
 .current-datetime {
