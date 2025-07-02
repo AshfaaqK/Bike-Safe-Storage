@@ -1,18 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const skipImagesCheckbox = document.getElementById('skipImagesCheckbox');
-    const firstImageContainer = document.getElementById('firstImageContainer');
-    const allImagesContainer = document.getElementById('allImagesContainer');
-
-    skipImagesCheckbox.addEventListener('change', function () {
-        if (this.checked) {
-            firstImageContainer.style.display = 'none';
-            allImagesContainer.style.display = 'none';
-        } else {
-            firstImageContainer.style.display = 'block';
-            allImagesContainer.style.display = 'block';
-        }
-    });
-
     // Message Expand/Collapse -----------------
 
     // Select all elements with the class 'read-more-btn' on the page
@@ -147,71 +133,74 @@ document.addEventListener('DOMContentLoaded', function () {
         lastPageBtn.classList.toggle('disabled', currentPage >= pageCount);
     }
 
-    // Event listener to change amount of rows per page
-    rowsPerPageSelect.addEventListener('change', function() {
-        rowsPerPage = parseInt(this.value);
-        currentPage = 1;
-        updatePaginationControls(currentPage);
-        showPage(currentPage);
-    });
+    if (rowsPerPageSelect) {
 
-    // Event listener for first/last page buttons
-    firstPageBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (currentPage > 1) {
+        // Event listener to change amount of rows per page
+        rowsPerPageSelect.addEventListener('change', function() {
+            rowsPerPage = parseInt(this.value);
             currentPage = 1;
-            showPage(currentPage);
             updatePaginationControls(currentPage);
-        }
-    });
-
-    lastPageBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const lastPage = Math.ceil(visibleRows.length / rowsPerPage);
-        if (currentPage < lastPage) {
-            currentPage = lastPage;
             showPage(currentPage);
+        });
+
+        // Event listener for first/last page buttons
+        firstPageBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentPage > 1) {
+                currentPage = 1;
+                showPage(currentPage);
+                updatePaginationControls(currentPage);
+            }
+        });
+
+        lastPageBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const lastPage = Math.ceil(visibleRows.length / rowsPerPage);
+            if (currentPage < lastPage) {
+                currentPage = lastPage;
+                showPage(currentPage);
+                updatePaginationControls(currentPage);
+            }
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+
+            if (searchTerm === '') {
+                // If search is empty, show all rows
+                visibleRows = Array.from(allRows);
+            } else {
+                // Filter rows based on search term
+                visibleRows = Array.from(allRows).filter(row => {
+                    return row.textContent.toLowerCase().includes(searchTerm);
+                });
+            }
+
+            // Reset to first page and update display
+            currentPage = 1;
             updatePaginationControls(currentPage);
-        }
-    });
+            showPage(currentPage);
+        });
 
-    // Search functionality
-    searchInput.addEventListener('input', function () {
-        const searchTerm = this.value.toLowerCase();
+        // Event listeners for prev/next buttons
+        prevPageBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
 
-        if (searchTerm === '') {
-            // If search is empty, show all rows
-            visibleRows = Array.from(allRows);
-        } else {
-            // Filter rows based on search term
-            visibleRows = Array.from(allRows).filter(row => {
-                return row.textContent.toLowerCase().includes(searchTerm);
-            });
-        }
+        nextPageBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (currentPage < pageCount) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
 
-        // Reset to first page and update display
-        currentPage = 1;
-        updatePaginationControls(currentPage);
+        // Initialize the page
         showPage(currentPage);
-    });
-
-    // Event listeners for prev/next buttons
-    prevPageBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-        }
-    });
-
-    nextPageBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (currentPage < pageCount) {
-            currentPage++;
-            showPage(currentPage);
-        }
-    });
-
-    // Initialize the page
-    showPage(currentPage);
+    }
 });
