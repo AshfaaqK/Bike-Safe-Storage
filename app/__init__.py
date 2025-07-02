@@ -24,12 +24,13 @@ def create_app(config_class=Config):
     def load_user(user_id):
         return db.session.get(User, int(user_id))
 
-    from app.routes import api, auth, bookings, enquiries, views
+    from app.routes import api, auth, bookings, enquiries, views, vehicles
     app.register_blueprint(api.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(bookings.bp)
     app.register_blueprint(enquiries.bp)
     app.register_blueprint(views.bp)
+    app.register_blueprint(vehicles.bp)
 
     with app.app_context():
         db.create_all()

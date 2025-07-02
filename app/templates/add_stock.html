@@ -83,7 +83,7 @@
 
             <hr>
 
-            <form method="POST" action="{{ url_for('views.view_stock') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ url_for('vehicles.add_stock') }}" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
                 <div class="row mb-1">
