@@ -1,10 +1,58 @@
 from flask import Blueprint, jsonify, request
 from datetime import datetime, timedelta
 from app import db
-from app.models import Booking
+from app.models import Booking, Enquiry
 from app.services.dvla_service import vehicle_lookup
 
 bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@bp.route('/get-enquiry/<int:enquiry_id>', methods=['GET'])
+def get_enquiry(enquiry_id):
+    enquiry = db.session.execute(db.select(Enquiry).filter_by(enquiry_id=enquiry_id)).scalars().first()
+
+    if enquiry:
+        return jsonify({
+            'success': True,
+            'enquiry': {
+                'enquiry_id': enquiry.enquiry_id,
+                'first_name': enquiry.first_name,
+                'last_name': enquiry.last_name,
+                'email': enquiry.email,
+                'phone': enquiry.phone,
+                'message': enquiry.message,
+                'status': enquiry.status,
+                'notes': enquiry.notes
+            }
+        })
+    else:
+        return jsonify({'success': False, 'error': 'Enquiry not found'}), 404
+
+
+@bp.route('/enquiries/<int:enquiry_id>', methods=['PATCH'])
+def update_enquiry(enquiry_id):
+    try:
+        data = request.json
+        enquiry = db.session.execute(db.select(Enquiry).filter_by(enquiry_id=enquiry_id)).scalars().first()
+
+        if enquiry:
+            enquiry.first_name = data.get('first_name', enquiry.first_name)
+            enquiry.last_name = data.get('last_name', enquiry.last_name)
+            enquiry.phone = data.get('phone', enquiry.phone)
+            enquiry.email = data.get('email', enquiry.email)
+            enquiry.message = data.get('message', enquiry.message)
+            enquiry.status = data.get('status', enquiry.status)
+            enquiry.notes = data.get('notes', enquiry.notes)
+
+            db.session.commit()
+
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Enquiry not found'}), 404
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 @bp.route('/bookings/calendar')

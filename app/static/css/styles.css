@@ -262,6 +262,10 @@ a {
     border-top: 1px solid #495057;
 }
 
+.text-black {
+    color: #000 !important;
+}
+
 /* Responsive adjustments */
 
 @media (max-width: 768px) {
