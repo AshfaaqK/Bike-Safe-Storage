@@ -55,6 +55,40 @@ def update_enquiry(enquiry_id):
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+@bp.route('/get-booking/<int:booking_id>', methods=['GET'])
+def get_booking(booking_id):
+    try:
+        booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()
+        if not booking:
+            return jsonify({'success': False, 'error': 'Booking not found'}), 404
+        
+        start_dt = datetime.combine(booking.date, booking.time)
+        datetime_str = start_dt.strftime('%Y-%m-%dT%H:%M')
+        
+        booking_data = {
+            'booking_id': booking.booking_id,
+            'booking_type': booking.booking_type,
+            'first_name': booking.first_name,
+            'last_name': booking.last_name,
+            'email': booking.email,
+            'phone': booking.phone,
+            'reg': booking.reg,
+            'date_time': datetime_str,
+            'date': booking.date.strftime('%d-%m-%y'),
+            'time': booking.time.strftime('%H:%M'),
+            'status': booking.status,
+            'message': booking.message,
+            'notes': booking.notes,
+            'created_at': booking.created_at,
+            'enquiry_id': booking.enquiry_id
+        }
+        
+        return jsonify({'success': True, 'booking': booking_data})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 @bp.route('/bookings/calendar')
 def get_calendar_bookings():
     bookings = db.session.execute(db.select(Booking).order_by(Booking.date, Booking.time)).scalars().all()

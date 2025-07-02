@@ -67,7 +67,7 @@
             <tbody class="table-body" id="enquiriesTableBody">
                 {% for enquiry in enquiries %}
                     <tr class="enquiry-row" id="enquiry-row-{{ enquiry.enquiry_id }}">
-                        <th><span class="badge text-bg-success">{{ enquiry.enquiry_id }}</span></th>
+                        <th><span class="badge text-bg-success text-black">{{ enquiry.enquiry_id }}</span></th>
                         <td>{{ enquiry.first_name }}</td>
                         <td>{{ enquiry.last_name }}</td>
                         <td>{{ enquiry.email }}</td>
@@ -109,7 +109,31 @@
                         <td>
                             {% if enquiry.status == "Lead" %}
 
-                                <span class="badge rounded-pill text-bg-info">Lead</span>
+                                <span class="badge rounded-pill text-bg-info text-black">Lead</span>
+
+                            {% elif enquiry.status == "Unable to Contact" %}
+
+                                <span class="badge rounded-pill text-bg-warning text-black">Unable to Contact</span>
+
+                            {% elif enquiry.status == "In Progress" %}
+
+                                <span class="badge rounded-pill text-bg-primary text-black">In Progress</span>
+
+                            {% elif enquiry.status == "Sold" %}
+
+                                <span class="badge rounded-pill text-bg-success text-black">Sold</span>
+
+                            {% elif enquiry.status == "Delivered" %}
+
+                                <span class="badge rounded-pill text-bg-success text-black">Delivered</span>
+
+                            {% elif enquiry.status == "Lost" %}
+
+                                <span class="badge rounded-pill text-bg-danger text-black">Lost</span>
+
+                            {% else %}
+
+                                <span class="badge rounded-pill text-bg-light text-black">{{ enquiry.status }}</span>
 
                             {% endif %}
                         </td>

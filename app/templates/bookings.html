@@ -75,36 +75,36 @@
 
             <tbody class="table-body" id="enquiriesTableBody">
                 {% for booking in bookings %}
-                    <tr class="enquiry-row">
-                        <th><span class="badge text-bg-success">{{ booking.booking_id }}</span></th>
+                    <tr class="enquiry-row" id="booking-row-{{ booking.booking_id }}">
+                        <th><span class="badge text-bg-success text-black">{{ booking.booking_id }}</span></th>
                         <td>
                             {% if booking.booking_type == "Storage" %}
 
-                                <span class="badge text-bg-primary">Storage</span>
+                                <span class="badge text-bg-primary text-black">Storage</span>
 
                             {% elif booking.booking_type == "Detailing" %}
 
-                                <span class="badge text-bg-success">Detailing</span>
+                                <span class="badge text-bg-success text-black">Detailing</span>
 
                             {% elif booking.booking_type == "Service" %}
 
-                                <span class="badge text-bg-warning">Servicing</span>
+                                <span class="badge text-bg-warning text-black">Servicing</span>
                             
                             {% elif booking.booking_type == "Repairs" %}
 
-                                <span class="badge text-bg-danger">Repairs</span>
+                                <span class="badge text-bg-danger text-black">Repairs</span>
 
                             {% elif booking.booking_type == "Transport" %}
 
-                                <span class="badge text-bg-info">Transport</span>
+                                <span class="badge text-bg-info text-black">Transport</span>
 
                             {% elif booking.booking_type == "Other" %}
 
-                                <span class="badge text-bg-secondary">Other</span>
+                                <span class="badge text-bg-secondary text-black">Other</span>
 
                             {% else %}
 
-                                <span class="badge text-bg-light">{{ booking.booking_type }}</span>
+                                <span class="badge text-bg-light text-black">{{ booking.booking_type }}</span>
 
                             {% endif %}
                         </td>
@@ -158,7 +158,7 @@
                         <td class="text-center">
                             {% if booking.enquiry_id %}
 
-                                <span class="badge text-bg-success">{{ booking.enquiry_id }}</span>
+                                <span class="badge text-bg-success text-black">{{ booking.enquiry_id }}</span>
 
                             {% endif %}
                         </td>
@@ -166,11 +166,27 @@
                         <td>
                             {% if booking.status == "New" %}
 
-                                <span class="badge rounded-pill text-bg-info">New</span>
+                                <span class="badge rounded-pill text-bg-info text-black">New</span>
+
+                            {% elif booking.status == "Confirmed" %}
+
+                                <span class="badge rounded-pill text-bg-success text-black">Confirmed</span>
+
+                            {% elif booking.status == "Completed" %}
+
+                                <span class="badge rounded-pill text-bg-primary text-black">Completed</span>
+
+                            {% elif booking.status == "Cancelled" %}
+
+                                <span class="badge rounded-pill text-bg-danger text-black">Cancelled</span>
+
+                            {% else %}
+
+                                <span class="badge rounded-pill text-bg-secondary text-black">{{ booking.status }}</span>
 
                             {% endif %}
                         </td>
-                        <td><a href=""><button type="button" class="btn btn-outline-warning btn-sm">Manage</button></a></td>
+                        <td><button type="button" class="btn btn-outline-warning btn-sm manage-booking-btn" data-booking-id="{{ booking.booking_id }}">Manage</button></td>
                         <td><a href="{{ url_for('bookings.delete_booking', booking_id=booking.booking_id) }}" onclick="return confirm('⚠️ Are you sure you want to delete this booking?');"><button type="button" class="btn btn-outline-danger btn-sm">Delete</button></a></td>
                     </tr>
                 {% endfor %}
@@ -205,5 +221,93 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title me-3" id="modalTitle"></h5>
+                <span class="badge" id="modalStatusBadge"></span>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalFirstName" class="form-label">First Name:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="modalFirstName">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalLastName" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="modalLastName">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalPhone" class="form-label">Phone:</label>
+                        <input type="tel" class="form-control bg-dark text-white" id="modalPhone">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalEmail" class="form-label">Email:</label>
+                        <input type="email" class="form-control bg-dark text-white" id="modalEmail">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalVehicle" class="form-label">Registration:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="modalVehicle">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="modalDateTime" class="form-label">Date & Time:</label>
+                        <input type="datetime-local" class="form-control bg-dark text-white" id="modalDateTime">
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="modalMessage" class="form-label">Customer Message:</label>
+                        <textarea class="form-control bg-dark text-white" id="modalMessage" rows="4"></textarea>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="statusSelect" class="form-label">Update Status:</label>
+                        <select class="form-select bg-dark text-white" id="statusSelect">
+                            <option value="New">New</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-sm-6 mb-3">
+                        <label for="typeSelect" class="form-label">Update Type:</label>
+                        <select class="form-select bg-dark text-white" id="typeSelect">
+                            <option value="Storage">Storage</option>
+                            <option value="Detailing">Detailing</option>
+                            <option value="Service">Service</option>
+                            <option value="Repairs">Repairs</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="adminNotes" class="form-label">Admin Notes:</label>
+                        <textarea class="form-control bg-dark text-white" id="adminNotes" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveBookingChangesBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="bookingLiveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="bookingToastHeader" class="toast-header">
+            <strong id="bookingToastHeaderText" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="bookingToastBodyText" class="toast-body text-white"></div>
+    </div>
+</div>
 
 {% include "footer.html" %}
