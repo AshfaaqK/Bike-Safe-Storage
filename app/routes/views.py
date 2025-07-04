@@ -15,8 +15,8 @@ def home():
     return render_template('index.html')
 
 
-@bp.route('/motorcycles')
-def view_motorcycles():
+@bp.route('/used-vehicles')
+def view_used_vehicles():
     motorcycles = db.session.execute(db.select(Vehicle).filter_by(vehicle_type='Motorcycle').order_by(Vehicle.vehicle_id.desc())).scalars().all()
     
     vehicles = db.session.execute(db.select(Vehicle).order_by(Vehicle.vehicle_id.desc())).scalars().all()
@@ -27,7 +27,7 @@ def view_motorcycles():
     rounded_max_price = ceil(max_price / 1000) * 1000
     rounded_max_mileage = ceil(max_mileage / 1000) * 1000
 
-    return render_template('motorcycles.html', motorcycles=motorcycles, image_path=current_app.config['UPLOADED_IMAGES_DEST'], max_price=rounded_max_price, max_mileage=rounded_max_mileage)
+    return render_template('used-vehicles.html', motorcycles=motorcycles, image_path=current_app.config['UPLOADED_IMAGES_DEST'], max_price=rounded_max_price, max_mileage=rounded_max_mileage)
 
 
 @bp.route('/calendar')
