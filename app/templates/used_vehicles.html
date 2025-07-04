@@ -58,12 +58,12 @@
                     <!-- Vehicle Type Toggle -->
                     <div class="mb-3">
                         <label class="form-label text-white">Vehicle Type</label>
-                        <div class="btn-group w-100" role="group">
-                            <button type="button" class="btn btn-outline-light filter-btn active" data-filter="type"
+                        <div class="btn-group-vertical d-sm-grid d-md-inline-flex w-100" role="group">
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white active" data-filter="type"
                                 data-value="motorcycle">Motorcycles</button>
-                            <button type="button" class="btn btn-outline-light filter-btn" data-filter="type"
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" data-filter="type"
                                 data-value="scooter">Scooters</button>
-                            <button type="button" class="btn btn-outline-light filter-btn" data-filter="type"
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" data-filter="type"
                                 data-value="all">All</button>
                         </div>
                     </div>
@@ -146,34 +146,35 @@
                     <!-- Transmission -->
                     <div class="mb-3">
                         <label class="form-label text-white">Transmission</label>
-                        <div class="btn-group w-100" role="group">
-                            <button type="button" class="btn btn-outline-light filter-btn active" data-filter="trans"
+                        <div class="btn-group-vertical d-sm-grid d-md-inline-flex w-100" role="group">
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white active" data-filter="trans"
                                 data-value="all">All</button>
                             {% set transmissions = motorcycles|map(attribute='trans')|unique|sort %}
                             {% for trans in transmissions %}
-                            <button type="button" class="btn btn-outline-light filter-btn" data-filter="trans"
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" data-filter="trans"
                                 data-value="{{ trans }}">{{ trans }}</button>
                             {% endfor %}
                         </div>
                     </div>
 
-                    <!-- Fuel Type -->
+                    <!-- Fuel Type Filter -->
                     <div class="mb-3">
                         <label class="form-label text-white">Fuel Type</label>
-                        <div class="btn-group w-100" role="group">
-                            <button type="button" class="btn btn-outline-light filter-btn active"
-                                data-filter="fuel_type" data-value="all">All</button>
-                            {% set fuel_types = motorcycles|map(attribute='fuel_type')|unique|sort %}
-                            {% for fuel in fuel_types %}
-                            <button type="button" class="btn btn-outline-light filter-btn" data-filter="fuel_type"
-                                data-value="{{ fuel }}">{{ fuel|capitalize }}</button>
-                            {% endfor %}
+                        <div class="btn-group-vertical d-sm-grid d-md-inline-flex w-100" role="group">
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white active" 
+                                    data-filter="fuel_type" data-value="all">All</button>
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" 
+                                    data-filter="fuel_type" data-value="PETROL">Petrol</button>
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" 
+                                    data-filter="fuel_type" data-value="DIESEL">Diesel</button>
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" 
+                                    data-filter="fuel_type" data-value="ELECTRICITY">Electric</button>
                         </div>
                     </div>
 
                     <!-- Color Filter -->
                     <div class="mb-3">
-                        <label class="form-label text-white">Colors (Select multiple)</label>
+                        <label class="form-label text-white">Colors</label>
                         <div class="d-flex flex-wrap gap-2" id="color-filters">
                             <button type="button" class="btn btn-sm btn-outline-light filter-btn color-filter active" 
                                     data-value="all" style="min-width: 60px;">All</button>
@@ -185,6 +186,21 @@
                                 {{ color }}
                             </button>
                             {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Category Marker -->
+                    <div class="mb-3">
+                        <label class="form-label text-white">Category</label>
+                        <div class="btn-group-vertical d-sm-grid d-md-inline-flex w-100" role="group">
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white active" data-filter="category" 
+                                    data-value="all">All</button>
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" data-filter="category" 
+                                    data-value="S">S</button>
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" data-filter="category" 
+                                    data-value="N">N</button>
+                            <button type="button" class="btn btn-outline-primary filter-btn text-white" data-filter="category" 
+                                    data-value="None">None</button>
                         </div>
                     </div>
 
@@ -234,66 +250,79 @@
                     </div>
 
                     <!-- Motorcycle Listings -->
-                    <div class="row" id="motorcycle-listings">
-                        {% for motorcycle in motorcycles %}
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-4 motorcycle-card" data-make="{{ motorcycle.make }}"
-                            data-model="{{ motorcycle.model }}" data-trans="{{ motorcycle.trans }}"
-                            data-fuel_type="{{ motorcycle.fuel_type }}" data-colour="{{ motorcycle.colour }}"
-                            data-price="{{ motorcycle.price }}" data-mileage="{{ motorcycle.mileage }}"
-                            data-engine_cc="{{ motorcycle.engine_cc }}" data-first_reg="{{ motorcycle.first_reg }}"
-                            data-type="motorcycle">
-                            <div class="card listings-card">
-                                {% set primary_image = motorcycle.images|selectattr('is_primary') | first %}
-                                <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}"
-                                    class="card-img-top listings-image"
-                                    alt="{{ motorcycle.make }} {{ motorcycle.model }}">
+                    <div class="d-flex justify-content-center">
+                        <div class="row" id="motorcycle-listings">
+                            {% for motorcycle in motorcycles %}
+                            <div class="col-sm-12 col-md-6 col-lg-4 mb-4 motorcycle-card" data-make="{{ motorcycle.make }}"
+                                data-model="{{ motorcycle.model }}" data-trans="{{ motorcycle.trans }}"
+                                data-fuel_type="{{ motorcycle.fuel_type }}" data-colour="{{ motorcycle.colour }}"
+                                data-price="{{ motorcycle.price }}" data-mileage="{{ motorcycle.mileage }}"
+                                data-engine_cc="{{ motorcycle.engine_cc }}" data-first_reg="{{ motorcycle.first_reg }}"
+                                data-type="motorcycle" data-category="{{ motorcycle.category }}">
+                                <div class="card listings-card">
+                                    {% set primary_image = motorcycle.images|selectattr('is_primary') | first %}
+                                    <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}"
+                                        class="card-img-top listings-image"
+                                        alt="{{ motorcycle.make }} {{ motorcycle.model }}">
 
-                                <div class="card-body ms-2">
-                                    <a href="">
-                                        <h5 class="card-title">{{ motorcycle.make | capitalize }}</h5>
-                                    </a>
-                                    <p class="card-text">{{ motorcycle.model }}</p>
+                                    <div class="card-body ms-2">
+                                        <a href="">
+                                            <h5 class="card-title">{{ motorcycle.make | capitalize }}</h5>
+                                        </a>
+                                        <p class="card-text">{{ motorcycle.model }}</p>
 
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <p><i class="bi bi-calendar h6"></i> {{ motorcycle.first_reg }}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p><i class="bi bi-gear h6"></i> {{ motorcycle.trans }}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p><i class="bi bi-speedometer2 h6"></i> {{
-                                                "{:,}".format(motorcycle.mileage) }}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p>
-                                                {% if motorcycle.fuel_type == "ELECTRICITY" %}
-                                                <i class="bi bi-lightning-charge h6"></i>
-                                                Electric
-                                                {% else %}
-                                                <i class="bi bi-fuel-pump h6"></i>
-                                                {{ motorcycle.fuel_type | capitalize }}
-                                                {% endif %}
-                                            </p>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p><i class="bi bi-calendar h6"></i> {{ motorcycle.first_reg }}</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p>
+                                                    <i class="bi bi-gear h6"></i>
+                                                    {% if motorcycle.trans == "Automatic" %}
+                                                        Auto
+                                                    {% else %}
+                                                        {{ motorcycle.trans }}
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><i class="bi bi-speedometer2 h6"></i> {{
+                                                    "{:,}".format(motorcycle.mileage) }}</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p>
+
+                                                    {% if motorcycle.fuel_type == "ELECTRICITY" %}
+                                                        <i class="bi bi-lightning-charge h6"></i>
+                                                        EV
+
+                                                    {% else %}
+
+                                                        <i class="bi bi-fuel-pump h6"></i> 
+                                                        {{ motorcycle.fuel_type | capitalize }}
+
+                                                    {% endif %}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row align-items-center mb-3 ms-2">
-                                    <div class="col-6">
-                                        <h4 class="listing-price ms-1 mt-2">£{{ "{:,}".format(motorcycle.price) }}</h4>
-                                    </div>
-                                    <div class="col-6 text-end">
-                                        <span class="me-4 badge rounded-pill" {% if motorcycle.colour
-                                            %}style="background-color: {{ motorcycle.colour.lower() }}; color: {% if motorcycle.colour.lower() in ['white', 'yellow', 'silver'] %}black{% else %}white{% endif %}"
-                                            {% endif %}>
-                                            {{ motorcycle.colour }}
-                                        </span>
+                                    <div class="row align-items-center mb-3 ms-2">
+                                        <div class="col-6">
+                                            <h4 class="listing-price ms-1 mt-2">£{{ "{:,}".format(motorcycle.price) }}</h4>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <span class="me-4 badge rounded-pill" {% if motorcycle.colour
+                                                %}style="background-color: {{ motorcycle.colour.lower() }}; color: {% if motorcycle.colour.lower() in ['white', 'yellow', 'silver'] %}black{% else %}white{% endif %}"
+                                                {% endif %}>
+                                                {{ motorcycle.colour }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>

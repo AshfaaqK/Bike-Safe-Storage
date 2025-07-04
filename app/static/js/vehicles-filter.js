@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
         engine_size: 'all',
         year_min: 'all',
         year_max: 'all',
-        sort: 'price-asc'
+        sort: 'price-asc',
+        category: 'all'
     };
 
     // Sort comparison functions
@@ -129,6 +130,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (filters.fuel_type !== 'all' && cardData.fuel_type !== filters.fuel_type) {
+                isVisible = false;
+            }
+
+            if (filters.category !== 'all' && cardData.category !== filters.category) {
                 isVisible = false;
             }
 
@@ -246,13 +251,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Button group filters (transmission, fuel type)
-        document.querySelectorAll('.btn-group .filter-btn').forEach(btn => {
+        document.querySelectorAll('.btn-group-vertical .filter-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 const filterType = this.dataset.filter;
                 const filterValue = this.dataset.value;
 
                 // Update active state for button group
-                this.closest('.btn-group').querySelectorAll('.filter-btn').forEach(b => {
+                this.closest('.btn-group-vertical').querySelectorAll('.filter-btn').forEach(b => {
                     b.classList.remove('active');
                 });
                 this.classList.add('active');
@@ -317,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
         filters.year_min = 'all';
         filters.year_max = 'all';
         filters.sort = 'price-asc';
+        filters.category = 'all';
 
         // Reset UI elements
         document.getElementById('make-filter').value = 'all';
@@ -342,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Reset active buttons
-        document.querySelectorAll('.btn-group .filter-btn').forEach(btn => {
+        document.querySelectorAll('.btn-group-vertical .filter-btn').forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.value === 'all') {
                 btn.classList.add('active');
