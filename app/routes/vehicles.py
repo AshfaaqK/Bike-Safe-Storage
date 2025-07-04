@@ -11,24 +11,29 @@ bp = Blueprint('vehicles', __name__)
 @bp.route('/add-stock', methods=['GET', 'POST'])
 def add_stock():
     lookup_form = RegistrationLookUpForm()
-    form = AddVehicleForm()
+    form = AddVehicleForm(price=0)
     
     if form.validate_on_submit():
         try:
+            f_make = form.make.data.upper()
+            f_colour = form.colour.data.upper()
+            f_euro = form.euro.data.upper()
+            f_reg = form.reg.data.upper()
             vehicle = Vehicle(
                 vehicle_type=form.vehicle_type.data,
-                make=form.make.data,
+                price=form.price.data,
+                make=f_make,
                 model=form.model.data,
-                reg=form.reg.data,
+                reg=f_reg,
                 mileage=form.mileage.data,
                 trans=form.transmission.data,
                 category=form.category.data,
                 engine_cc=form.engine_size.data,
-                colour=form.colour.data,
+                colour=f_colour,
                 fuel_type=form.fuel_type.data,
                 first_reg=form.first_reg.data,
                 created=form.created.data,
-                euro=form.euro.data,
+                euro=f_euro,
                 co2_em=form.co2_em.data,
                 status=form.status.data
             )

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileAllowed, MultipleFileField, FileField
 from wtforms import EmailField, PasswordField, SubmitField, TextAreaField, StringField, DateTimeLocalField, SelectField, IntegerField, BooleanField
-from wtforms.validators import InputRequired, Email
+from wtforms.validators import InputRequired, Email, NumberRange
 
 VEHICLE_TYPE = [("Motorcycle", "Motorcycle"), ("Scooter", "Scooter")]
 TRANSMISSION = [("Manual", "Manual"), ("Automatic", "Automatic")]
@@ -13,9 +13,10 @@ SERVICES = [("Storage", "Storage"), ("Detailing", "Detailing"), ("Service", "Ser
 
 class AddVehicleForm(FlaskForm):
     vehicle_type = SelectField("Vehicle Type", choices=VEHICLE_TYPE)
+    price = IntegerField("Price", default=0, validators=[InputRequired("Please enter the price or '0' to skip."), NumberRange(min=0, message="Price must be a positive number.")])
     make = StringField("Make", validators=[InputRequired("Please enter the make.")])
     model = StringField("Model", validators=[InputRequired("Please enter the model.")])
-    reg = StringField("Registration", validators=[InputRequired("Please enter the registration.")])
+    reg = StringField("Registration", validators=[InputRequired("Please enter the registration.")]) 
     mileage = IntegerField("Mileage", validators=[InputRequired("Please enter the mileage.")])
     transmission = SelectField("Transmission", choices=TRANSMISSION)
     category = SelectField("Category", choices=CATEGORY)

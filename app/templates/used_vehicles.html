@@ -276,7 +276,7 @@
                                             <h5 class="card-title">{{ vehicle.make | capitalize }}</h5>
                                         </a>
                                         <p class="card-text">{{ vehicle.model }}</p>
-                                        <p class="card-text"><small class="text-muted">{{ vehicle.vehicle_type }}</small></p>
+                                        <p class="card-text"><small>{{ vehicle.vehicle_type }}</small></p>
 
                                         <div class="row">
                                             <div class="col-6">
@@ -311,7 +311,13 @@
 
                                     <div class="row align-items-center mb-3 ms-2">
                                         <div class="col-6">
-                                            <h4 class="listing-price ms-1 mt-2">£{{ "{:,}".format(vehicle.price) }}</h4>
+                                            <h4 class="listing-price ms-1 mt-2">
+                                                {% if vehicle.price == 0%}
+                                                    Due In
+                                                {% else %}
+                                                    £{{ "{:,}".format(vehicle.price) }}
+                                                {% endif %}
+                                            </h4>
                                         </div>
                                         <div class="col-6 text-end">
                                             <span class="me-4 badge rounded-pill" {% if vehicle.colour

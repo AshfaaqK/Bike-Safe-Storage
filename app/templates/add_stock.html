@@ -92,6 +92,10 @@
                         {{ form.vehicle_type(id='vehicleType', class_ = 'form-control enquiry-input') }}
                     </div>
                     <div class="col-sm-4 enquiry-fields">
+                        {{ form.price.label(class_ = 'enquiry-labels') }}
+                        {{ form.price(id='vehiclePrice', class_ = 'form-control enquiry-input', value=0) }}
+                    </div>
+                    <div class="col-sm-4 enquiry-fields">
                         {{ form.make.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                         {{ form.make(id='vehicleMake', class_ = 'form-control enquiry-input') }}
                     </div>
@@ -143,7 +147,7 @@
                         {{ form.co2_em.label(class_ = 'enquiry-labels') }}
                         {{ form.co2_em(id='vehicleCO2', class_ = 'form-control enquiry-input') }}
                     </div>
-                    <div class="col-sm-4 enquiry-fields">
+                    <div class="col-sm-12 enquiry-fields">
                         {{ form.status.label(class_ = 'enquiry-labels') }}<span class="required-mark"> *</span>
                         {{ form.status(id='vehicleStatus', class_ = 'form-control enquiry-input') }}
                     </div>
