@@ -24,19 +24,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return yearMatch ? parseInt(yearMatch[0]) : 0;
     }
 
-    // Get all motorcycle cards and convert to array
-    const motorcycleCards = Array.from(document.querySelectorAll('.motorcycle-card'));
-    const listingsContainer = document.getElementById('motorcycle-listings');
+    // Get all vehicle cards and convert to array
+    const vehicleCards = Array.from(document.querySelectorAll('.vehicle-card'));
+    const listingsContainer = document.getElementById('vehicle-listings');
     const noResultsMessage = document.getElementById('no-results');
 
     // Initialize filter state
     const filters = {
-        type: 'motorcycle',
+        type: 'all',
         make: 'all',
         model: 'all',
         trans: 'all',
         fuel_type: 'all',
-        colours: [], // Array for multiple color selection
+        colours: [],
         price: parseInt(document.getElementById('price-range').value),
         mileage: parseInt(document.getElementById('mileage-range').value),
         engine_size: 'all',
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function applyFilters() {
         let visibleCards = [];
 
-        motorcycleCards.forEach(card => {
+        vehicleCards.forEach(card => {
             const cardData = card.dataset;
             let isVisible = true;
 
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 modelFilter.disabled = false;
 
                 // Get unique models for selected make
-                const models = motorcycleCards
+                const models = vehicleCards
                     .filter(card => card.dataset.make === selectedMake)
                     .map(card => card.dataset.model)
                     .filter((value, index, self) => self.indexOf(value) === index)
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
             applyFilters();
         });
 
-        // Button group filters (transmission, fuel type)
+        // Button group filters (transmission, fuel type, type, category)
         document.querySelectorAll('.btn-group-vertical .filter-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 const filterType = this.dataset.filter;
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Reset all filters
     function resetAllFilters() {
         // Reset filter values
-        filters.type = 'motorcycle';
+        filters.type = 'all';
         filters.make = 'all';
         filters.model = 'all';
         filters.trans = 'all';
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Reset vehicle type specifically
         document.querySelectorAll('[data-filter="type"].filter-btn').forEach(btn => {
             btn.classList.remove('active');
-            if (btn.dataset.value === 'motorcycle') {
+            if (btn.dataset.value === 'all') {
                 btn.classList.add('active');
             }
         });
