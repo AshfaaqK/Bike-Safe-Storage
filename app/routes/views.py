@@ -27,7 +27,7 @@ def view_used_vehicles():
     rounded_max_price = ceil(max_price / 1000) * 1000
     rounded_max_mileage = ceil(max_mileage / 1000) * 1000
 
-    return render_template('used-vehicles.html', motorcycles=motorcycles, image_path=current_app.config['UPLOADED_IMAGES_DEST'], max_price=rounded_max_price, max_mileage=rounded_max_mileage)
+    return render_template('used_vehicles.html', motorcycles=motorcycles, image_path=current_app.config['UPLOADED_IMAGES_DEST'], max_price=rounded_max_price, max_mileage=rounded_max_mileage)
 
 
 @bp.route('/calendar')
