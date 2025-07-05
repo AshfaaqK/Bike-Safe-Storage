@@ -266,7 +266,10 @@
                                 data-engine_cc="{{ vehicle.engine_cc }}" 
                                 data-first_reg="{{ vehicle.first_reg }}"
                                 data-type="{{ vehicle.vehicle_type }}" 
-                                data-category="{{ vehicle.category }}">
+                                data-category="{{ vehicle.category }}"
+                                data-euro="{{ vehicle.euro }}"
+                                data-status="{{ vehicle.status }}"
+                                data-co2="{{ vehicle.co2_em }}">
                                 <div class="card listings-card">
                                     {% set primary_image = vehicle.images|selectattr('is_primary') | first %}
                                     <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}"
@@ -362,21 +365,19 @@
                 <form id="editVehicleForm">
                     <input type="hidden" id="editVehicleId" name="vehicle_id">
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editMake" class="form-label">Make</label>
                             <input type="text" class="form-control bg-dark text-white" id="editMake" name="make" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editModel" class="form-label">Model</label>
                             <input type="text" class="form-control bg-dark text-white" id="editModel" name="model" required>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editReg" class="form-label">Registration</label>
                             <input type="text" class="form-control bg-dark text-white" id="editReg" name="reg" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editType" class="form-label">Vehicle Type</label>
                             <select class="form-select" id="editType" name="vehicle_type" required>
                                 {% for type in vehicle_types %}
@@ -384,19 +385,15 @@
                                 {% endfor %}
                             </select>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editMileage" class="form-label">Mileage</label>
                             <input type="number" class="form-control bg-dark text-white" id="editMileage" name="mileage" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editPrice" class="form-label">Price (£)</label>
                             <input type="number" class="form-control bg-dark text-white" id="editPrice" name="price" required>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editTrans" class="form-label">Transmission</label>
                             <select class="form-select" id="editTrans" name="trans" required>
                                 {% set transmissions = vehicles|map(attribute='trans')|unique|sort %}
@@ -405,36 +402,48 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editFuelType" class="form-label">Fuel Type</label>
-                            <select class="form-select" id="editFuelType" name="fuel_type" required>
+                            <select class="form-select" id="editFuelType" name="fuel_type">
                                 <option value="PETROL">Petrol</option>
                                 <option value="DIESEL">Diesel</option>
                                 <option value="ELECTRICITY">Electric</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editEngineCC" class="form-label">Engine Size (cc)</label>
                             <input type="number" class="form-control bg-dark text-white" id="editEngineCC" name="engine_cc">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editColour" class="form-label">Colour</label>
                             <input type="text" class="form-control bg-dark text-white" id="editColour" name="colour">
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editFirstReg" class="form-label">First Registration</label>
                             <input type="text" class="form-control bg-dark text-white" id="editFirstReg" name="first_reg">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="editCategory" class="form-label">Category</label>
                             <select class="form-select" id="editCategory" name="category">
                                 <option value="S">S</option>
                                 <option value="N">N</option>
                                 <option value="None">None</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editco2" class="form-label">CO2 Emissions</label>
+                            <input type="number" class="form-control bg-dark text-white" id="editco2" name="co2">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editEuro" class="form-label">Euro Status</label>
+                            <input type="text" class="form-control bg-dark text-white" id="editEuro" name="euro">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editStatus" class="form-label">Sale Status</label>
+                            <select class="form-select" id="editStatus" name="status" required>
+                                <option value="Due In">Due In</option>
+                                <option value="Sale">For Sale</option>
+                                <option value="Sold">Sold</option>
                             </select>
                         </div>
                     </div>

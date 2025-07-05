@@ -38,7 +38,8 @@ def update_vehicle(vehicle_id):
         # Update fields with validation
         update_fields = [
             'make', 'model', 'reg', 'vehicle_type', 'mileage', 'price',
-            'trans', 'fuel_type', 'engine_cc', 'colour', 'first_reg', 'category'
+            'trans', 'fuel_type', 'engine_cc', 'colour', 'first_reg', 'category',
+            'euro', 'co2_em', 'status'
         ]
 
         updates = {}
@@ -62,6 +63,10 @@ def update_vehicle(vehicle_id):
                             'error': f'Invalid {field} value',
                             'message': f'{field.replace("_", " ").title()} must be a number'
                         }), 400
+                
+                # Convert specific fields to uppercase
+                if field in ['make', 'colour', 'euro', 'reg'] and data[field]:
+                    data[field] = data[field].upper()
                 
                 setattr(vehicle, field, data[field])
                 updates[field] = data[field]

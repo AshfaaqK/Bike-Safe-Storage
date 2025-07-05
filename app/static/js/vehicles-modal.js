@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('editColour').value = vehicleCard.dataset.colour || '';
             document.getElementById('editFirstReg').value = vehicleCard.dataset.first_reg || '';
             document.getElementById('editCategory').value = vehicleCard.dataset.category || 'None';
+            document.getElementById('editEuro').value = vehicleCard.dataset.euro || '';
+            document.getElementById('editco2').value = vehicleCard.dataset.co2 || '';
+            document.getElementById('editStatus').value = vehicleCard.dataset.status || 'Due In'
             
             editVehicleModal.show();
         });
@@ -94,6 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
         vehicleCard.dataset.colour = vehicleData.colour || '';
         vehicleCard.dataset.first_reg = vehicleData.first_reg || '';
         vehicleCard.dataset.category = vehicleData.category || 'None';
+        vehicleCard.dataset.euro = vehicleData.euro || '';
+        vehicleCard.dataset.status = vehicleData.co2 || '';
+        vehicleCard.dataset.co2 = vehicleData.status || 'Due In';
 
         // Safely update visible elements
         const card = vehicleCard.querySelector('.listings-card');
