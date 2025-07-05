@@ -253,9 +253,11 @@
                     <div class="d-flex justify-content-center">
                         <div class="row" id="vehicle-listings">
                             {% for vehicle in vehicles %}
-                            <div class="col-sm-12 col-md-6 col-lg-4 mb-4 vehicle-card" 
+                            <div class="col-sm-12 col-md-6 col-lg-4 mb-4 vehicle-card"
+                                data-id="{{ vehicle.vehicle_id }}"
                                 data-make="{{ vehicle.make }}" 
                                 data-model="{{ vehicle.model }}" 
+                                data-reg="{{ vehicle.reg }}"
                                 data-trans="{{ vehicle.trans }}"
                                 data-fuel_type="{{ vehicle.fuel_type }}" 
                                 data-colour="{{ vehicle.colour }}"
@@ -263,7 +265,7 @@
                                 data-mileage="{{ vehicle.mileage }}"
                                 data-engine_cc="{{ vehicle.engine_cc }}" 
                                 data-first_reg="{{ vehicle.first_reg }}"
-                                data-type="{{ vehicle.vehicle_type.lower() }}" 
+                                data-type="{{ vehicle.vehicle_type }}" 
                                 data-category="{{ vehicle.category }}">
                                 <div class="card listings-card">
                                     {% set primary_image = vehicle.images|selectattr('is_primary') | first %}
@@ -280,15 +282,14 @@
                                             </div>
                                             <div class="col-6 justify-content-end">
                                                 {% if current_user.is_authenticated %}
-                                                <a href="{{ url_for('views.home', vehicle_id=vehicle.id) }}"
-                                                   class="btn btn-outline-warning float-end">
+                                                <a class="btn btn-outline-warning float-end">
                                                     <i class="bi bi-pencil-fill"></i> Edit
                                                 </a>
                                                 {% endif %}
                                             </div>
                                         </div>
-                                        <p class="card-text">{{ vehicle.model }}</p>
-                                        <p class="card-text"><small>{{ vehicle.vehicle_type }}</small></p>
+                                        <p class="card-text card-model">{{ vehicle.model }}</p>
+                                        <p class="card-text card-type"><small>{{ vehicle.vehicle_type }}</small></p>
 
                                         <div class="row">
                                             <div class="col-6">
@@ -349,5 +350,112 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="editVehicleModal" tabindex="-1" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editVehicleModalLabel">Edit Vehicle Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editVehicleForm">
+                    <input type="hidden" id="editVehicleId" name="vehicle_id">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editMake" class="form-label">Make</label>
+                            <input type="text" class="form-control bg-dark text-white" id="editMake" name="make" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editModel" class="form-label">Model</label>
+                            <input type="text" class="form-control bg-dark text-white" id="editModel" name="model" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editReg" class="form-label">Registration</label>
+                            <input type="text" class="form-control bg-dark text-white" id="editReg" name="reg" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editType" class="form-label">Vehicle Type</label>
+                            <select class="form-select" id="editType" name="vehicle_type" required>
+                                {% for type in vehicle_types %}
+                                    <option value="{{ type }}">{{ type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editMileage" class="form-label">Mileage</label>
+                            <input type="number" class="form-control bg-dark text-white" id="editMileage" name="mileage" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPrice" class="form-label">Price (£)</label>
+                            <input type="number" class="form-control bg-dark text-white" id="editPrice" name="price" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editTrans" class="form-label">Transmission</label>
+                            <select class="form-select" id="editTrans" name="trans" required>
+                                {% set transmissions = vehicles|map(attribute='trans')|unique|sort %}
+                                {% for trans in transmissions %}
+                                <option value="{{ trans }}">{{ trans }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editFuelType" class="form-label">Fuel Type</label>
+                            <select class="form-select" id="editFuelType" name="fuel_type" required>
+                                <option value="PETROL">Petrol</option>
+                                <option value="DIESEL">Diesel</option>
+                                <option value="ELECTRICITY">Electric</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editEngineCC" class="form-label">Engine Size (cc)</label>
+                            <input type="number" class="form-control bg-dark text-white" id="editEngineCC" name="engine_cc">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editColour" class="form-label">Colour</label>
+                            <input type="text" class="form-control bg-dark text-white" id="editColour" name="colour">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editFirstReg" class="form-label">First Registration</label>
+                            <input type="text" class="form-control bg-dark text-white" id="editFirstReg" name="first_reg">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editCategory" name="category">
+                                <option value="S">S</option>
+                                <option value="N">N</option>
+                                <option value="None">None</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveVehicleChanges">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="editVehicleToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="toastTitle"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastMessage"></div>
+    </div>
+</div>
 
 {% include "footer.html" %}

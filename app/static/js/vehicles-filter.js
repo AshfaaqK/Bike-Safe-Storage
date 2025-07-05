@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let isVisible = true;
 
                 // Check each filter
-                if (filters.type !== 'all' && cardData.type !== filters.type) {
+                if (filters.type !== 'all' && cardData.type.toLowerCase() !== filters.type.toLowerCase()) {
                     isVisible = false;
                 }
 

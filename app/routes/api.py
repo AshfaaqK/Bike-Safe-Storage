@@ -1,10 +1,104 @@
 from flask import Blueprint, jsonify, request
 from datetime import datetime, timedelta
 from app import db
-from app.models import Booking, Enquiry
+from app.models import Booking, Enquiry, Vehicle
 from app.services.dvla_service import vehicle_lookup
 
 bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@bp.route('/vehicles/<int:vehicle_id>', methods=['PATCH'])
+def update_vehicle(vehicle_id):
+    try:
+        # Validate request
+        if not request.is_json:
+            return jsonify({
+                'success': False,
+                'error': 'Request must be JSON',
+                'message': 'Please send data as application/json'
+            }), 400
+
+        data = request.get_json()
+        if not data:
+            return jsonify({
+                'success': False,
+                'error': 'No data provided',
+                'message': 'No update data received'
+            }), 400
+
+        # Get vehicle from database
+        vehicle = db.session.get(Vehicle, vehicle_id)
+        if not vehicle:
+            return jsonify({
+                'success': False,
+                'error': 'Vehicle not found',
+                'message': f'No vehicle found with ID {vehicle_id}'
+            }), 404
+
+        # Update fields with validation
+        update_fields = [
+            'make', 'model', 'reg', 'vehicle_type', 'mileage', 'price',
+            'trans', 'fuel_type', 'engine_cc', 'colour', 'first_reg', 'category'
+        ]
+
+        updates = {}
+        for field in update_fields:
+            if field in data:
+                # Basic validation for required fields
+                if field in ['make', 'model', 'reg', 'vehicle_type', 'mileage'] and not data[field]:
+                    return jsonify({
+                        'success': False,
+                        'error': f'Missing required field: {field}',
+                        'message': f'{field.replace("_", " ").title()} is required'
+                    }), 400
+                
+                # Type conversion for numeric fields
+                if field in ['mileage', 'price', 'engine_cc'] and data[field]:
+                    try:
+                        data[field] = int(data[field])
+                    except ValueError:
+                        return jsonify({
+                            'success': False,
+                            'error': f'Invalid {field} value',
+                            'message': f'{field.replace("_", " ").title()} must be a number'
+                        }), 400
+                
+                setattr(vehicle, field, data[field])
+                updates[field] = data[field]
+
+        db.session.commit()
+
+        # Prepare response with updated vehicle data
+        response_data = {
+            'success': True,
+            'message': 'Vehicle updated successfully',
+            'vehicle': {
+                'vehicle_id': vehicle.vehicle_id,
+                'make': vehicle.make,
+                'model': vehicle.model,
+                'reg': vehicle.reg,
+                'vehicle_type': vehicle.vehicle_type,
+                'mileage': vehicle.mileage,
+                'price': vehicle.price,
+                'trans': vehicle.trans,
+                'fuel_type': vehicle.fuel_type,
+                'engine_cc': vehicle.engine_cc,
+                'colour': vehicle.colour,
+                'first_reg': vehicle.first_reg,
+                'category': vehicle.category,
+                'status': vehicle.status
+            }
+        }
+
+        return jsonify(response_data)
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'An unexpected error occurred while updating the vehicle'
+        }), 500
 
 
 @bp.route('/get-enquiry/<int:enquiry_id>', methods=['GET'])
