@@ -272,9 +272,21 @@
                                         alt="{{ vehicle.make }} {{ vehicle.model }}">
 
                                     <div class="card-body ms-2">
-                                        <a href="">
-                                            <h5 class="card-title">{{ vehicle.make | capitalize }}</h5>
-                                        </a>
+                                        <div class="row d-flex">
+                                            <div class="col-6">
+                                                <a href="">
+                                                    <h5 class="card-title">{{ vehicle.make | capitalize }}</h5>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 justify-content-end">
+                                                {% if current_user.is_authenticated %}
+                                                <a href="{{ url_for('views.home', vehicle_id=vehicle.id) }}"
+                                                   class="btn btn-outline-warning float-end">
+                                                    <i class="bi bi-pencil-fill"></i> Edit
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                         <p class="card-text">{{ vehicle.model }}</p>
                                         <p class="card-text"><small>{{ vehicle.vehicle_type }}</small></p>
 
