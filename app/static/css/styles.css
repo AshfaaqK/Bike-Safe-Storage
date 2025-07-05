@@ -102,7 +102,7 @@ a {
     min-width: auto;
 }
 
-/* Motorcycles */
+/* Used Vehicles */
 
 .color-filter.active {
     position: relative;
@@ -181,14 +181,6 @@ a {
 .btn-group .btn.active {
     background-color: #006eff;
     color: white;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .filter-card {
-        position: static;
-        margin-bottom: 20px;
-    }
 }
 
 .listings-image {
@@ -363,6 +355,11 @@ a {
     
     .fc-toolbar-title {
         font-size: 1.2rem;
+    }
+
+    .filter-card {
+        position: static;
+        margin-bottom: 20px;
     }
 }
 
