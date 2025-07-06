@@ -22,7 +22,7 @@
                 <div class="container-fluid justify-content-evenly">
                     <div class="navbar-brand col me-0">
                         <a class="navbar-brand col me-0" href="{{ url_for('views.home') }}">
-                            <img class="bss-logo-main" src="./static/images/bss-logo.png" alt="BSS">
+                            <img class="bss-logo-main" src="{{ url_for('static', filename='images/bss-logo.png') }}" alt="BSS">
                         </a>
 
                         <span class="contact-info">
