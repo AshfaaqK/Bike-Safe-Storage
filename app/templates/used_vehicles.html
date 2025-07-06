@@ -272,9 +272,11 @@
                                 data-co2="{{ vehicle.co2_em }}">
                                 <div class="card listings-card">
                                     {% set primary_image = vehicle.images|selectattr('is_primary') | first %}
-                                    <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}"
-                                        class="card-img-top listings-image"
-                                        alt="{{ vehicle.make }} {{ vehicle.model }}">
+                                    <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}">
+                                        <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}"
+                                            class="card-img-top listings-image"
+                                            alt="{{ vehicle.make }} {{ vehicle.model }}">
+                                    </a>
 
                                     <div class="card-body ms-2">
                                         <div class="row d-flex">
