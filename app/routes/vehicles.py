@@ -8,7 +8,14 @@ from app.forms import RegistrationLookUpForm, AddVehicleForm
 bp = Blueprint('vehicles', __name__)
 
 
-@bp.route('/add-stock', methods=['GET', 'POST'])
+@bp.route('/edit_vehicle/<int:vehicle_id>', methods=["GET", "POST"])
+def edit_vehicle(vehicle_id):
+    vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
+    
+    return render_template('edit_vehicle.html', vehicle=vehicle)
+
+
+@bp.route('/add-stock', methods=["GET", "POST"])
 def add_stock():
     lookup_form = RegistrationLookUpForm()
     form = AddVehicleForm(price=0)

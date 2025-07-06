@@ -5,63 +5,22 @@
         <!-- Back button -->
         <div class="mb-4 row">
             <div class="col-6">
-                <a href="{{ url_for('views.view_used_vehicles') }}" class="btn btn-outline-light">
+                <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}" class="btn btn-outline-light">
                     <i class="bi bi-arrow-left"></i> Return
                 </a>
             </div>
             
             <div class="col-6 d-flex justify-content-end">
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('vehicles.edit_vehicle', vehicle_id=vehicle.vehicle_id) }}" class="btn btn-outline-warning">
-                        <i class="bi bi-pencil-fill"></i> Edit
-                    </a>
-                {% endif %}
+                <a href="" class="btn btn-outline-success">
+                    <i class="bi bi-pencil-fill"></i> Save
+                </a>
             </div>
         </div>
 
         <div class="row g-4">
-            <!-- Image Carousel Column -->
+            <!-- Display all images to add, edit or delete -->
             <div class="col-lg-7">
-                <div class="card border-secondary">
-                    <div class="card-body p-0">
-                        {% if vehicle.images %}
-                        <div id="vehicleCarousel" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                {% for image in vehicle.images %}
-                                <button type="button" data-bs-target="#vehicleCarousel" 
-                                        data-bs-slide-to="{{ loop.index0 }}" 
-                                        {% if loop.first %}class="active" aria-current="true"{% endif %}
-                                        aria-label="Slide {{ loop.index }}"></button>
-                                {% endfor %}
-                            </div>
-                            <div class="carousel-inner">
-                                {% for image in vehicle.images %}
-                                <div class="carousel-item {% if loop.first %} active {% endif %}" data-bs-interval="2500">
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <img src="{{ url_for('static', filename='uploads/vehicle_images/' + image.image_path) }}" 
-                                             class="d-block img-fluid h-100 w-auto" 
-                                             style="object-fit: contain;"
-                                             alt="{{ vehicle.make }} {{ vehicle.model }} - Image {{ loop.index }}">
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                        {% else %}
-                        <div class="d-flex justify-content-center align-items-center bg-secondary" style="height: 60vh;">
-                            <i class="bi bi-image text-light" style="font-size: 3rem;"></i>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
+                
             </div>
 
             <!-- Vehicle Details Column -->
@@ -92,7 +51,7 @@
                             </span>
                         </div>
 
-                        <div class="mb-2 mt-2 ms-2">
+                        <div class="d-flex mb-2 mt-2 ms-2">
                             <h2 class="text-white">
                                 {% if vehicle.price != 0 %}
                                     {% if vehicle.status == "Sold" %}
