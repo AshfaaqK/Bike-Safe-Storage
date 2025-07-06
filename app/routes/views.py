@@ -15,6 +15,13 @@ def home():
     return render_template('index.html')
 
 
+@bp.route('/view-vehicle/<int:vehicle_id>')
+def view_vehicle(vehicle_id):
+    vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
+    
+    return render_template('view_vehicle.html', vehicle=vehicle)
+
+
 @bp.route('/used-vehicles')
 def view_used_vehicles():
     vehicles = db.session.execute(db.select(Vehicle).order_by(Vehicle.vehicle_id.desc())).scalars().all()

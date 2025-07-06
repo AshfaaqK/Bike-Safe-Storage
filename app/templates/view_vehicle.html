@@ -1,0 +1,224 @@
+{% include "header.html" %}
+
+<section class="admin-panel text-white py-4 py-lg-5">
+    <div class="container">
+        <!-- Back button -->
+        <div class="mb-4">
+            <a href="{{ url_for('views.view_used_vehicles') }}" class="btn btn-outline-light">
+                <i class="bi bi-arrow-left"></i> Back to Inventory
+            </a>
+        </div>
+
+        <div class="row g-4">
+            <!-- Image Carousel Column -->
+            <div class="col-lg-7">
+                <div class="card border-secondary">
+                    <div class="card-body p-0">
+                        {% if vehicle.images %}
+                        <div id="vehicleCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                {% for image in vehicle.images %}
+                                <button type="button" data-bs-target="#vehicleCarousel" 
+                                        data-bs-slide-to="{{ loop.index0 }}" 
+                                        {% if loop.first %}class="active" aria-current="true"{% endif %}
+                                        aria-label="Slide {{ loop.index }}"></button>
+                                {% endfor %}
+                            </div>
+                            <div class="carousel-inner">
+                                {% for image in vehicle.images %}
+                                <div class="carousel-item {% if loop.first %} active {% endif %}">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <img src="{{ url_for('static', filename='uploads/vehicle_images/' + image.image_path) }}" 
+                                             class="d-block img-fluid h-100 w-auto" 
+                                             style="object-fit: contain;"
+                                             alt="{{ vehicle.make }} {{ vehicle.model }} - Image {{ loop.index }}">
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        {% else %}
+                        <div class="d-flex justify-content-center align-items-center bg-secondary" style="height: 60vh;">
+                            <i class="bi bi-image text-light" style="font-size: 3rem;"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicle Details Column -->
+            <div class="col-lg-5">
+                <div class="card border-secondary h-100 main-card-details">
+                    <div class="card-body vehicle-details">
+                        <!-- Header Section -->
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h1 class="text-white h2 mb-1">{{ vehicle.make | capitalize }} {{ vehicle.model }}</h1>
+                                <p class="text-white-50 mb-2">{{ vehicle.vehicle_type }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Price & Color Badge -->
+                        <div class="d-flex justify-content-between align-items-center mb-3 py-2 border-bottom border-secondary">
+                            <h2 class="ms-2 mb-0 text-warning">
+                                {% if vehicle.price == 0 %}
+                                <span class="text-warning">Due In</span>
+                                {% else %}
+                                £{{ "{:,}".format(vehicle.price) }}
+                                {% endif %}
+                            </h2>
+                            <span class="me-2 badge text-white" {% if vehicle.colour 
+                                %}style="background-color: {{ vehicle.colour.lower() if vehicle.colour else '#6c757d' }}"
+                                {% endif %}>
+                                {{ vehicle.colour if vehicle.colour else 'N/A' }}
+                            </span>
+                        </div>
+
+                        <div class="d-flex mb-2 mt-2 ms-2">
+                            <h2 class="text-white">
+                                {% if vehicle.price != 0 %}
+                                    {% if vehicle.status == "Sold" %}
+                                        Reserved
+                                    {% elif vehicle.status == "Sale" %}
+                                        Available!
+                                    {% elif vehicle.status == "Due In" %}
+                                        Due In
+                                    {% endif %}
+                                {% endif %}
+                            </h2>
+                        </div>
+
+                        <!-- Key Specifications Grid -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="p-3 border border-secondary rounded h-100">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-speedometer2 fs-4 me-3 text-primary"></i>
+                                        <div>
+                                            <small class="text-white-50 d-block">Mileage</small>
+                                            <strong class="text-white">{{ "{:,}".format(vehicle.mileage) }} miles</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 border border-secondary rounded h-100">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-calendar fs-4 me-3 text-primary"></i>
+                                        <div>
+                                            <small class="text-white-50 d-block">First Reg</small>
+                                            <strong class="text-white">{{ vehicle.first_reg if vehicle.first_reg else 'N/A' }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 border border-secondary rounded h-100">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-gear fs-4 me-3 text-primary"></i>
+                                        <div>
+                                            <small class="text-white-50 d-block">Transmission</small>
+                                            <strong class="text-white">{{ 'Auto' if vehicle.trans == 'Automatic' else vehicle.trans }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 border border-secondary rounded h-100">
+                                    <div class="d-flex align-items-center">
+                                        {% if vehicle.fuel_type == 'ELECTRICITY' %}
+                                        <i class="bi bi-lightning-charge fs-4 me-3 text-primary"></i>
+                                        {% else %}
+                                        <i class="bi bi-fuel-pump fs-4 me-3 text-primary"></i>
+                                        {% endif %}
+                                        <div>
+                                            <small class="text-white-50 d-block">Fuel</small>
+                                            <strong class="text-white">
+                                                {% if vehicle.fuel_type == 'ELECTRICITY' %}
+                                                Electric
+                                                {% else %}
+                                                {{ vehicle.fuel_type if vehicle.fuel_type else 'N/A' }}
+                                                {% endif %}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Details Section -->
+                        <div class="mb-4">
+                            <div class="card border-secondary tech-details">
+                                <div class="card-header border-secondary">
+                                    <h3 class="h5 mb-3 mt-3 text-white">
+                                        <i class="bi bi-gear-wide-connected me-2"></i> Technical Details
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <small class="text-white-50">Year</small>
+                                            <p class="text-white mb-0">{{ vehicle.created if vehicle.created else 'N/A' }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <small class="text-white-50">Engine Size</small>
+                                            <p class="text-white mb-0">
+                                                {% if vehicle.engine_cc %}
+                                                {{ "{:,}".format(vehicle.engine_cc) }} cc
+                                                {% else %}
+                                                N/A
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <small class="text-white-50">Euro Status</small>
+                                            <p class="text-white mb-0">{{ vehicle.euro if vehicle.euro else 'N/A' }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <small class="text-white-50">Category</small>
+                                            <p class="text-white mb-0">{{ vehicle.category if vehicle.category else 'N/A' }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <small class="text-white-50">CO2 Emissions</small>
+                                            <p class="text-white mb-0">
+                                                {% if vehicle.co2_em %}
+                                                {{ vehicle.co2_em }} g/km
+                                                {% else %}
+                                                N/A
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <small class="text-white-50">Registration</small>
+                                            <p class="text-white mb-0">{{ vehicle.reg if vehicle.reg else 'N/A' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action -->
+                        <div class="d-grid gap-3">
+                            <button class="btn btn-primary btn-lg py-3 fw-bold">
+                                <i class="bi bi-telephone-fill me-2"></i> Call Now: 0787 650 2001
+                            </button>
+                            <button class="btn btn-outline-success btn-lg py-3">
+                                <i class="bi bi-envelope-fill me-2"></i> Make an Enquiry
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}

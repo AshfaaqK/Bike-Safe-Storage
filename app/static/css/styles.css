@@ -102,6 +102,30 @@ a {
     min-width: auto;
 }
 
+/* View Vehicle */
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.carousel-item {
+    background-color: #1a1a1a;
+}
+
+.main-card-details {
+    --bs-card-bg: rgba(0, 0, 0, 0.55) !important;
+}
+
+.vehicle-details {
+    backdrop-filter: blur(6px);
+    --bs-card-bg: rgba(0, 0, 0, 0.55) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+}
+
+.tech-details {
+    --bs-card-bg: rgba(0, 0, 0, 0.45) !important;
+}
+
 /* Used Vehicles */
 
 .color-filter.active {

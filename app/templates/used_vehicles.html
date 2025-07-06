@@ -4,16 +4,16 @@
     <div class="container-lg">
         <div class="container-fluid">
             {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="d-flex justify-content-center">
-                <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    {{ message }}
-                </div>
-            </div>
-            {% endfor %}
-            {% endif %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="d-flex justify-content-center">
+                            <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             {% endwith %}
 
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -279,7 +279,7 @@
                                     <div class="card-body ms-2">
                                         <div class="row d-flex">
                                             <div class="col-6">
-                                                <a href="">
+                                                <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}">
                                                     <h5 class="card-title">{{ vehicle.make | capitalize }}</h5>
                                                 </a>
                                             </div>
