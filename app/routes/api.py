@@ -135,7 +135,7 @@ def update_vehicle(vehicle_id):
             'message': 'Vehicle updated successfully',
             'vehicle': {
                 'vehicle_id': vehicle.vehicle_id,
-                'make': vehicle.make,
+                'make': vehicle.make.capitalize(),
                 'model': vehicle.model,
                 'reg': vehicle.reg,
                 'vehicle_type': vehicle.vehicle_type,

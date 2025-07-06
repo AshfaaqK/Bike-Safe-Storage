@@ -115,10 +115,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const titleElement = card.querySelector('.card-title');
             const modelElement = card.querySelector('.card-model');
             const typeElement = card.querySelector('.card-type');
-            if (titleElement) titleElement.textContent = vehicleData.make.charAt(0).toUpperCase() + 
-                                                         vehicleData.make.slice(1).toLowerCase();
+            if (titleElement) titleElement.textContent = vehicleData.make;
             if (modelElement) modelElement.textContent = vehicleData.model;
-            if (typeElement) typeElement.innerHTML = `<p class="card-text card-type"><small>${vehicleData.vehicle_type}</small></p>`
+            if (typeElement) typeElement.innerHTML = `<p class="card-text card-type"><small>${vehicleData.vehicle_type}</small></p>`;
 
             // Update price
             const priceElement = card.querySelector('.listing-price');

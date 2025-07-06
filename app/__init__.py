@@ -31,6 +31,21 @@ def create_app(config_class=Config):
     app.register_blueprint(enquiries.bp)
     app.register_blueprint(views.bp)
     app.register_blueprint(vehicles.bp)
+    
+    @app.template_filter('titlecase_make')
+    def titlecase_make_filter(s):
+        if not s:
+            return s
+        # Handle special cases first
+        special_cases = {
+            'BMW': 'BMW',
+            'KTM': 'KTM'
+        }
+        if s in special_cases:
+            return special_cases[s]
+        
+        # Properly titlecase multi-word makes
+        return ' '.join(word.capitalize() for word in s.split())
 
     with app.app_context():
         db.create_all()

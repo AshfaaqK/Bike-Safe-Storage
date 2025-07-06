@@ -283,7 +283,7 @@
                                         <div class="row d-flex">
                                             <div class="col-6">
                                                 <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}">
-                                                    <h5 class="card-title">{{ vehicle.make | capitalize }}</h5>
+                                                    <h5 class="card-title">{{ vehicle.make | titlecase_make }}</h5>
                                                 </a>
                                             </div>
                                             <div class="col-6 justify-content-end">
