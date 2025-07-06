@@ -11,9 +11,9 @@
             </div>
             
             <div class="col-6 d-flex justify-content-end">
-                <a href="" class="btn btn-outline-success">
-                    <i class="bi bi-pencil-fill"></i> Save
-                </a>
+                <button type="submit" form="vehicleForm" class="btn btn-success">
+                    <i class="bi bi-floppy me-2"></i> Save Changes
+                </button>
             </div>
         </div>
 
@@ -25,166 +25,142 @@
 
             <!-- Vehicle Details Column -->
             <div class="col-lg-5">
-                <div class="card border-secondary h-100 main-card-details">
-                    <div class="card-body vehicle-details">
-                        <!-- Header Section -->
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                <h1 class="text-white h2 mb-1">{{ vehicle.make | capitalize }} {{ vehicle.model }}</h1>
-                                <p class="text-white-50 mb-2">{{ vehicle.vehicle_type }}</p>
+                <form id="vehicleForm" method="POST" action="{{ url_for('vehicles.edit_vehicle', vehicle_id=vehicle.vehicle_id) }}">
+                    {{ form.csrf_token }}
+                    <div class="card border-secondary h-100 main-card-details">
+                        <div class="card-body vehicle-details">
+                            <!-- Header Section -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h1 class="text-white h2 mb-1">
+                                        {{ form.make(class="form-control form-control-lg vehicle-edit-input text-white mb-2") }}
+                                        {{ form.model(class="form-control form-control vehicle-edit-input text-white mb-2") }}
+                                    </h1>
+                                    <p class="text-white-50 mb-2">{{ form.vehicle_type(class="form-select vehicle-edit-input text-white") }}</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Price & Color Badge -->
-                        <div class="d-flex justify-content-between align-items-center mb-3 py-2 border-bottom border-secondary">
-                            <h2 class="ms-2 mb-0 text-warning">
-                                {% if vehicle.price == 0 %}
-                                <span class="text-warning">Due In</span>
-                                {% else %}
-                                £{{ "{:,}".format(vehicle.price) }}
-                                {% endif %}
-                            </h2>
-                            <span class="me-2 badge text-white" {% if vehicle.colour 
-                                %}style="background-color: {{ vehicle.colour.lower() if vehicle.colour else '#6c757d' }}"
-                                {% endif %}>
-                                {{ vehicle.colour if vehicle.colour else 'N/A' }}
-                            </span>
-                        </div>
+                            <!-- Price & Color -->
+                            <div class="d-flex justify-content-between align-items-center mb-3 pb-3 py-2 border-bottom border-secondary">
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text vehicle-edit-input text-white">£</span>
+                                            {{ form.price(class="form-control vehicle-edit-input text-white") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ form.colour(class="form-control vehicle-edit-input text-white") }}
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="d-flex mb-2 mt-2 ms-2">
-                            <h2 class="text-white">
-                                {% if vehicle.price != 0 %}
-                                    {% if vehicle.status == "Sold" %}
-                                        Reserved
-                                    {% elif vehicle.status == "Sale" %}
-                                        Available!
-                                    {% elif vehicle.status == "Due In" %}
-                                        Due In
-                                    {% endif %}
-                                {% endif %}
-                            </h2>
-                        </div>
+                            <div class="mb-4 mt-2">
+                                {{ form.status(class="form-select vehicle-edit-input text-white") }}
+                            </div>
 
-                        <!-- Key Specifications Grid -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-6">
-                                <div class="p-3 border border-secondary rounded h-100">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-speedometer2 fs-4 me-3 text-primary"></i>
-                                        <div>
-                                            <small class="text-white-50 d-block">Mileage</small>
-                                            <strong class="text-white">{{ "{:,}".format(vehicle.mileage) }} miles</strong>
+                            <!-- Key Specifications Grid -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-6">
+                                    <div class="p-3 border border-secondary rounded h-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-speedometer2 fs-4 me-3 text-primary"></i>
+                                            <div>
+                                                <small class="text-white-50 d-block">Mileage</small>
+                                                <div class="input-group">
+                                                    {{ form.mileage(class="form-control vehicle-edit-input text-white") }}
+                                                    <span class="input-group-text vehicle-edit-input text-white">miles</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 border border-secondary rounded h-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-calendar fs-4 me-3 text-primary"></i>
+                                            <div>
+                                                <small class="text-white-50 d-block">First Reg</small>
+                                                {{ form.first_reg(class="form-control vehicle-edit-input text-white", style="width: 100px;") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 border border-secondary rounded h-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-gear fs-4 me-3 text-primary"></i>
+                                            <div>
+                                                <small class="text-white-50 d-block">Transmission</small>
+                                                {{ form.transmission(class="form-control vehicle-edit-input text-white") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 border border-secondary rounded h-100">
+                                        <div class="d-flex align-items-center">
+                                            {% if vehicle.fuel_type == 'ELECTRICITY' %}
+                                            <i class="bi bi-lightning-charge fs-4 me-3 text-primary"></i>
+                                            {% else %}
+                                            <i class="bi bi-fuel-pump fs-4 me-3 text-primary"></i>
+                                            {% endif %}
+                                            <div>
+                                                <small class="text-white-50 d-block">Fuel</small>
+                                                {{ form.fuel_type(class="form-control vehicle-edit-input text-white") }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="p-3 border border-secondary rounded h-100">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-calendar fs-4 me-3 text-primary"></i>
-                                        <div>
-                                            <small class="text-white-50 d-block">First Reg</small>
-                                            <strong class="text-white">{{ vehicle.first_reg if vehicle.first_reg else 'N/A' }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3 border border-secondary rounded h-100">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-gear fs-4 me-3 text-primary"></i>
-                                        <div>
-                                            <small class="text-white-50 d-block">Transmission</small>
-                                            <strong class="text-white">{{ 'Auto' if vehicle.trans == 'Automatic' else vehicle.trans }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3 border border-secondary rounded h-100">
-                                    <div class="d-flex align-items-center">
-                                        {% if vehicle.fuel_type == 'ELECTRICITY' %}
-                                        <i class="bi bi-lightning-charge fs-4 me-3 text-primary"></i>
-                                        {% else %}
-                                        <i class="bi bi-fuel-pump fs-4 me-3 text-primary"></i>
-                                        {% endif %}
-                                        <div>
-                                            <small class="text-white-50 d-block">Fuel</small>
-                                            <strong class="text-white">
-                                                {% if vehicle.fuel_type == 'ELECTRICITY' %}
-                                                Electric
-                                                {% else %}
-                                                {{ vehicle.fuel_type if vehicle.fuel_type else 'N/A' }}
-                                                {% endif %}
-                                            </strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Technical Details Section -->
-                        <div class="mb-4">
-                            <div class="card border-secondary tech-details">
-                                <div class="card-header border-secondary">
-                                    <h3 class="h5 mb-3 mt-3 text-white">
-                                        <i class="bi bi-gear-wide-connected me-2"></i> Technical Details
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <small class="text-white-50">Year</small>
-                                            <p class="text-white mb-0">{{ vehicle.created if vehicle.created else 'N/A' }}</p>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <small class="text-white-50">Engine Size</small>
-                                            <p class="text-white mb-0">
-                                                {% if vehicle.engine_cc %}
-                                                {{ "{:,}".format(vehicle.engine_cc) }} cc
-                                                {% else %}
-                                                N/A
-                                                {% endif %}
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <small class="text-white-50">Euro Status</small>
-                                            <p class="text-white mb-0">{{ vehicle.euro if vehicle.euro else 'N/A' }}</p>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <small class="text-white-50">Category</small>
-                                            <p class="text-white mb-0">{{ vehicle.category if vehicle.category else 'N/A' }}</p>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <small class="text-white-50">CO2 Emissions</small>
-                                            <p class="text-white mb-0">
-                                                {% if vehicle.co2_em %}
-                                                {{ vehicle.co2_em }} g/km
-                                                {% else %}
-                                                N/A
-                                                {% endif %}
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <small class="text-white-50">Registration</small>
-                                            <p class="text-white mb-0">{{ vehicle.reg if vehicle.reg else 'N/A' }}</p>
+                            <!-- Technical Details Section -->
+                            <div class="mb-4">
+                                <div class="card border-secondary tech-details">
+                                    <div class="card-header border-secondary">
+                                        <h3 class="h5 mb-3 mt-3 text-white">
+                                            <i class="bi bi-gear-wide-connected me-2"></i> Technical Details
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <small class="text-white-50">Year</small>
+                                                {{ form.created(class="form-control vehicle-edit-input text-white") }}
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <small class="text-white-50">Engine Size</small>
+                                                <div class="input-group">
+                                                    {{ form.engine_size(class="form-control vehicle-edit-input text-white") }}
+                                                <span class="input-group-text vehicle-edit-input text-white">cc</span>
+                                                </div>                                            
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <small class="text-white-50">Euro Status</small>
+                                                {{ form.euro(class="form-control vehicle-edit-input text-white") }}
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <small class="text-white-50">Category</small>
+                                                {{ form.category(class="form-control vehicle-edit-input text-white") }}
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <small class="text-white-50">CO2 Emissions</small>
+                                                <div class="input-group">
+                                                    {{ form.co2_em(class="form-control vehicle-edit-input text-white") }}
+                                                    <span class="input-group-text vehicle-edit-input text-white">g/km</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <small class="text-white-50">Registration</small>
+                                                {{ form.reg(class="form-control vehicle-edit-input text-white") }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Call to Action -->
-                        <div class="d-grid gap-3">
-                            <button class="btn btn-primary btn-lg py-3 fw-bold">
-                                <i class="bi bi-telephone-fill me-2"></i> Call Now: 0787 650 2001
-                            </button>
-                            <button class="btn btn-outline-success btn-lg py-3">
-                                <i class="bi bi-envelope-fill me-2"></i> Make an Enquiry
-                            </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

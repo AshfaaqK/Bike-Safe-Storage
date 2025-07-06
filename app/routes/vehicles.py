@@ -12,7 +12,62 @@ bp = Blueprint('vehicles', __name__)
 def edit_vehicle(vehicle_id):
     vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
     
-    return render_template('edit_vehicle.html', vehicle=vehicle)
+    if not vehicle:
+        flash('Vehicle not found', 'danger')
+        return redirect(url_for('views.home'))
+    
+    form = AddVehicleForm(
+        vehicle_type=vehicle.vehicle_type,
+        price=vehicle.price,
+        make=vehicle.make,
+        model=vehicle.model,
+        reg=vehicle.reg,
+        mileage=vehicle.mileage,
+        transmission=vehicle.trans,
+        category=vehicle.category,
+        engine_size=vehicle.engine_cc,
+        colour=vehicle.colour,
+        fuel_type=vehicle.fuel_type,
+        first_reg=vehicle.first_reg,
+        created=vehicle.created,
+        euro=vehicle.euro,
+        co2_em=vehicle.co2_em,
+        status=vehicle.status
+    )
+    
+    if form.validate_on_submit():
+        try:
+            # Update vehicle fields
+            vehicle.vehicle_type = form.vehicle_type.data
+            vehicle.price = form.price.data
+            vehicle.make = form.make.data.upper()
+            vehicle.model = form.model.data
+            vehicle.reg = form.reg.data.upper()
+            vehicle.mileage = form.mileage.data
+            vehicle.trans = form.transmission.data
+            vehicle.category = form.category.data
+            vehicle.engine_cc = form.engine_size.data
+            vehicle.colour = form.colour.data.upper()
+            vehicle.fuel_type = form.fuel_type.data
+            vehicle.first_reg = form.first_reg.data
+            vehicle.created = form.created.data
+            vehicle.euro = form.euro.data.upper()
+            vehicle.co2_em = form.co2_em.data
+            vehicle.status = form.status.data
+            
+            db.session.commit()
+            
+            flash('✅ Vehicle updated successfully!', 'success')
+            return redirect(url_for('views.view_vehicle', vehicle_id=vehicle_id))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'❌ Error updating vehicle: {str(e)}', 'danger')
+    
+    # Get all images for this vehicle
+    images = db.session.execute(db.select(VehicleImage).filter_by(vehicle_id=vehicle_id)).scalars().all()
+    
+    return render_template('edit_vehicle.html', form=form, vehicle=vehicle, images=images)
 
 
 @bp.route('/add-stock', methods=["GET", "POST"])

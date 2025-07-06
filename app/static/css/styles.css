@@ -102,6 +102,23 @@ a {
     min-width: auto;
 }
 
+/* Edit Vehicle */
+
+.vehicle-edit-input {
+    background-color: #00000077;
+    border: 1px solid #48b6ffc4;
+    outline: none;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.vehicle-edit-input:focus {
+    background-color: rgba(146, 146, 146, 0.63);
+    color: #000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
 /* View Vehicle */
 
 .text-white-50 {
