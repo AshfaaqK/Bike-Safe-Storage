@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('editCategory').value = vehicleCard.dataset.category || 'None';
                 document.getElementById('editEuro').value = vehicleCard.dataset.euro || '';
                 document.getElementById('editco2').value = vehicleCard.dataset.co2 || '';
+                document.getElementById('editYear').value = vehicleCard.dataset.created || '';
                 document.getElementById('editStatus').value = vehicleCard.dataset.status || 'Due In'
                 
                 editVehicleModal.show();
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             vehicleCard.dataset.category = vehicleData.category || 'None';
             vehicleCard.dataset.euro = vehicleData.euro || '';
             vehicleCard.dataset.status = vehicleData.co2 || '';
+            vehicleCard.dataset.created = vehicleData.created || '';
             vehicleCard.dataset.co2 = vehicleData.status || 'Due In';
 
             // Safely update visible elements
@@ -113,9 +115,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const titleElement = card.querySelector('.card-title');
             const modelElement = card.querySelector('.card-model');
             const typeElement = card.querySelector('.card-type');
-            if (titleElement) titleElement.textContent = vehicleData.make;
+            if (titleElement) titleElement.textContent = vehicleData.make.charAt(0).toUpperCase() + 
+                                                         vehicleData.make.slice(1).toLowerCase();
             if (modelElement) modelElement.textContent = vehicleData.model;
-            if (typeElement) typeElement.textContent = vehicleData.vehicle_type;
+            if (typeElement) typeElement.innerHTML = `<p class="card-text card-type"><small>${vehicleData.vehicle_type}</small></p>`
 
             // Update price
             const priceElement = card.querySelector('.listing-price');

@@ -112,7 +112,13 @@ def edit_vehicle(vehicle_id):
 @bp.route('/add-stock', methods=["GET", "POST"])
 def add_stock():
     lookup_form = RegistrationLookUpForm()
-    form = AddVehicleForm(price=0)
+    form = AddVehicleForm(price=0,
+                          engine_size=0,
+                          created=0,
+                          co2_em=0)
+    
+    print(f"Form submitted: {request.method == 'POST'}")
+    print(f"Form validation: {form.validate()}, Errors: {form.errors}")
     
     if form.validate_on_submit():
         try:

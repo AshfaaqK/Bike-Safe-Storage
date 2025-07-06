@@ -269,6 +269,7 @@
                                 data-category="{{ vehicle.category }}"
                                 data-euro="{{ vehicle.euro }}"
                                 data-status="{{ vehicle.status }}"
+                                data-created="{{ vehicle.created }}"
                                 data-co2="{{ vehicle.co2_em }}">
                                 <div class="card listings-card">
                                     {% set primary_image = vehicle.images|selectattr('is_primary') | first %}
@@ -439,6 +440,10 @@
                         <div class="col-md-6 mb-3">
                             <label for="editEuro" class="form-label">Euro Status</label>
                             <input type="text" class="form-control bg-dark text-white" id="editEuro" name="euro">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editYear" class="form-label">Model Year</label>
+                            <input type="number" class="form-control bg-dark text-white" id="editYear" name="created">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="editStatus" class="form-label">Sale Status</label>

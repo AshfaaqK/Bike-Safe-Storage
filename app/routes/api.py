@@ -95,7 +95,7 @@ def update_vehicle(vehicle_id):
         update_fields = [
             'make', 'model', 'reg', 'vehicle_type', 'mileage', 'price',
             'trans', 'fuel_type', 'engine_cc', 'colour', 'first_reg', 'category',
-            'euro', 'co2_em', 'status'
+            'euro', 'co2_em', 'status', 'created'
         ]
 
         updates = {}
@@ -110,7 +110,7 @@ def update_vehicle(vehicle_id):
                     }), 400
                 
                 # Type conversion for numeric fields
-                if field in ['mileage', 'price', 'engine_cc'] and data[field]:
+                if field in ['mileage', 'price', 'engine_cc', 'created'] and data[field]:
                     try:
                         data[field] = int(data[field])
                     except ValueError:
@@ -147,6 +147,7 @@ def update_vehicle(vehicle_id):
                 'colour': vehicle.colour,
                 'first_reg': vehicle.first_reg,
                 'category': vehicle.category,
+                'created': vehicle.created,
                 'status': vehicle.status
             }
         }
