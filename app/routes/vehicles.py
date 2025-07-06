@@ -8,6 +8,45 @@ from app.forms import RegistrationLookUpForm, AddVehicleForm
 bp = Blueprint('vehicles', __name__)
 
 
+@bp.route('/upload_images/<int:vehicle_id>', methods=["POST"])
+def upload_images(vehicle_id):
+    if 'images' not in request.files:
+        flash('❗ No files were uploaded', 'danger')
+        return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
+    
+    files = request.files.getlist('images')
+    if not files or not files[0].filename:
+        flash('❗ No files were selected', 'danger')
+        return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
+    
+    try:
+        vehicle_dir = os.path.join(current_app.config['UPLOADED_IMAGES_DEST'], str(vehicle_id))
+        os.makedirs(vehicle_dir, exist_ok=True)
+        
+        for i, image in enumerate(files):
+            if image.filename:
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                filename = f"{timestamp}_{i}.jpg"
+                image.save(os.path.join(vehicle_dir, filename))
+                
+                vehicle_image = VehicleImage(
+                    vehicle_id=vehicle_id,
+                    image_path=f"{vehicle_id}/{filename}",
+                    is_primary=False
+                )
+                
+                db.session.add(vehicle_image)
+        
+        db.session.commit()
+        flash('✅ Images uploaded successfully', 'success')
+        
+    except Exception as e:
+        db.session.rollback()
+        flash(f'❌ Error uploading images: {str(e)}', 'danger')
+    
+    return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
+
+
 @bp.route('/edit_vehicle/<int:vehicle_id>', methods=["GET", "POST"])
 def edit_vehicle(vehicle_id):
     vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
@@ -112,7 +151,7 @@ def add_stock():
                     
                     if first_image:
                         timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-                        first_filename = f"{timestamp}_primary.jpg"
+                        first_filename = f"{timestamp}_{i}.jpg"
                         first_image.save(os.path.join(vehicle_dir, first_filename))
                         
                         vehicle_image = VehicleImage(

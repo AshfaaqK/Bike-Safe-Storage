@@ -1,10 +1,66 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
+import os
 from datetime import datetime, timedelta
 from app import db
-from app.models import Booking, Enquiry, Vehicle
+from app.models import Booking, Enquiry, Vehicle, VehicleImage
 from app.services.dvla_service import vehicle_lookup
 
 bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@bp.route('/delete_image/<int:image_id>', methods=["DELETE"])
+def delete_image(image_id):
+    try:
+        image = db.session.execute(db.select(VehicleImage).filter_by(image_id=image_id)).scalars().first()
+        
+        if not image:
+            return {'success': False, 'message': 'Image not found'}, 404
+        
+        uploaded_images_dest = f"{current_app.config['UPLOADED_IMAGES_DEST']}/"
+        
+        # Delete file from filesystem
+        file_path = os.path.join(
+            uploaded_images_dest,
+            image.image_path
+        )
+        
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        
+        # Delete from database
+        db.session.delete(image)
+        db.session.commit()
+        
+        return {'success': True}, 200
+    
+    except Exception as e:
+        db.session.rollback()
+        return {'success': False, 'message': str(e)}, 500
+
+
+@bp.route('/set_primary_image/<int:image_id>', methods=["POST"])
+def set_primary_image(image_id):
+    try:
+        image = db.session.execute(db.select(VehicleImage).filter_by(image_id=image_id)).scalars().first()
+        
+        if not image:
+            return {'success': False, 'message': 'Image not found'}, 404
+        
+        # First unset any existing primary image
+        db.session.execute(
+            db.update(VehicleImage)
+            .where(VehicleImage.vehicle_id == image.vehicle_id)
+            .values(is_primary=False)
+        )
+        
+        # Set this image as primary
+        image.is_primary = True
+        db.session.commit()
+        
+        return {'success': True}, 200
+    except Exception as e:
+        db.session.rollback()
+        return {'success': False, 'message': str(e)}, 500
 
 
 @bp.route('/vehicles/<int:vehicle_id>', methods=['PATCH'])

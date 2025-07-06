@@ -2,6 +2,19 @@
 
 <section class="admin-panel text-white py-4 py-lg-5">
     <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <!-- Back button -->
         <div class="mb-4 row">
             <div class="col-6">
@@ -20,7 +33,59 @@
         <div class="row g-4">
             <!-- Display all images to add, edit or delete -->
             <div class="col-lg-7">
-                
+                <div class="card vehicle-details border-secondary h-100">
+                    <div class="card-body">
+                        <h3 class="text-white mb-4">
+                            <i class="bi bi-images me-2"></i> Vehicle Images
+                        </h3>
+                        
+                        <!-- Upload new images section -->
+                        <div class="mb-4 p-3 border border-secondary rounded">
+                            <h5 class="text-white mb-3">Add New Images</h5>
+                            <form id="uploadForm" method="POST" action="{{ url_for('vehicles.upload_images', vehicle_id=vehicle.vehicle_id) }}" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <input type="file" class="form-control vehicle-edit-input text-white" name="images" multiple accept="image/jpeg, image/png">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-upload me-2"></i> Upload Images
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Current images gallery -->
+                        <div class="current-images">
+                            <h5 class="text-white mb-3">Current Images</h5>
+                            {% if images %}
+                                <div class="row g-3">
+                                    {% for image in images %}
+                                        <div class="col-md-4 col-6" data-image-id="{{ image.image_id }}">
+                                            <div class="image-card position-relative border {% if image.is_primary %}border-primary{% else %}border-secondary{% endif %} rounded overflow-hidden">
+                                                <img src="{{ url_for('static', filename='uploads/vehicle_images/' + image.image_path) }}" class="img-fluid w-100">
+                                                <div class="image-actions position-absolute top-0 end-0 p-2">
+                                                    {% if not image.is_primary %}
+                                                        <button class="btn btn-sm btn-success set-primary-image-vehicle-btn" title="Set as primary">
+                                                            <i class="bi bi-star"></i>
+                                                        </button>
+                                                    {% else %}
+                                                        <span class="badge bg-danger">PRIMARY</span>
+                                                    {% endif %}
+                                                    <button class="btn btn-sm btn-danger delete-image-vehicle-btn" title="Delete image">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-secondary">
+                                    No images uploaded for this vehicle.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Vehicle Details Column -->

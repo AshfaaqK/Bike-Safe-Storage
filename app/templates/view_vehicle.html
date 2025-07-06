@@ -2,7 +2,7 @@
 
 <section class="admin-panel text-white py-4 py-lg-5">
     <div class="container">
-        
+
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -70,8 +70,8 @@
                             </button>
                         </div>
                         {% else %}
-                        <div class="d-flex justify-content-center align-items-center bg-secondary" style="height: 60vh;">
-                            <i class="bi bi-image text-light" style="font-size: 3rem;"></i>
+                        <div class="d-flex justify-content-center align-items-center bg-secondary">
+                            <img src="{{ url_for('static', filename='images/default_vehicle.jpg') }}" class="card-img" alt="{{ vehicle.make }} {{ vehicle.model }}">
                         </div>
                         {% endif %}
                     </div>
