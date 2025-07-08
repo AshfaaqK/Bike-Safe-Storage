@@ -32,6 +32,9 @@ def create_app(config_class=Config):
     app.register_blueprint(views.bp)
     app.register_blueprint(vehicles.bp)
     
+    from app.services.notifications import init_app as init_notifications
+    init_notifications(app)
+    
     @app.template_filter('titlecase_make')
     def titlecase_make_filter(s):
         if not s:

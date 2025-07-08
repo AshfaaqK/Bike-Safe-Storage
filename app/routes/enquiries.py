@@ -4,6 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app import db
 from app.models import Enquiry
 from app.forms import MakeEnquiryForm
+from app.services.notifications import send_customer_enquiry_confirmation, send_dealer_new_enquiry_notification
 
 bp = Blueprint('enquiries', __name__)
 
@@ -26,6 +27,9 @@ def make_enquiry():
         )
         db.session.add(new_enquiry)
         db.session.commit()
+        
+        send_customer_enquiry_confirmation(new_enquiry)
+        send_dealer_new_enquiry_notification(new_enquiry)
         
         flash("Enquiry received! ✅ We've sent your details to our team. You'll hear back from us within 24 hours. For urgent matters, call us at 0787 650 2001.", 'success')
         

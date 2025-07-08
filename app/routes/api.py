@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from app import db
 from app.models import Booking, Enquiry, Vehicle, VehicleImage
 from app.services.dvla_service import vehicle_lookup
+from app.services.notifications import send_booking_status_update
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -282,6 +283,7 @@ def update_booking(booking_id):
         booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()
         
         if booking:
+            old_status = booking.status
             date_time = datetime.strptime(data.get('start'), '%Y-%m-%dT%H:%M')
             
             booking.status = data.get('status', booking.status)
@@ -297,6 +299,9 @@ def update_booking(booking_id):
             booking.time = date_time.time()
             
             db.session.commit()
+            
+            if old_status.lower() != booking.status.lower() and booking.status.lower() == 'confirmed':
+                send_booking_status_update(booking)
             
             return jsonify({'success': True})
         else:

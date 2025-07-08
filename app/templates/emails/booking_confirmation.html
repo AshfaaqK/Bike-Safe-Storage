@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333333; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #eeeeee; margin-bottom: 30px; }
+        .logo { max-width: 200px; height: auto; margin-bottom: 20px; }
+        h1 { color: #2c3e50; font-size: 24px; margin-bottom: 25px; }
+        .card { background: #ffffff; border-radius: 8px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .booking-details { background: #f8f9fa; padding: 15px; border-radius: 6px; margin: 20px 0; }
+        .detail-item { margin-bottom: 10px; }
+        .detail-label { font-weight: 600; color: #2c3e50; display: inline-block; width: 100px; }
+        .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 14px; color: #7f8c8d; }
+        .btn { display: inline-block; padding: 12px 24px; background-color: #e74c3c; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- Must change image link as it is just hosted online at the moment -->
+        <img src="https://i.ibb.co/v42cFLcx/bss-logo.png" alt="BSS Motorcycles" class="logo">
+        <h1>Your Service Booking Request</h1>
+    </div>
+
+    <div class="card">
+        <p>Dear {{ booking.first_name }},</p>
+        <p>Thank you for booking with BSS Motorcycles. We've received your request for <strong>{{ booking.booking_type }}</strong> and will confirm your appointment shortly.</p>
+        
+        <div class="booking-details">
+            <div class="detail-item">
+                <span class="detail-label">Date:</span>
+                {{ booking.date.strftime('%A, %d %B %Y') }}
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Time:</span>
+                {{ booking.time.strftime('%H:%M') }}
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Vehicle:</span>
+                {{ booking.reg }}
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Reference:</span>
+                #{{ booking.booking_id }}
+            </div>
+        </div>
+
+        {% if booking.message %}
+        <p><strong>Your notes:</strong> {{ booking.message }}</p>
+        {% endif %}
+
+        <p>We'll contact you if we need any additional information. You can expect confirmation within 24 hours.</p>
+    </div>
+
+    <div class="footer">
+        <p>BSS Motorcycles<br>
+        BSS Engineering & Consultancy LTD.
+        Unit 4
+        15-17 Roebuck Road Hainault
+        London, IG6 3TU<br>
+        Phone: 0787 650 2001 | Email: office@bikesafestorage.co.uk</p>
+        <p>&copy; 2025 BSS Motorcycles. All rights reserved.</p>
+    </div>
+</body>
+</html>

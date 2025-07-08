@@ -4,6 +4,7 @@ from datetime import datetime
 from app import db
 from app.models import Booking
 from app.forms import MakeServiceRequestForm
+from app.services.notifications import send_customer_booking_confirmation, send_dealer_new_booking_notification
 
 bp = Blueprint('bookings', __name__)
 
@@ -31,6 +32,9 @@ def service_request():
         )
         db.session.add(new_booking)
         db.session.commit()
+        
+        send_customer_booking_confirmation(new_booking)
+        send_dealer_new_booking_notification(new_booking)
         
         flash("Booking request received! ✅ Our team will contact you within 24 hours to confirm. Check your email (and spam folder) for updates.", 'success')
         
