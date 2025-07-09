@@ -97,6 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (document.getElementById('bookingModal') && document.getElementById('calendar')) {
             document.getElementById('saveChangesBtn').addEventListener('click', function () {
+                document.getElementById('saveChangesBtn').disabled = true;
+                document.getElementById('saveChangesBtn').innerHTML = `
+                    Processing 
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                `;
                 const status = document.getElementById('statusSelect').value;
                 const type = document.getElementById('typeSelect').value;
                 const notes = document.getElementById('adminNotes').value;
@@ -160,6 +167,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
 
                         toastBootstrap.show()
+
+                        document.getElementById('saveChangesBtn').disabled = false;
+                        document.getElementById('saveChangesBtn').innerHTML = `Save Changes`;
                     });
             });
         }

@@ -35,7 +35,7 @@
 
                 <hr>
 
-                <form method="POST" action="{{ url_for('bookings.service_request') }}">
+                <form method="POST" action="{{ url_for('bookings.service_request') }}" id="serviceBookingForm" >
                     {{ form.csrf_token }}
 
                     <div class="mb-3">
@@ -90,7 +90,14 @@
 
                     <div class="d-flex justify-content-center">
                         <div class="mb-3 enquiry-fields">
-                            {{ form.submit(class_ = 'btn btn-primary') }}
+                            {{ form.submit(id='submitBooking', class_ = 'btn btn-primary') }}
+
+                            <button id="loadingSpinner" class="btn btn-primary" disabled style="display: none;">
+                                Processing
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </form>
