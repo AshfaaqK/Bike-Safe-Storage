@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask_login import login_required
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 from app import db
@@ -44,6 +45,7 @@ def service_request():
 
 
 @bp.route('/view-bookings')
+@login_required
 def view_bookings():
     bookings = db.session.execute(db.select(Booking).order_by(Booking.booking_id.desc())).scalars().all()
     
@@ -51,6 +53,7 @@ def view_bookings():
 
 
 @bp.route('/delete-booking/<int:booking_id>')
+@login_required
 def delete_booking(booking_id):
     try:
         booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()

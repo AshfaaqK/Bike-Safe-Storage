@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask_login import login_required
 from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 from app import db
@@ -39,12 +40,14 @@ def make_enquiry():
 
 
 @bp.route('/view-enquiries')
+@login_required
 def view_enquiries():
     enquiries = db.session.execute(db.select(Enquiry).order_by(Enquiry.enquiry_id.desc())).scalars().all()
     return render_template('enquiries.html', enquiries=enquiries)
 
 
 @bp.route('/delete-enquiry/<int:enquiry_id>')
+@login_required
 def delete_enquiry(enquiry_id):
     try:
         enquiry = db.session.execute(db.select(Enquiry).filter_by(enquiry_id=enquiry_id)).scalars().first()

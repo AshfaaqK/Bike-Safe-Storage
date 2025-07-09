@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, current_app
 from flask_uploads import UploadSet, IMAGES
+from flask_login import login_required
 from math import ceil
 from app import db
 from app.models import Booking, Vehicle
@@ -46,6 +47,7 @@ def view_used_vehicles():
 
 
 @bp.route('/calendar')
+@login_required
 def view_calendar():
     bookings = db.session.execute(db.select(Booking).order_by(Booking.booking_id.desc())).scalars().all()
     

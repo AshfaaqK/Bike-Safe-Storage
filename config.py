@@ -13,7 +13,7 @@ class Config:
     RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY')
     RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
-    TEST_DVLA_API_KEY = os.getenv('TEST_DVLA_API_KEY')
+    DVLA_API_KEY = os.getenv('DVLA_API_KEY')
     UPLOADED_IMAGES_DEST = 'app/static/uploads/vehicle_images'
     UPLOADED_IMAGES_URL = '/app/static/uploads/vehicle_images/'
     UPLOADED_IMAGES_ALLOW = IMAGES

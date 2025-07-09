@@ -1,15 +1,27 @@
 from flask import Blueprint, jsonify, request, current_app
+from flask_login import current_user
 import os
 from datetime import datetime, timedelta
 from app import db
 from app.models import Booking, Enquiry, Vehicle, VehicleImage
 from app.services.dvla_service import vehicle_lookup
 from app.services.notifications import send_booking_status_update
+from functools import wraps
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 
+def api_login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return jsonify({'error': 'Authentication required'}), 401
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 @bp.route('/delete_image/<int:image_id>', methods=["DELETE"])
+@api_login_required
 def delete_image(image_id):
     try:
         image = db.session.execute(db.select(VehicleImage).filter_by(image_id=image_id)).scalars().first()
@@ -40,6 +52,7 @@ def delete_image(image_id):
 
 
 @bp.route('/set_primary_image/<int:image_id>', methods=["POST"])
+@api_login_required
 def set_primary_image(image_id):
     try:
         image = db.session.execute(db.select(VehicleImage).filter_by(image_id=image_id)).scalars().first()
@@ -65,6 +78,7 @@ def set_primary_image(image_id):
 
 
 @bp.route('/vehicles/<int:vehicle_id>', methods=['PATCH'])
+@api_login_required
 def update_vehicle(vehicle_id):
     try:
         # Validate request
@@ -165,6 +179,7 @@ def update_vehicle(vehicle_id):
 
 
 @bp.route('/get-enquiry/<int:enquiry_id>', methods=['GET'])
+@api_login_required
 def get_enquiry(enquiry_id):
     enquiry = db.session.execute(db.select(Enquiry).filter_by(enquiry_id=enquiry_id)).scalars().first()
 
@@ -187,6 +202,7 @@ def get_enquiry(enquiry_id):
 
 
 @bp.route('/enquiries/<int:enquiry_id>', methods=['PATCH'])
+@api_login_required
 def update_enquiry(enquiry_id):
     try:
         data = request.json
@@ -213,6 +229,7 @@ def update_enquiry(enquiry_id):
 
 
 @bp.route('/get-booking/<int:booking_id>', methods=['GET'])
+@api_login_required
 def get_booking(booking_id):
     try:
         booking = db.session.execute(db.select(Booking).filter_by(booking_id=booking_id)).scalars().first()
@@ -247,6 +264,7 @@ def get_booking(booking_id):
 
 
 @bp.route('/bookings/calendar')
+@api_login_required
 def get_calendar_bookings():
     bookings = db.session.execute(db.select(Booking).order_by(Booking.date, Booking.time)).scalars().all()
     
@@ -277,6 +295,7 @@ def get_calendar_bookings():
 
 
 @bp.route('/bookings/<int:booking_id>', methods=['PATCH'])
+@api_login_required
 def update_booking(booking_id):
     try:
         data = request.json
@@ -314,6 +333,7 @@ def update_booking(booking_id):
 
 
 @bp.route('/vehicle-lookup', methods=['POST'])
+@api_login_required
 def handle_vehicle_lookup():
     registration = request.json.get('registrationNumber')
     

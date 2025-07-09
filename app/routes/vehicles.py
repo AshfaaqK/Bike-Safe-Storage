@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, current_app, request
+from flask_login import login_required
 import os
 from datetime import datetime
 from app import db
@@ -9,6 +10,7 @@ bp = Blueprint('vehicles', __name__)
 
 
 @bp.route('/upload_images/<int:vehicle_id>', methods=["POST"])
+@login_required
 def upload_images(vehicle_id):
     if 'images' not in request.files:
         flash('❗ No files were uploaded', 'danger')
@@ -48,6 +50,7 @@ def upload_images(vehicle_id):
 
 
 @bp.route('/edit_vehicle/<int:vehicle_id>', methods=["GET", "POST"])
+@login_required
 def edit_vehicle(vehicle_id):
     vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
     
@@ -110,6 +113,7 @@ def edit_vehicle(vehicle_id):
 
 
 @bp.route('/add-stock', methods=["GET", "POST"])
+@login_required
 def add_stock():
     lookup_form = RegistrationLookUpForm()
     form = AddVehicleForm(price=0,

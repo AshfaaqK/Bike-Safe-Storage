@@ -764,6 +764,16 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     font-weight: 200;
 }
 
+.signature {
+    text-decoration: underline;
+    font-style: italic;
+    transition: color ease 0.3s;
+}
+
+.signature:hover {
+    color: #2c922c;
+}
+
 .footer-links {
     margin-bottom: 25px;
 }
