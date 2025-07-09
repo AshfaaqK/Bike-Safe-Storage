@@ -13,6 +13,16 @@ bp = Blueprint('bookings', __name__)
 @bp.route('/make-service-request', methods=["GET", "POST"])
 def service_request():
     form = MakeServiceRequestForm()
+    
+    if request.method == "GET":
+        service_type = request.args.get('service_type')
+        if service_type:
+            form.booking_type.data = service_type
+            
+        detail_storage_message = request.args.get('message')
+        if detail_storage_message:
+            form.message.data = detail_storage_message
+    
     if form.validate_on_submit():
         data = request.form
         date_time = datetime.strptime(data.get('date_time'), '%Y-%m-%dT%H:%M')

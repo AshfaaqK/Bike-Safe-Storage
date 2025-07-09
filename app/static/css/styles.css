@@ -125,6 +125,31 @@ a {
     border-bottom-right-radius: 10px;
 }
 
+/* Services */
+
+.services-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/services-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.services-detail {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/detailing-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.services-trust {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/services-cta-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.services-hr {
+    margin-bottom: 50px;
+    border-top: 3px #fff solid;
+}
+
 /* Edit Vehicle */
 
 .vehicle-edit-input {

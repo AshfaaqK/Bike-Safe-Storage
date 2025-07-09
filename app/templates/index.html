@@ -26,7 +26,7 @@
                         
                         <div class="d-flex justify-content-center gap-3 mb-5">
                             <a href="{{ url_for('views.view_used_vehicles') }}" class="btn btn-primary btn-lg px-4">Our Bikes</a>
-                            <a href="/services" class="btn btn-outline-light btn-lg px-4">Our Services</a>
+                            <a href="{{ url_for('views.services') }}" class="btn btn-outline-light btn-lg px-4">Our Services</a>
                         </div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                     <p class="lead mb-5">Visit us today to experience the BSS difference. Our team is standing by to help you find your perfect motorcycle or schedule expert service.</p>
                     
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="/contact" class="btn btn-primary btn-lg px-4">
+                        <a href="{{ url_for('enquiries.make_enquiry') }}" class="btn btn-primary btn-lg px-4">
                             <i class="bi bi-telephone me-2"></i> Contact Us
                         </a>
                         <a href="{{ url_for('bookings.service_request') }}" class="btn btn-outline-light btn-lg px-4">

@@ -1,0 +1,314 @@
+{% include "header.html" %}
+
+<section class="services-hero py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h1 class="display-4 fw-bold mb-4">BSS Motorcycle Services</h1>
+                <p class="lead">Expert care for your motorcycle at every stage of its journey</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row g-4">
+            <!-- Service Cards -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75">
+                    <div class="card-body p-4">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-house-gear fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Motorcycle Storage</h3>
+                        <p class="card-text text-white-50">Secure, climate-controlled storage solutions for your bike during off-seasons or when you need extended protection.</p>
+                        <ul class="text-white-50">
+                            <li>24/7 monitored facilities</li>
+                            <li>Climate-controlled options</li>
+                            <li>Monthly or seasonal contracts</li>
+                            <li>Battery maintenance included</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Storage') }}" class="btn btn-outline-light mt-3">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75">
+                    <div class="card-body p-4">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-brightness-high fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Professional Detailing</h3>
+                        <p class="card-text text-white-50">Restore your bike's showroom shine with our premium detailing services.</p>
+                        <ul class="text-white-50">
+                            <li>Full exterior deep cleaning</li>
+                            <li>Paint correction and polishing</li>
+                            <li>Leather and trim treatment</li>
+                            <li>Ceramic coating options</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Detailing') }}" class="btn btn-outline-light mt-3">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75">
+                    <div class="card-body p-4">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-tools fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Routine Service</h3>
+                        <p class="card-text text-white-50">Keep your motorcycle running at peak performance with our comprehensive service packages.</p>
+                        <ul class="text-white-50">
+                            <li>Oil and filter changes</li>
+                            <li>Fluid level checks</li>
+                            <li>Brake inspections</li>
+                            <li>Tire pressure checks</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Service') }}" class="btn btn-outline-light mt-3">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75">
+                    <div class="card-body p-4">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-hammer fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Expert Repairs</h3>
+                        <p class="card-text text-white-50">Our certified technicians handle everything from minor fixes to major overhauls.</p>
+                        <ul class="text-white-50">
+                            <li>Engine diagnostics and repair</li>
+                            <li>Electrical system work</li>
+                            <li>Suspension servicing</li>
+                            <li>Warranty-approved work</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Repairs') }}" class="btn btn-outline-light mt-3">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75">
+                    <div class="card-body p-4">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-truck fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Transport Services</h3>
+                        <p class="card-text text-white-50">Safe, reliable transportation for your motorcycle anywhere in the country.</p>
+                        <ul class="text-white-50">
+                            <li>Door-to-door delivery</li>
+                            <li>Enclosed trailer transport</li>
+                            <li>Nationwide coverage</li>
+                            <li>Insurance included</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Transport') }}" class="btn btn-outline-light mt-3">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75">
+                    <div class="card-body p-4">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-gear fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Custom Services</h3>
+                        <p class="card-text text-white-50">Tailored solutions for your unique motorcycle needs.</p>
+                        <ul class="text-white-50">
+                            <li>Custom builds and modifications</li>
+                            <li>Performance upgrades</li>
+                            <li>Vintage restoration</li>
+                            <li>One-off fabrication</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Other') }}" class="btn btn-outline-light mt-3">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services-detail py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h1 class="display-4 fw-bold mb-4">Motorcycle Detailing Packages</h1>
+                <p class="lead">Professional cleaning services to keep your bike looking its best</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <!-- Basic Clean Package -->
+            <div class="col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-50">
+                    <div class="card-body p-4 text-center">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-droplet fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Basic Clean Package</h3>
+                        <div class="price-display mb-4">
+                            <span class="text-muted">Starting From...</span>
+                            <div class="h2 text-white">£29.99</div>
+                        </div>
+                        <p class="card-text text-white mb-4">Our entry level clean, recommended for those looking to give their bike a clean and fresh look</p>
+                        <ul class="text-white text-start mb-4">
+                            <li>Low pressure hot water wash</li>
+                            <li>Snow foam soap</li>
+                            <li>Air drying</li>
+                            <li>Detailed wheel cleaning</li>
+                            <li>Detailed shock area and swingarm cleaning</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Detailing', message='I am interested in the Basic Clean Package at £29.99') }}" class="btn btn-outline-light w-100">
+                            Book Basic Clean
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Clean Package -->
+            <div class="col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-75 border-primary border-2">
+                    <div class="card-body p-4 text-center">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-stars fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Premium Clean Package</h3>
+                        <div class="price-display mb-4">
+                            <span class="text-muted">Starting From...</span>
+                            <div class="h2 text-white">£79.99</div>
+                        </div>
+                        <p class="card-text text-white mb-4">Our most popular service <span class="badge bg-primary">Recommended</span></p>
+                        <div class="text-white-50 text-start mb-3">
+                            <p class="text-white"><small>All services included in 'Basic Clean Package' plus:</small></p>
+                        </div>
+                        <ul class="text-white text-start mb-4">
+                            <li>De-greasing the bike</li>
+                            <li>Dirt and road grime cleaning</li>
+                            <li>Chain cleaning</li>
+                            <li>Detailed engine clean</li>
+                            <li>Detailed brake and calliper cleaning</li>
+                            <li>Drive chain lubrication</li>
+                            <li>Side/centre stand treatment</li>
+                            <li>Foot pegs and brake pedal care</li>
+                            <li>Shock lubrication</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Detailing', message='I am interested in the Premium Clean Package at £79.99') }}" class="btn btn-primary w-100">
+                            Book Premium Clean
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delux Clean Package -->
+            <div class="col-lg-4">
+                <div class="card service-card h-100 border-0 bg-black bg-opacity-50">
+                    <div class="card-body p-4 text-center">
+                        <div class="service-icon mb-4">
+                            <i class="bi bi-gem fs-1 text-primary"></i>
+                        </div>
+                        <h3 class="h4 card-title mb-3 text-white">Deluxe Clean Package</h3>
+                        <div class="price-display mb-4">
+                            <span class="text-muted">Starting From...</span>
+                            <div class="h2 text-white">£149.99</div>
+                        </div>
+                        <p class="card-text text-white mb-4">The most comprehensive service for complete protection</p>
+                        <div class="text-white-50 text-start mb-3">
+                            <p class="text-white"><small>All services included in 'Premium Clean Package' plus:</small></p>
+                        </div>
+                        <ul class="text-white text-start mb-4">
+                            <li>Engine weather protection spray</li>
+                            <li>Wax beading agent (hydrophobic application)</li>
+                            <li>Oil level check</li>
+                            <li>Steam cleaning</li>
+                            <li>Full exterior protection</li>
+                            <li>Undercarriage treatment</li>
+                        </ul>
+                        <a href="{{ url_for('bookings.service_request', service_type='Detailing', message='I am interested in the Deluxe Clean Package at £149.99') }}" class="btn btn-outline-light w-100">
+                            Book Deluxe Clean
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 text-center text-white">
+                <div class="bg-black bg-opacity-75 p-4 rounded-3">
+                    <h3 class="mb-3">Full Detailing During Storage</h3>
+                    <p class="mb-4">We can arrange full detailing while your vehicle is in storage for complete convenience.</p>
+                    <a href="{{ url_for('bookings.service_request', service_type='Detailing', message='I am interested in the Detailing + Storage service.') }}" class="btn btn-outline-primary mt-2">
+                        Contact Us for Storage Detailing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services-trust py-5 bg-black">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h2 class="mb-4">Why Choose Our Detailing Services?</h2>
+                <div class="row g-4 mt-4">
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <i class="bi bi-shield-check fs-3 text-primary mb-3"></i>
+                            <h4 class="h5">Expert Technicians</h4>
+                            <p class="small text-white-50">Trained professionals who understand motorcycles</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <i class="bi bi-emoji-heart-eyes fs-3 text-primary mb-3"></i>
+                            <h4 class="h5">Premium Products</h4>
+                            <p class="small text-white-50">Only the highest quality cleaning and protection materials</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <i class="bi bi-award fs-3 text-primary mb-3"></i>
+                            <h4 class="h5">Satisfaction Guarantee</h4>
+                            <p class="small text-white-50">We stand behind our work with a quality promise</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="services-hr">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h2 class="mb-4">Ready to Experience the BSS Difference?</h2>
+                <p class="lead mb-5">Our team of motorcycle enthusiasts is ready to provide exceptional service for your bike.</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{{ url_for('bookings.service_request') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="bi bi-calendar-check me-2"></i> Book a Service
+                    </a>
+                    <a href="#" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-chat-dots me-2"></i> Ask a Question
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}
