@@ -1,18 +1,185 @@
 {% include "header.html" %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
+<section class="home-page d-flex">
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
 
-            <div class="d-flex justify-content-center">
-                <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    {{ message }}
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-{{ category }} alert-dismissible show fade login-reg-alert" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {{ message }}
+                        </div>
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="hero-section">
+            <div class="py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 text-center text-white">
+                        <h1 class="display-4 fw-bold mb-4">Welcome to BSS Motorcycles!</h1>
+                        <p class="lead mb-5">We live and breathe motorcycles. Whether you're a seasoned rider or just starting your two-wheeled journey, we're here to keep you on the road with expert care, quality bikes, and trusted service.</p>
+                        
+                        <div class="d-flex justify-content-center gap-3 mb-5">
+                            <a href="{{ url_for('views.view_used_vehicles') }}" class="btn btn-primary btn-lg px-4">Our Bikes</a>
+                            <a href="/services" class="btn btn-outline-light btn-lg px-4">Our Services</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12 text-center">
+                        <h2 class="text-white mb-3">Featured Motorcycles</h2>
+                        <p class="text-white-50">Explore our carefully curated selection of premium bikes</p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-12">
+                        <div id="motorcycleCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="8" aria-label="Slide 9"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="9" aria-label="Slide 10"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="10" aria-label="Slide 11"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="11" aria-label="Slide 12"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="12" aria-label="Slide 13"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="13" aria-label="Slide 14"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="14" aria-label="Slide 15"></button>
+                                <button type="button" data-bs-target="#motorcycleCarousel" data-bs-slide-to="15" aria-label="Slide 16"></button>
+                            </div>
+                            <div class="carousel-inner rounded-3 home-carousel">
+                                <div class="carousel-item active" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/1.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/2.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/3.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/4.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/5.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/6.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/7.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/8.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/9.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/10.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/11.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/12.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/13.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/14.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/15.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="../static/images/home-carousel/16.jpg" class="d-block w-100" alt="BSS Motorcycles">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#motorcycleCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#motorcycleCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row mt-4">
+                    <div class="col-12 text-center mt-3">
+                        <a href="{{ url_for('views.view_used_vehicles') }}" class="btn btn-outline-light btn-lg px-4">View Full Inventory</a>
+                    </div>
                 </div>
             </div>
+        </section>
 
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+        <section class="trust-text py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center text-white">
+                    <h2 class="mb-4">Why Choose BSS Motorcycles?</h2>
+                    <p class="lead mb-5">With a passion for performance and a commitment to quality, BSS Motorcycles is your one-stop shop for everything motorcycle. Drop by, give us a call, or browse online – let's get you riding.</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="p-4 rounded-3 bg-dark bg-opacity-50 h-100">
+                                <i class="bi bi-shield-check fs-1 text-primary mb-3"></i>
+                                <h4 class="h5">Trusted Expertise</h4>
+                                <p class="small">Decades of combined experience in the motorcycle industry</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4 rounded-3 bg-dark bg-opacity-50 h-100">
+                                <i class="bi bi-stars fs-1 text-primary mb-3"></i>
+                                <h4 class="h5">Quality Assurance</h4>
+                                <p class="small">Every bike undergoes rigorous inspection and preparation</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4 rounded-3 bg-dark bg-opacity-50 h-100">
+                                <i class="bi bi-heart fs-1 text-primary mb-3"></i>
+                                <h4 class="h5">Passionate Service</h4>
+                                <p class="small">We treat every customer like family and every bike with care</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section py-5 mb-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center text-white">
+                    <h2 class="mb-4">Ready to Ride?</h2>
+                    <p class="lead mb-5">Visit us today to experience the BSS difference. Our team is standing by to help you find your perfect motorcycle or schedule expert service.</p>
+                    
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="/contact" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-telephone me-2"></i> Contact Us
+                        </a>
+                        <a href="{{ url_for('bookings.service_request') }}" class="btn btn-outline-light btn-lg px-4">
+                            <i class="bi bi-calendar-check me-2"></i> Book Service
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
 
 {% include "footer.html" %}

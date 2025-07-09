@@ -102,6 +102,29 @@ a {
     min-width: auto;
 }
 
+/* Home Page */
+
+.home-page {
+    background: linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85) ), url("../images/home-bg.jpg");
+    background-size: cover;
+}
+
+.home-carousel {
+    max-height: 820px;
+}
+
+.trust-text {
+    background-color: rgba(40, 110, 22, 0.85);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.cta-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 /* Edit Vehicle */
 
 .vehicle-edit-input {
