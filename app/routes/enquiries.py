@@ -3,7 +3,7 @@ from flask_login import login_required
 from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 from app import db
-from app.models import Enquiry
+from app.models import Enquiry, Vehicle
 from app.forms import MakeEnquiryForm
 from app.services.notifications import send_customer_enquiry_confirmation, send_dealer_new_enquiry_notification
 
@@ -13,6 +13,16 @@ bp = Blueprint('enquiries', __name__)
 @bp.route('/make-an-enquiry', methods=["GET", "POST"])
 def make_enquiry():
     form = MakeEnquiryForm()
+    
+    if request.method == "GET":
+        vehicle_id = request.args.get('vehicle_id')
+        
+        vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
+        
+        if vehicle:
+            default_message = f"I'm interested in this {vehicle.colour} {vehicle.trans} {vehicle.vehicle_type}, {vehicle.make} {vehicle.model}. Registration: {vehicle.reg}."
+            form.message.data = default_message
+    
     if form.validate_on_submit():
         data = request.form
         raw_phone = data.get('phone')
