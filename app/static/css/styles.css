@@ -153,7 +153,7 @@ a {
 /* Contact Us */
 
 .contact-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../static/images/contact-bg.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/contact-bg.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -200,6 +200,12 @@ a {
 }
 
 /* Used Vehicles */
+
+.vehicle-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/vehicles-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
 
 .color-filter.active {
     position: relative;
