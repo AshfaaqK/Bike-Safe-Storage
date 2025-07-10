@@ -22,6 +22,12 @@ def services():
     return render_template('services.html')
 
 
+@bp.route('/contact-us')
+def contact_us():
+    
+    return render_template('contact_us.html')
+
+
 @bp.route('/view-vehicle/<int:vehicle_id>')
 def view_vehicle(vehicle_id):
     vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
