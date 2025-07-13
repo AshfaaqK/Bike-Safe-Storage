@@ -207,6 +207,14 @@ a {
     background-position: center;
 }
 
+.used-vehicle-title {
+    color: #fff;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    min-width: 280px;
+}
+
 .color-filter.active {
     position: relative;
     transform: scale(1.05);

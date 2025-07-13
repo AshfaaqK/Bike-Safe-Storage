@@ -16,40 +16,51 @@
                 {% endif %}
             {% endwith %}
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="table-title mb-0">Used Vehicles</h1>
+            <div class="d-flex mb-4 row">
+                <div class="btn-group btn-group-lg row col-md-6">
+                    <h1 id="usedVehicleListingsBtn" class="btn btn-outline-primary used-vehicle-title mb-0 col-md-6">Used Vehicles</h1>
+                    <h1 id="soldVehicleListingsBtn" class="btn btn-outline-primary used-vehicle-title mb-0 col-md-6">Sold Vehicles</h1>
+                </div>
 
                 <!-- Sort Dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="sortDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-sort-down"></i> Sort By
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
-                        <li><a class="dropdown-item sort-option active" href="#" data-sort="price-asc">Price: Low to
-                                High</a></li>
-                        <li><a class="dropdown-item sort-option" href="#" data-sort="price-desc">Price: High to Low</a>
-                        </li>
-                        <li><a class="dropdown-item sort-option" href="#" data-sort="mileage-asc">Mileage: Low to
-                                High</a></li>
-                        <li><a class="dropdown-item sort-option" href="#" data-sort="mileage-desc">Mileage: High to
-                                Low</a></li>
-                        <li><a class="dropdown-item sort-option" href="#" data-sort="year-desc">Year: Newest First</a>
-                        </li>
-                        <li><a class="dropdown-item sort-option" href="#" data-sort="year-asc">Year: Oldest First</a>
-                        </li>
-                    </ul>
-                </div>
+                 <div class="col-md-6 d-flex justify-content-end align-items-end">
+                    <div id="sortVehicleListingsBtn" class="dropdown mt-4">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="sortDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-sort-down"></i> Sort By
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item sort-option active" href="#" data-sort="price-asc">Price: Low to
+                                    High</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="price-desc">Price: High to Low</a>
+                            </li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="mileage-asc">Mileage: Low to
+                                    High</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="mileage-desc">Mileage: High to
+                                    Low</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="year-desc">Year: Newest First</a>
+                            </li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="year-asc">Year: Oldest First</a>
+                            </li>
+                        </ul>
+                    </div>
+                 </div>
             </div>
 
-            <div class="row mb-2 align-items-end">
+            <div id="numberOfVehicles" class="row mb-2 align-items-end">
                 <h5 class="col enquiry-parameter-text ms-2 mb-0">
                     <span id="filtered-count">{{ vehicles | length }}</span> Vehicles Displayed
                 </h5>
             </div>
+
+            <div id="numberOfSoldVehicles" class="row mb-2 align-items-end" style="display: none;">
+                <h5 class="col enquiry-parameter-text ms-2 mb-0">
+                    <span>{{ sold_vehicles | length }}</span> Vehicles Displayed
+                </h5>
+            </div>
         </div>
 
-        <div class="row">
+        <div id="usedVehicleListings" class="row">
             <!-- Filter Column -->
             <div class="col-md-3 mb-4">
                 <div class="filter-card p-3">
@@ -351,6 +362,86 @@
                             {% endfor %}
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="soldVehicleListings" class="" style="display: none;">
+            <div class="d-flex justify-content-center">
+                <div class="row">
+                    {% for vehicle in sold_vehicles %}
+                    <div class="col-sm-12 col-md-4 col-lg-3 mb-4 sold-vehicle-card">
+                        <div class="card listings-card">
+                            {% set primary_image = vehicle.images|selectattr('is_primary') | first %}
+                            <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}">
+                                <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('static', filename='uploads/vehicle_images/' + primary_image.image_path) }}"
+                                    class="card-img-top listings-image"
+                                    alt="{{ vehicle.make }} {{ vehicle.model }}">
+                            </a>
+
+                            <div class="card-body ms-2">
+                                <div class="row d-flex">
+                                    <div class="col-6">
+                                        <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}">
+                                            <h5 class="card-title">{{ vehicle.make | titlecase_make }}</h5>
+                                        </a>
+                                    </div>
+                                </div>
+                                <p class="card-text card-model">{{ vehicle.model }}</p>
+                                <p class="card-text card-type"><small>{{ vehicle.vehicle_type }}</small></p>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p><i class="bi bi-calendar h6"></i> {{ vehicle.first_reg }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p>
+                                            <i class="bi bi-gear h6"></i>
+                                            {% if vehicle.trans == "Automatic" %}
+                                                Auto
+                                            {% else %}
+                                                {{ vehicle.trans }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p><i class="bi bi-speedometer2 h6"></i> {{ "{:,}".format(vehicle.mileage) }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p>
+                                            {% if vehicle.fuel_type == "ELECTRICITY" %}
+                                                <i class="bi bi-lightning-charge h6"></i>
+                                                EV
+                                            {% else %}
+                                                <i class="bi bi-fuel-pump h6"></i> 
+                                                {{ vehicle.fuel_type | capitalize }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center mb-3 ms-2">
+                                <div class="col-6">
+                                    <h4 class="listing-price ms-1 mt-2">
+                                        {% if vehicle.price == 0%}
+                                            Due In
+                                        {% else %}
+                                            £{{ "{:,}".format(vehicle.price) }}
+                                        {% endif %}
+                                    </h4>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="me-4 badge rounded-pill" {% if vehicle.colour
+                                        %}style="background-color: {{ vehicle.colour.lower() }}; color: {% if vehicle.colour.lower() in ['white', 'yellow', 'silver'] %}black{% else %}white{% endif %}"
+                                        {% endif %}>
+                                        {{ vehicle.colour }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

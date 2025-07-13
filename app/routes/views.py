@@ -37,7 +37,8 @@ def view_vehicle(vehicle_id):
 
 @bp.route('/used-vehicles')
 def view_used_vehicles():
-    vehicles = db.session.execute(db.select(Vehicle).order_by(Vehicle.vehicle_id.desc())).scalars().all()
+    vehicles = db.session.execute(db.select(Vehicle).where(Vehicle.status != 'Sold').order_by(Vehicle.vehicle_id.desc())).scalars().all()
+    sold_vehicles = db.session.execute(db.select(Vehicle).filter_by(status="Sold").order_by(Vehicle.price.desc())).scalars().all()
     
     vehicle_types = db.session.execute(
         db.select(Vehicle.vehicle_type).distinct().order_by(Vehicle.vehicle_type)
@@ -52,6 +53,7 @@ def view_used_vehicles():
     return render_template(
         'used_vehicles.html', 
         vehicles=vehicles,
+        sold_vehicles=sold_vehicles,
         vehicle_types=vehicle_types,
         max_price=rounded_max_price, 
         max_mileage=rounded_max_mileage

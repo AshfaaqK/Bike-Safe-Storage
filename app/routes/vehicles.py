@@ -2,6 +2,7 @@ from flask import Blueprint, flash, render_template, redirect, url_for, current_
 from flask_login import login_required
 import os
 from datetime import datetime
+from sqlalchemy.exc import SQLAlchemyError
 from app import db
 from app.models import Vehicle, VehicleImage
 from app.forms import RegistrationLookUpForm, AddVehicleForm
@@ -47,6 +48,24 @@ def upload_images(vehicle_id):
         flash(f'❌ Error uploading images: {str(e)}', 'danger')
     
     return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
+
+
+@bp.route('/delete_vehicle/<int:vehicle_id>')
+@login_required
+def delete_vehicle(vehicle_id):
+    try:
+        vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
+        db.session.delete(vehicle)
+        db.session.commit()
+        
+        flash(f'🗑️ Vehicle #{vehicle_id} deleted successfully!', 'success')
+        
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        
+        flash(f'❌ Failed to delete Vehicle #{vehicle_id}. Error: {str(e)}', 'danger')
+        
+    return redirect(url_for('views.view_used_vehicles'))
 
 
 @bp.route('/edit_vehicle/<int:vehicle_id>', methods=["GET", "POST"])
