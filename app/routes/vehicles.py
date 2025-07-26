@@ -140,9 +140,6 @@ def add_stock():
                           created=0,
                           co2_em=0)
     
-    print(f"Form submitted: {request.method == 'POST'}")
-    print(f"Form validation: {form.validate()}, Errors: {form.errors}")
-    
     if form.validate_on_submit():
         try:
             f_make = form.make.data.upper()
@@ -180,7 +177,7 @@ def add_stock():
                     
                     if first_image:
                         timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-                        first_filename = f"{timestamp}_{i}.jpg"
+                        first_filename = f"{timestamp}_0.jpg"
                         first_image.save(os.path.join(vehicle_dir, first_filename))
                         
                         vehicle_image = VehicleImage(
@@ -191,7 +188,7 @@ def add_stock():
                         
                         db.session.add(vehicle_image)
                     
-                    for i, image in enumerate(uploaded_files):
+                    for i, image in enumerate(uploaded_files, 1):
                         if image.filename:
                             timestamp = datetime.now().strftime('%Y%m%d_%H%M')
                             filename = f"{timestamp}_{i}.jpg"
