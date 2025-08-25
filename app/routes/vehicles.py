@@ -6,8 +6,39 @@ from sqlalchemy.exc import SQLAlchemyError
 from app import db
 from app.models import Vehicle, VehicleImage
 from app.forms import RegistrationLookUpForm, AddVehicleForm
+from flask_uploads import IMAGES
 
 bp = Blueprint('vehicles', __name__)
+
+
+def save_image_file(vehicle_id, image_file, index, is_primary=False):
+    """Helper to save uploaded image and add to VehicleImage DB."""
+    if not image_file or not getattr(image_file, 'filename', None):
+        return None
+
+    # Extract extension and normalize
+    ext = os.path.splitext(image_file.filename)[1].lower().lstrip('.')
+    if ext not in IMAGES:
+        return None  # skip unsupported files
+
+    # Timestamp filename
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = f"{timestamp}_{index}.jpg"
+
+    vehicle_dir = os.path.join(current_app.config['UPLOADED_IMAGES_DEST'], str(vehicle_id))
+    os.makedirs(vehicle_dir, exist_ok=True)
+
+    filepath = os.path.join(vehicle_dir, filename)
+    image_file.save(filepath)
+
+    # Create DB record
+    vehicle_image = VehicleImage(
+        vehicle_id=vehicle_id,
+        image_path=f"{vehicle_id}/{filename}",
+        is_primary=is_primary
+    )
+    db.session.add(vehicle_image)
+    return filename
 
 
 @bp.route('/upload_images/<int:vehicle_id>', methods=["POST"])
@@ -16,37 +47,28 @@ def upload_images(vehicle_id):
     if 'images' not in request.files:
         flash('❗ No files were uploaded', 'danger')
         return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
-    
+
     files = request.files.getlist('images')
     if not files or not files[0].filename:
         flash('❗ No files were selected', 'danger')
         return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
-    
+
     try:
         vehicle_dir = os.path.join(current_app.config['UPLOADED_IMAGES_DEST'], str(vehicle_id))
         os.makedirs(vehicle_dir, exist_ok=True)
-        
+
         for i, image in enumerate(files):
-            if image.filename:
-                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-                filename = f"{timestamp}_{i}.jpg"
-                image.save(os.path.join(vehicle_dir, filename))
-                
-                vehicle_image = VehicleImage(
-                    vehicle_id=vehicle_id,
-                    image_path=f"{vehicle_id}/{filename}",
-                    is_primary=False
-                )
-                
-                db.session.add(vehicle_image)
-        
+            filename = save_image_file(vehicle_id, image, i, is_primary=False)
+            if not filename:
+                flash(f"❌ Unsupported image skipped: {image.filename}", "danger")
+
         db.session.commit()
         flash('✅ Images uploaded successfully', 'success')
-        
+
     except Exception as e:
         db.session.rollback()
         flash(f'❌ Error uploading images: {str(e)}', 'danger')
-    
+
     return redirect(url_for('vehicles.edit_vehicle', vehicle_id=vehicle_id))
 
 
@@ -57,14 +79,10 @@ def delete_vehicle(vehicle_id):
         vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
         db.session.delete(vehicle)
         db.session.commit()
-        
         flash(f'🗑️ Vehicle #{vehicle_id} deleted successfully!', 'success')
-        
     except SQLAlchemyError as e:
         db.session.rollback()
-        
         flash(f'❌ Failed to delete Vehicle #{vehicle_id}. Error: {str(e)}', 'danger')
-        
     return redirect(url_for('views.view_used_vehicles'))
 
 
@@ -72,11 +90,11 @@ def delete_vehicle(vehicle_id):
 @login_required
 def edit_vehicle(vehicle_id):
     vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
-    
+
     if not vehicle:
         flash('Vehicle not found', 'danger')
         return redirect(url_for('views.home'))
-    
+
     form = AddVehicleForm(
         vehicle_type=vehicle.vehicle_type,
         price=vehicle.price,
@@ -95,10 +113,9 @@ def edit_vehicle(vehicle_id):
         co2_em=vehicle.co2_em,
         status=vehicle.status
     )
-    
+
     if form.validate_on_submit():
         try:
-            # Update vehicle fields
             vehicle.vehicle_type = form.vehicle_type.data
             vehicle.price = form.price.data
             vehicle.make = form.make.data.upper()
@@ -115,19 +132,15 @@ def edit_vehicle(vehicle_id):
             vehicle.euro = form.euro.data.upper()
             vehicle.co2_em = form.co2_em.data
             vehicle.status = form.status.data
-            
+
             db.session.commit()
-            
             flash('✅ Vehicle updated successfully!', 'success')
             return redirect(url_for('views.view_vehicle', vehicle_id=vehicle_id))
-            
         except Exception as e:
             db.session.rollback()
             flash(f'❌ Error updating vehicle: {str(e)}', 'danger')
-    
-    # Get all images for this vehicle
+
     images = db.session.execute(db.select(VehicleImage).filter_by(vehicle_id=vehicle_id)).scalars().all()
-    
     return render_template('edit_vehicle.html', form=form, vehicle=vehicle, images=images)
 
 
@@ -135,12 +148,42 @@ def edit_vehicle(vehicle_id):
 @login_required
 def add_stock():
     lookup_form = RegistrationLookUpForm()
-    form = AddVehicleForm(price=0,
-                          engine_size=0,
-                          created=0,
-                          co2_em=0)
-    
-    if form.validate_on_submit():
+    form = AddVehicleForm(price=0, engine_size=0, created=0, co2_em=0)
+
+    is_post = (request.method == "POST")
+
+    # --- PRE-CHECK FILE EXTENSIONS BEFORE VALIDATION ---
+    if is_post:
+        bad_files = []
+
+        first_image = form.first_image.data
+        if first_image and getattr(first_image, 'filename', None):
+            ext = os.path.splitext(first_image.filename)[1].lower().lstrip('.')
+            if ext not in IMAGES:
+                bad_files.append(("Primary image", first_image.filename))
+
+        uploaded_files = request.files.getlist('images')
+        for idx, f in enumerate(uploaded_files, start=1):
+            if f and getattr(f, 'filename', None):
+                ext = os.path.splitext(f.filename)[1].lower().lstrip('.')
+                if ext not in IMAGES:
+                    bad_files.append((f"Image {idx}", f.filename))
+
+        if bad_files:
+            allowed = ", ".join(IMAGES)
+            for label, fname in bad_files:
+                flash(f"❌ {label} error: Unsupported file type: {fname}. Allowed: {allowed}", "danger")
+            return render_template('add_stock.html', lookup_form=lookup_form, form=form, show_vehicle_form=True)
+
+    # --- NORMAL FORM VALIDATION ---
+    form_ok = form.validate_on_submit()
+    if not form_ok and is_post:
+        for field_name, errors in form.errors.items():
+            for err in errors:
+                flash(f"❌ {field_name}: {err}", "danger")
+        return render_template('add_stock.html', lookup_form=lookup_form, form=form, show_vehicle_form=True)
+
+    if form_ok:
         try:
             f_make = form.make.data.upper()
             f_colour = form.colour.data.upper()
@@ -164,52 +207,33 @@ def add_stock():
                 co2_em=form.co2_em.data,
                 status=form.status.data
             )
-            
+
             db.session.add(vehicle)
             db.session.flush()
-            
+
+            # Only process images if skip_images not checked
             if not form.skip_images.data:
+                # --- PRIMARY IMAGE ---
                 first_image = form.first_image.data
-                uploaded_files = request.files.getlist('images')
-                if uploaded_files and uploaded_files[0].filename:
-                    vehicle_dir = os.path.join(current_app.config['UPLOADED_IMAGES_DEST'], str(vehicle.vehicle_id))
-                    os.makedirs(vehicle_dir, exist_ok=True)
-                    
-                    if first_image:
-                        timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-                        first_filename = f"{timestamp}_0.jpg"
-                        first_image.save(os.path.join(vehicle_dir, first_filename))
-                        
-                        vehicle_image = VehicleImage(
-                            vehicle_id=vehicle.vehicle_id,
-                            image_path=f"{vehicle.vehicle_id}/{first_filename}",
-                            is_primary=True
-                        )
-                        
-                        db.session.add(vehicle_image)
-                    
-                    for i, image in enumerate(uploaded_files, 1):
-                        if image.filename:
-                            timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-                            filename = f"{timestamp}_{i}.jpg"
-                            
-                            image.save(os.path.join(vehicle_dir, filename))
-                            
-                            vehicle_image = VehicleImage(
-                                vehicle_id=vehicle.vehicle_id,
-                                image_path=f"{vehicle.vehicle_id}/{filename}",
-                                is_primary=False
-                            )
-                            
-                            db.session.add(vehicle_image)
-                    
+                if first_image and getattr(first_image, 'filename', None):
+                    filename = save_image_file(vehicle.vehicle_id, first_image, 0, is_primary=True)
+                    if not filename:
+                        flash(f"❌ Primary image '{first_image.filename}' unsupported and skipped.", "danger")
+
+                # --- ADDITIONAL IMAGES ---
+                for i, image in enumerate(uploaded_files, 1):
+                    filename = save_image_file(vehicle.vehicle_id, image, i, is_primary=False)
+                    if not filename:
+                        flash(f"❌ Image {i} '{image.filename}' unsupported and skipped.", "danger")
+
             db.session.commit()
-            
             flash('✅ Vehicle added successfully!', 'success')
             return redirect(url_for('vehicles.add_stock'))
-            
+
         except Exception as e:
             db.session.rollback()
             flash(f'❌ Error adding vehicle: {str(e)}', 'danger')
-    
+            return render_template('add_stock.html', lookup_form=lookup_form, form=form, show_vehicle_form=True)
+
+    # Default render for GET
     return render_template('add_stock.html', lookup_form=lookup_form, form=form)

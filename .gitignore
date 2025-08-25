@@ -18,6 +18,7 @@ instance/
 .env.*.local
 
 # Virtual environment
+.venv/
 venv/
 ENV/
 env/

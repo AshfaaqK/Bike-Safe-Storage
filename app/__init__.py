@@ -3,10 +3,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_uploads import configure_uploads, IMAGES, UploadSet
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-
+migrate = Migrate()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -39,18 +40,14 @@ def create_app(config_class=Config):
     def titlecase_make_filter(s):
         if not s:
             return s
-        # Handle special cases first
         special_cases = {
             'BMW': 'BMW',
             'KTM': 'KTM'
         }
         if s in special_cases:
             return special_cases[s]
-        
-        # Properly titlecase multi-word makes
         return ' '.join(word.capitalize() for word in s.split())
 
-    with app.app_context():
-        db.create_all()
-
+    migrate.init_app(app, db)
+    
     return app
