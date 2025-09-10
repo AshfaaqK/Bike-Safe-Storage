@@ -285,7 +285,7 @@
                                 <div class="card listings-card">
                                     {% set primary_image = vehicle.images|selectattr('is_primary') | first %}
                                     <a href="{{ url_for('views.view_vehicle', vehicle_id=vehicle.vehicle_id) }}">
-                                        <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('uploaded_file', filename=primary_image.image_path) }}"
+                                        <img src="{{ url_for('static', filename='images/default_vehicle.jpg') if not primary_image else url_for('uploads.uploaded_file', filename=primary_image.image_path) }}"
                                             class="card-img-top listings-image"
                                             alt="{{ vehicle.make }} {{ vehicle.model }}">
                                     </a>
