@@ -14,10 +14,10 @@ class Config:
     RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     DVLA_API_KEY = os.getenv('DVLA_API_KEY')
-    UPLOADED_IMAGES_DEST = 'app/static/uploads/vehicle_images'
-    UPLOADED_IMAGES_URL = '/app/static/uploads/vehicle_images/'
+    UPLOADED_IMAGES_DEST = '/var/uploads/vehicle_images'
+    UPLOADED_IMAGES_URL = '/uploads/'
     UPLOADED_IMAGES_ALLOW = IMAGES
-    UPLOADS_DEFAULT_DEST = 'app/static/uploads'
+    UPLOADS_DEFAULT_DEST = '/var/uploads'
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = os.getenv('MAIL_PORT')
     MAIL_USE_TLS = True
