@@ -97,9 +97,11 @@
                         <div class="d-flex justify-content-between align-items-center mb-3 py-2 border-bottom border-secondary">
                             <h2 class="ms-2 mb-0 text-warning">
                                 {% if vehicle.price == 0 %}
-                                <span class="text-warning">Due In</span>
+                                    <span class="text-warning">Due In</span>
+                                {% elif vehicle.status == "Sold" %}
+                                    <span class="text-warning"></span>
                                 {% else %}
-                                £{{ "{:,}".format(vehicle.price) }}
+                                    £{{ "{:,}".format(vehicle.price) }}
                                 {% endif %}
                             </h2>
                             <span class="me-2 badge text-white" {% if vehicle.colour 
@@ -113,7 +115,7 @@
                             <h2 class="text-white">
                                 {% if vehicle.price != 0 %}
                                     {% if vehicle.status == "Sold" %}
-                                        Reserved
+                                        Sold
                                     {% elif vehicle.status == "Sale" %}
                                         Available!
                                     {% elif vehicle.status == "Due In" %}
