@@ -243,26 +243,6 @@ a {
     display: none;
 }
 
-.notif-box {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(6px);
-    border: 1px #ff0000 solid;
-    border-radius: 10px;
-    color: #fff;
-}
-
-.notif-message {
-    margin: 10px;
-    font-weight: 400;
-    text-align: center;
-    overflow-wrap: break-word;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-}
-
-.kostar-colour {
-    color: #d60000;
-}
-
 .filter-card {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(6px);
