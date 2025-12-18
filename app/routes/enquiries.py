@@ -20,7 +20,7 @@ def make_enquiry():
         vehicle = db.session.execute(db.select(Vehicle).filter_by(vehicle_id=vehicle_id)).scalars().first()
         
         if vehicle:
-            default_message = f"I'm interested in this {vehicle.colour} {vehicle.trans} {vehicle.vehicle_type}, {vehicle.make} {vehicle.model}. Registration: {vehicle.reg}."
+            default_message = f"I'm interested in this {vehicle.colour} {vehicle.trans} {vehicle.vehicle_type}, {vehicle.make} {vehicle.model}."
             form.message.data = default_message
     
     if form.validate_on_submit():
