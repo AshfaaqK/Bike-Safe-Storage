@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 const data = await response.json();
 
+                console.log("=== VEHICLE LOOKUP DEBUG ===");
+                console.log("HTTP Status:", response.status);
+                console.log("Response OK:", response.ok);
+                console.log("Response data:", data);
+                console.log("Response JSON:", JSON.stringify(data, null, 2));
+
                 if (!response.ok) {
                     // Handle API error response
                     const errorMessages = data.errors.map(error =>
